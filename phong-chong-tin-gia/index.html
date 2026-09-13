@@ -1,0 +1,1032 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Phòng chống tin giả — minigame Tư tưởng Hồ Chí Minh (POL1001). Tìm nguyên văn giữa những cụm khoác lác nghe rất kêu. Chơi một mình trên điện thoại, hoặc cả lớp với máy chiếu: các nhóm tự bịa để lừa nhau. Cuối game giải thích kết quả từng câu.">
+<meta name="theme-color" content="#F0F1EC">
+<title>Phòng chống tin giả</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --giay:#F0F1EC; --the:#FBFBF7; --the2:#E7EAE1;
+  --muc:#1B3350; --muc2:#4E657E; --muc3:#8496A6; --vien:#D1D6CA;
+  --vang:#E8B71E; --vang-nen:#F8EDBE;
+  --do:#CE4132; --do-nen:#F6DDD8;
+  --bang:#2F6B52; --bang-nen:#DDEAE1;
+  --tim:#6A3E9A; --tim-nen:#EBE2F4;
+  --d1:#C43D2E; --d2:#0E9488; --d3:#C79413; --d4:#7B3FA0; --d5:#2F6B52; --d6:#D9682A;
+  --r:12px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --giay:#121922; --the:#1B2531; --the2:#222D3A;
+  --muc:#E7EEF5; --muc2:#A5B7C7; --muc3:#718597; --vien:#2B3947;
+  --vang:#F6CD44; --vang-nen:#3C3418; --do:#F2705F; --do-nen:#3A211D;
+  --bang:#5CBF90; --bang-nen:#163024; --tim:#B48FE0; --tim-nen:#2C2140;
+}}
+:root[data-theme="dark"]{
+  --giay:#121922; --the:#1B2531; --the2:#222D3A;
+  --muc:#E7EEF5; --muc2:#A5B7C7; --muc3:#718597; --vien:#2B3947;
+  --vang:#F6CD44; --vang-nen:#3C3418; --do:#F2705F; --do-nen:#3A211D;
+  --bang:#5CBF90; --bang-nen:#163024; --tim:#B48FE0; --tim-nen:#2C2140;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+body{margin:0;background:var(--giay);color:var(--muc);
+  font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.55}
+h1,h2,h3{margin:0;font-family:"Baloo 2","Be Vietnam Pro",system-ui,sans-serif;font-weight:700;line-height:1.15;text-wrap:balance}
+p{margin:0} button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2.5px solid var(--vang);outline-offset:2px;border-radius:5px}
+.page{max-width:760px;margin:0 auto;padding:0 16px 80px}
+.page.wide{max-width:1180px}
+.screen{display:none} .screen.on{display:block}
+.stack{display:flex;flex-direction:column;gap:13px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.sp{flex:1}
+.muted{color:var(--muc2)} .small{font-size:13.5px} .tiny{font-size:12px}
+.eyebrow{font-family:"Baloo 2",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--muc3)}
+.card{background:var(--the);border:1px solid var(--vien);border-radius:var(--r);padding:16px}
+.btn{background:var(--muc);color:var(--giay);border:0;border-radius:9px;padding:12px 18px;
+  font-family:"Baloo 2",sans-serif;font-weight:700;font-size:17px}
+.btn:hover{filter:brightness(1.12)} .btn:disabled{opacity:.4;cursor:not-allowed;filter:none}
+.btn.g{background:transparent;color:var(--muc);border:1.5px solid var(--vien)}
+.btn.sm{padding:7px 13px;font-size:14.5px;border-radius:7px}
+.btn.w{width:100%}
+input,select{background:var(--the);border:1.5px solid var(--vien);color:var(--muc);
+  border-radius:8px;padding:10px 12px;font:inherit;width:100%}
+label.f{display:flex;flex-direction:column;gap:5px;font-size:13.5px;color:var(--muc2);font-weight:500}
+label.chk{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--muc2)}
+label.chk input{width:auto}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:11px}
+
+.top{display:flex;align-items:center;gap:12px;padding:16px 0 10px;flex-wrap:wrap}
+.top h1{font-size:clamp(26px,5vw,36px)}
+.link{background:none;border:0;color:var(--muc2);text-decoration:underline;padding:4px}
+
+/* trang đầu */
+.hero{display:flex;gap:16px;align-items:center;margin:8px 0 18px}
+.mat{flex:none;width:90px;height:86px}
+.bubble{position:relative;background:var(--tim-nen);color:var(--muc);border-radius:14px;padding:11px 14px;font-size:15px}
+.bubble b{color:var(--tim)}
+.picks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.pick{background:var(--the);border:1.5px solid var(--vien);border-radius:var(--r);padding:16px;text-align:left}
+.pick:hover{border-color:var(--muc3)}
+.pick .t{font-family:"Baloo 2",sans-serif;font-weight:700;font-size:20px}
+.pick .d{font-size:13.5px;color:var(--muc2);margin-top:3px}
+.doi-song{border-left:4px solid var(--vang);background:var(--vang-nen);border-radius:8px;padding:10px 13px;font-size:14.5px}
+
+/* câu hỏi */
+.cau{font-size:clamp(18px,3.6vw,23px);line-height:1.5;font-weight:500}
+.trong{display:inline-block;min-width:4.5em;border-bottom:3px dashed var(--tim);color:var(--tim);
+  text-align:center;font-weight:700;padding:0 6px}
+mark.dung{background:var(--bang-nen);color:var(--bang);font-weight:700;padding:0 4px;border-radius:4px}
+mark.bia{background:var(--do-nen);color:var(--do);font-weight:700;padding:0 4px;border-radius:4px;text-decoration:line-through}
+.nguon{font-size:12px;color:var(--muc3)}
+.giai{font-size:15px;color:var(--muc2)}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;gap:11px;align-items:flex-start;text-align:left;width:100%;
+  background:var(--the);border:2px solid var(--vien);border-radius:10px;padding:11px 13px;font-size:16px}
+.opt:hover:not(:disabled){border-color:var(--muc3)}
+.opt .kk{flex:none;width:28px;height:28px;border-radius:50%;background:var(--the2);display:grid;place-items:center;
+  font-family:"Baloo 2",sans-serif;font-weight:800}
+.opt.chon{border-color:var(--tim);box-shadow:0 0 0 2px var(--tim)}
+.opt.ok{border-color:var(--bang);background:var(--bang-nen)}
+.opt.no{border-color:var(--do);background:var(--do-nen)}
+.opt.mo{opacity:.5}
+.opt:disabled{cursor:default}
+.opt .tac{display:block;font-size:12.5px;color:var(--muc2);margin-top:3px;font-weight:600}
+.hud{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-family:"Baloo 2",sans-serif;font-weight:700}
+.chip{background:var(--the2);border-radius:99px;padding:3px 11px;font-size:14px}
+.bar{display:block;height:7px;background:var(--the2);border-radius:9px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--tim);transition:width .3s linear}
+.bar.gap i{background:var(--do)}
+
+/* giải thích kết quả */
+.xep{border-collapse:collapse;font-size:14.5px}
+.xep td{padding:4px 12px 4px 0;border-bottom:1px solid var(--vien)}
+.xep tr.on td{font-weight:700;color:var(--tim)}
+.xep tr.on td:first-child::before{content:"▶ "}
+.kdong{display:grid;grid-template-columns:minmax(0,1fr) 90px 44px;gap:10px;align-items:center;font-size:14.5px;padding:3px 0}
+.kdong b{text-align:right}
+.ket-ds{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:15px}
+details.vong{border:1px solid var(--vien);border-radius:10px;padding:10px 12px;background:var(--the)}
+details.vong summary{cursor:pointer;font-size:15px}
+details.cau-dung{border:1px solid var(--vien);border-left:4px solid var(--bang);border-radius:10px;padding:10px 12px;background:var(--the)}
+details.cau-dung summary{cursor:pointer;font-size:15px}
+.cau-sai{border-left:4px solid var(--do)}
+.cuon{overflow-x:auto}
+
+/* máy chiếu */
+.big .cau{font-size:clamp(24px,3vw,38px)}
+.big .opt{font-size:clamp(18px,1.9vw,26px);padding:14px 16px}
+.big .opt .kk{width:38px;height:38px;font-size:22px}
+.ma{font-family:"Baloo 2",sans-serif;font-weight:800;font-size:clamp(34px,5vw,56px);letter-spacing:.08em;line-height:1}
+.dem{font-family:"Baloo 2",sans-serif;font-weight:800;font-size:clamp(30px,4vw,48px);line-height:1;min-width:2.2em;text-align:right}
+.dem.gap{color:var(--do)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:9px}
+.tile{border:2px solid var(--vien);border-radius:10px;padding:9px 11px;background:var(--the)}
+.tile .n{font-family:"Baloo 2",sans-serif;font-weight:800;font-size:19px}
+.tile .s{font-size:13px;color:var(--muc2)}
+.tile.xong{border-color:var(--bang);background:var(--bang-nen)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--muc3);margin-right:6px;vertical-align:middle}
+.dot.on{background:var(--bang)} .dot.dang{background:var(--vang)}
+.bang-diem{width:100%;border-collapse:collapse;font-size:16px}
+.bang-diem td,.bang-diem th{padding:7px 9px;border-bottom:1px solid var(--vien);text-align:left}
+.bang-diem th{font-size:13px;color:var(--muc2);font-weight:600}
+.bang-diem .so{text-align:right;font-family:"Baloo 2",sans-serif;font-weight:700;font-size:19px}
+.cong{color:var(--bang);font-weight:700}
+.nhoms{display:flex;gap:8px;flex-wrap:wrap}
+.nhoms button{min-width:58px;padding:10px 12px;border-radius:9px;border:2px solid var(--vien);background:var(--the);
+  font-family:"Baloo 2",sans-serif;font-weight:800;font-size:18px}
+.nhoms button[aria-pressed="true"]{border-color:var(--muc);background:var(--the2)}
+.tay{border:1px dashed var(--vien);border-radius:10px;padding:12px}
+.tay-dong{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:7px}
+.tay-dong .lb{min-width:64px;font-weight:700}
+.tay-dong input{flex:1;min-width:160px}
+.tay-dong .kb{padding:6px 11px;border-radius:7px;border:1.5px solid var(--vien);background:var(--the);font-weight:700}
+.tay-dong .kb[aria-pressed="true"]{background:var(--muc);color:var(--giay);border-color:var(--muc)}
+.warn{color:var(--do);font-size:14px}
+.ok-t{color:var(--bang);font-size:14px;font-weight:600}
+.hang{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;background:var(--the);border:1px solid var(--vien);flex-wrap:wrap}
+.hang .h{font-family:"Baloo 2",sans-serif;font-weight:800;font-size:28px;width:44px;text-align:center}
+.hang .t{flex:1;font-family:"Baloo 2",sans-serif;font-weight:700;font-size:21px}
+.hang .dd{font-family:"Baloo 2",sans-serif;font-weight:700;font-size:21px}
+.hang .so3{background:var(--vang-nen);border-radius:8px;padding:2px 10px;font-weight:700;font-size:14px}
+</style>
+</head>
+<body>
+<script>window.CAU_BIA = {"ten":"Câu có chỗ bịa — dữ liệu chung của hai game Phòng chống tin giả và Ai chưa chính xác","moTa":"Mỗi mục là một câu rút từ Giáo trình 2026 hoặc khung đáp án, trong đó cụm then chốt thay bằng ___. 'dung' là cụm đúng; 'bia' là 3 cụm bịa nghe xuôi tai nhưng sai. Game Phòng chống tin giả che cụm then chốt cho người chơi đoán; game Ai chưa chính xác thay cụm then chốt bằng một cụm bịa để tạo thẻ sai. 'trich' = true nếu phần chứa ___ là nguyên văn lời Hồ Chí Minh mà giáo trình trích (không bịa chữ vào lời Bác ngoài chỗ trống). 'doiThuong' là câu nối sang đời sống, không thuộc khung đáp án.","nguon":"Giáo trình Tư tưởng Hồ Chí Minh 2026 (KQ.docx) — mọi cụm 'dung' đã đối chiếu với toan-van/tai-lieu-giang-day/giao-trinh-2026.txt ngày 13/9/2026","capNhat":"2026-09-13","buoi":{"2":"Khái niệm và ý nghĩa học tập môn học","3":"Cơ sở thực tiễn Việt Nam cuối XIX – đầu XX","4":"Cơ sở thực tiễn thế giới và cơ sở lý luận","5":"Giá trị truyền thống và quá trình hình thành","6":"Độc lập dân tộc","7":"Cách mạng giải phóng dân tộc","8":"Chủ nghĩa xã hội ở Việt Nam","9":"Đảng Cộng sản và Nhà nước dân chủ","10":"Nhà nước trong sạch và đại đoàn kết","11":"Đạo đức cách mạng"},"cau":[{"id":"b2-1","buoi":"2","chuDe":"01","chuong":"Chương 1 — Khái niệm tư tưởng Hồ Chí Minh","cau":"Tư tưởng Hồ Chí Minh là một hệ thống quan điểm ___ về những vấn đề cơ bản của cách mạng Việt Nam.","dung":"toàn diện và sâu sắc","bia":["khoa học và cách mạng","cơ bản và nhất quán","độc đáo và sáng tạo"],"giai":"Nguyên văn khái niệm của Đại hội XI: “hệ thống quan điểm toàn diện và sâu sắc”. “Khoa học và cách mạng” là cách giáo trình nói về bản chất, không phải chữ trong định nghĩa."},{"id":"b2-2","buoi":"2","chuDe":"01","chuong":"Chương 1 — Khái niệm tư tưởng Hồ Chí Minh","cau":"Tư tưởng Hồ Chí Minh là kết quả của sự vận dụng và ___ chủ nghĩa Mác - Lênin vào điều kiện cụ thể của nước ta.","dung":"phát triển sáng tạo","bia":["tiếp thu nguyên vẹn","bổ sung hoàn chỉnh","kế thừa có chọn lọc"],"giai":"Chữ then chốt là “phát triển sáng tạo” — khẳng định Hồ Chí Minh không sao chép. Viết “nguyên vẹn” là sai bản chất.","doiThuong":"Chép nguyên đáp án của bạn vào bài mình là “vận dụng nguyên vẹn” — và thường sai, vì đề của mình khác đề của bạn."},{"id":"b2-3","buoi":"2","chuDe":"01","chuong":"Chương 1 — Khái niệm tư tưởng Hồ Chí Minh","cau":"Tư tưởng Hồ Chí Minh kế thừa và phát triển các giá trị truyền thống tốt đẹp của dân tộc, ___.","dung":"tiếp thu tinh hoa văn hóa nhân loại","bia":["tiếp thu văn minh phương Tây","học tập kinh nghiệm các nước","chọn lọc tinh hoa phương Đông"],"giai":"Nguyên văn: “tiếp thu tinh hoa văn hóa nhân loại” — cả Đông lẫn Tây, không khoanh vào một phía."},{"id":"b2-4","buoi":"2","chuDe":"01","chuong":"Chương 1 — Khái niệm tư tưởng Hồ Chí Minh","cau":"Tư tưởng Hồ Chí Minh là tài sản tinh thần vô cùng to lớn và quý giá của ___, mãi mãi soi đường cho sự nghiệp cách mạng của nhân dân ta giành thắng lợi.","dung":"Đảng và dân tộc ta","bia":["riêng Đảng Cộng sản Việt Nam","giai cấp công nhân Việt Nam","các dân tộc thuộc địa"],"giai":"Nguyên văn: “của Đảng và dân tộc ta”. Bỏ mất chữ “dân tộc” là làm hẹp hẳn khái niệm."},{"id":"b2-5","buoi":"2","chuDe":"01","chuong":"Chương 1 — Khái niệm tư tưởng Hồ Chí Minh","cau":"Khái niệm tư tưởng Hồ Chí Minh được dùng trong giáo trình là khái niệm do ___ nêu ra.","dung":"Đại hội XI của Đảng (năm 2011)","bia":["Đại hội IX của Đảng (năm 2001)","Đại hội VII của Đảng (năm 1991)","Đại hội XIII của Đảng (năm 2021)"],"giai":"Đại hội XI (2011). Đại hội IX (2001) có nêu một khái niệm rất giống nhưng thiếu vế “tài sản tinh thần… soi đường”."},{"id":"b2-6","buoi":"2","chuDe":"01","chuong":"Chương 1 — Ý nghĩa của việc học tập môn học","cau":"Ý nghĩa học tập môn học: nâng cao năng lực tư duy lý luận; giáo dục và định hướng thực hành đạo đức cách mạng; ___.","dung":"xây dựng, rèn luyện phương pháp và phong cách công tác","bia":["nâng cao năng lực thực hành nghề nghiệp","bồi dưỡng kỹ năng lãnh đạo, quản lý","trang bị kiến thức lịch sử Đảng"],"giai":"Ba ý nghĩa trong giáo trình: tư duy lý luận — đạo đức cách mạng — phương pháp và phong cách công tác. “Năng lực nghề nghiệp” nghe hợp lý nhưng là ý bịa.","doiThuong":"Phong cách công tác thấy rõ nhất khi làm bài nhóm: ai họp đúng giờ, ai chia việc rõ ràng."},{"id":"b3-1","buoi":"3","chuDe":"02","chuong":"Chương 2 — Cơ sở thực tiễn Việt Nam","cau":"Cuối thế kỷ XIX – đầu thế kỷ XX, Việt Nam từ một nước phong kiến độc lập trở thành ___.","dung":"nước thuộc địa nửa phong kiến","bia":["nước phong kiến phụ thuộc","nước tư bản chủ nghĩa non trẻ","nước bảo hộ tự trị"],"giai":"Tính chất xã hội thay đổi: thuộc địa nửa phong kiến. Đây là ý đầu tiên của “xã hội Việt Nam thay đổi” trong đáp án."},{"id":"b3-2","buoi":"3","chuDe":"02","chuong":"Chương 2 — Cơ sở thực tiễn Việt Nam","cau":"Các cuộc khởi nghĩa dưới ngọn cờ “Cần Vương” cuối cùng đều thất bại, chứng tỏ ___ trước các nhiệm vụ lịch sử.","dung":"tư tưởng phong kiến tỏ ra lỗi thời","bia":["lực lượng vũ trang còn quá mỏng","giai cấp tư sản còn non yếu","phong trào thiếu sự ủng hộ của nhân dân"],"giai":"Giáo trình: “tư tưởng phong kiến tỏ ra lỗi thời trước các nhiệm vụ lịch sử”. “Giai cấp tư sản non yếu” là chuyện của khuynh hướng dân chủ tư sản — bẫy tráo nguyên nhân."},{"id":"b3-3","buoi":"3","chuDe":"02","chuong":"Chương 2 — Cơ sở thực tiễn Việt Nam","cau":"Các phong trào yêu nước đầu thế kỷ XX thất bại vì các tổ chức và người lãnh đạo ___.","dung":"chưa có đường lối và phương pháp cách mạng đúng đắn","bia":["không có lòng yêu nước sâu sắc","quá phụ thuộc vào triều đình nhà Nguyễn","không liên hệ được với nước ngoài"],"giai":"Giáo trình nói rõ: tinh thần yêu nước vẫn sục sôi; cái thiếu là đường lối và phương pháp cách mạng đúng đắn."},{"id":"b3-4","buoi":"3","chuDe":"02","chuong":"Chương 2 — Cơ sở thực tiễn Việt Nam","cau":"Tinh thần yêu nước vẫn sục sôi trong lòng nhân dân, song cuộc khủng hoảng về ___ diễn ra sâu sắc.","dung":"đường lối cứu nước","bia":["lực lượng lãnh đạo phong kiến","kinh tế thuộc địa","niềm tin của nhân dân"],"giai":"Khủng hoảng về đường lối cứu nước — câu hỏi đặt ra là “cứu nước bằng con đường nào?”. Niềm tin của nhân dân không hề khủng hoảng."},{"id":"b3-5","buoi":"3","chuDe":"02","chuong":"Chương 2 — Cơ sở thực tiễn Việt Nam","cau":"Xã hội Việt Nam thay đổi: xuất hiện ___ bên cạnh tồn tại giai cấp cũ.","dung":"giai tầng mới","bia":["tầng lớp quan lại mới","tầng lớp thương nhân ngoại quốc","giai cấp quý tộc mới"],"giai":"Đáp án ghi: “Xuất hiện giai tầng mới bên cạnh tồn tại giai cấp cũ” — tức công nhân, tư sản, tiểu tư sản bên cạnh địa chủ, nông dân."},{"id":"b4-1","buoi":"4","chuDe":"02","chuong":"Chương 2 — Cơ sở thực tiễn thế giới","cau":"Ngày ___, Quốc tế Cộng sản ra đời ở Mátxcơva, trở thành Bộ tham mưu, lãnh đạo phong trào cách mạng thế giới.","dung":"2/3/1919","bia":["7/11/1917","18/6/1919","3/2/1930"],"giai":"2/3/1919. Ba ngày kia là Cách mạng Tháng Mười (7/11/1917), Yêu sách gửi Hội nghị Vécxây (18/6/1919) và thành lập Đảng (3/2/1930)."},{"id":"b4-2","buoi":"4","chuDe":"02","chuong":"Chương 2 — Cơ sở thực tiễn thế giới","cau":"Năm 1917, ___ thắng lợi đã ảnh hưởng sâu sắc tới Hồ Chí Minh trong việc lựa chọn con đường cứu nước.","dung":"Cách mạng Tháng Mười Nga","bia":["Cách mạng Tân Hợi","Công xã Pari","Cách mạng Pháp"],"giai":"Cách mạng Tháng Mười Nga (1917). Tân Hợi là năm 1911, Công xã Pari năm 1871, Cách mạng Pháp năm 1789."},{"id":"b4-3","buoi":"4","chuDe":"02","chuong":"Chương 2 — Cơ sở lý luận","cau":"Cơ sở lý luận hình thành tư tưởng Hồ Chí Minh gồm: giá trị truyền thống tốt đẹp của dân tộc, tinh hoa văn hóa nhân loại và ___.","dung":"chủ nghĩa Mác - Lênin","bia":["chủ nghĩa Tam dân của Tôn Trung Sơn","tư tưởng Khai sáng Pháp","học thuyết Nho giáo"],"giai":"Ba cơ sở lý luận. Nho giáo, chủ nghĩa Tam dân… đều nằm trong “tinh hoa văn hóa nhân loại”, không đứng riêng thành một cơ sở."},{"id":"b4-4","buoi":"4","chuDe":"02","chuong":"Chương 2 — Cơ sở lý luận","cau":"Chủ nghĩa Mác - Lênin là ___, có vai trò quyết định trong việc hình thành tư tưởng Hồ Chí Minh.","dung":"tiền đề lý luận quan trọng nhất","bia":["nguồn gốc lý luận duy nhất","điểm xuất phát đầu tiên","nhân tố chủ quan quyết định"],"giai":"“Quan trọng nhất”, không phải “duy nhất” — vẫn còn hai cơ sở lý luận kia. Điểm xuất phát là chủ nghĩa yêu nước."},{"id":"b4-5","buoi":"4","chuDe":"02","chuong":"Chương 2 — Cơ sở thực tiễn thế giới","cau":"Thực tiễn thế giới cuối thế kỷ XIX – đầu thế kỷ XX: sự ra đời của chủ nghĩa đế quốc và ___.","dung":"hệ thống thuộc địa","bia":["Hội Quốc liên","Quốc tế thứ hai","chủ nghĩa phát xít"],"giai":"Đáp án ghi: “Sự ra đời của chủ nghĩa đế quốc và hệ thống thuộc địa”."},{"id":"b5-1","buoi":"5","chuDe":"02","chuong":"Chương 2 — Giá trị truyền thống dân tộc","cau":"___ là giá trị xuyên suốt trong những truyền thống tốt đẹp của dân tộc Việt Nam.","dung":"Chủ nghĩa yêu nước","bia":["Tinh thần đoàn kết","Truyền thống hiếu học","Lòng nhân nghĩa"],"giai":"Chủ nghĩa yêu nước — động lực, sức mạnh giúp dân tộc vượt qua mọi khó khăn, và là điểm xuất phát thúc đẩy Hồ Chí Minh ra đi tìm đường cứu nước."},{"id":"b5-2","buoi":"5","chuDe":"03","chuong":"Chương 2 — Quá trình hình thành","cau":"Thời kỳ trước năm 1911: hình thành ___.","dung":"tư tưởng yêu nước và chí hướng tìm đường cứu nước mới","bia":["tư tưởng cứu nước theo con đường cách mạng vô sản","những nội dung cơ bản tư tưởng về cách mạng Việt Nam","chí hướng xây dựng chủ nghĩa xã hội"],"giai":"Ba cụm bịa là tên của các thời kỳ khác (hoặc ý bịa). Nhớ thứ tự: yêu nước → con đường vô sản (1911–1920) → nội dung cơ bản (1920–1930)."},{"id":"b5-3","buoi":"5","chuDe":"03","chuong":"Chương 2 — Quá trình hình thành","cau":"Thời kỳ 1920 - 1930: ___.","dung":"hình thành những nội dung cơ bản tư tưởng về cách mạng Việt Nam","bia":["vượt qua thử thách, giữ vững đường lối cách mạng đúng đắn","tiếp tục phát triển, soi đường cho sự nghiệp cách mạng","hình thành tư tưởng cứu nước theo con đường cách mạng vô sản"],"giai":"1920–1930 là hình thành nội dung cơ bản. “Vượt qua thử thách” là 1930–1941; “tiếp tục phát triển, soi đường” là 1941–1969."},{"id":"b5-4","buoi":"5","chuDe":"03","chuong":"Chương 2 — Quá trình hình thành","cau":"Thời kỳ 1930 - 1941: ___.","dung":"vượt qua thử thách, giữ vững đường lối, phương pháp cách mạng Việt Nam đúng đắn, sáng tạo","bia":["hình thành những nội dung cơ bản tư tưởng về cách mạng Việt Nam","tư tưởng Hồ Chí Minh tiếp tục phát triển, soi đường cho cách mạng","hình thành tư tưởng yêu nước và chí hướng tìm đường cứu nước"],"giai":"1930–1941: vượt qua thử thách, giữ vững đường lối. Mỗi thời kỳ một cụm động từ — nhớ động từ là nhớ thời kỳ."},{"id":"b5-5","buoi":"5","chuDe":"03","chuong":"Chương 2 — Quá trình hình thành","cau":"Ngày ___, Hồ Chí Minh đi ra nước ngoài tìm con đường cứu nước, cứu dân.","dung":"5/6/1911","bia":["19/5/1911","5/6/1920","18/6/1911"],"giai":"5/6/1911. Ngày 19/5 là ngày sinh (1890); năm 1920 là năm Người đọc Luận cương của Lênin."},{"id":"b5-6","buoi":"5","chuDe":"03","chuong":"Chương 2 — Quá trình hình thành","cau":"Tháng 7/1920, Hồ Chí Minh đọc ___ và tìm thấy con đường cứu nước: con đường cách mạng vô sản.","dung":"Sơ thảo lần thứ nhất những luận cương về vấn đề dân tộc và vấn đề thuộc địa của V.I. Lênin","bia":["Tuyên ngôn của Đảng Cộng sản của C. Mác và Ph. Ăngghen","Tuyên ngôn Nhân quyền và Dân quyền của Cách mạng Pháp","bản Tuyên ngôn Độc lập của nước Mỹ"],"giai":"Luận cương của Lênin. Người kể: “Luận cương của Lênin làm cho tôi rất cảm động, phấn khởi, sáng tỏ, tin tưởng biết bao!”"},{"id":"b5-7","buoi":"5","chuDe":"03","chuong":"Chương 2 — Quá trình hình thành","cau":"Tác phẩm ___ (xuất bản năm 1927 ở Quảng Châu) là sự chuẩn bị về chính trị, tư tưởng, tổ chức cho sự ra đời của Đảng Cộng sản Việt Nam.","dung":"Đường cách mệnh","bia":["Bản án chế độ thực dân Pháp","Chánh cương vắn tắt của Đảng","Yêu sách của nhân dân An Nam"],"giai":"Đường cách mệnh (1927). Bản án chế độ thực dân Pháp xuất bản ở Pari năm 1925; Chánh cương vắn tắt là văn kiện năm 1930; Yêu sách gửi Hội nghị Vécxây năm 1919."},{"id":"b6-1","buoi":"6","chuDe":"04","chuong":"Chương 3 — Độc lập dân tộc","cau":"Độc lập, tự do là quyền ___ của tất cả các dân tộc.","dung":"thiêng liêng, bất khả xâm phạm","bia":["tự nhiên, tất yếu","chính đáng, cơ bản","cao quý, vĩnh viễn"],"giai":"Tên luận điểm thứ nhất: “quyền thiêng liêng, bất khả xâm phạm của tất cả các dân tộc”. Hai tính từ này hay bị đảo hoặc thay."},{"id":"b6-2","buoi":"6","chuDe":"04","chuong":"Chương 3 — Độc lập dân tộc","trich":true,"cau":"“Nước độc lập mà dân không hưởng hạnh phúc tự do, thì độc lập ___”.","dung":"cũng chẳng có nghĩa lý gì","bia":["cũng chỉ là hình thức","chưa phải là độc lập thật sự","cũng không bền vững"],"giai":"Nguyên văn lời Hồ Chí Minh: “…thì độc lập cũng chẳng có nghĩa lý gì”. Câu này là dẫn chứng cho luận điểm “độc lập phải gắn với tự do, hạnh phúc của nhân dân”.","doiThuong":"Độc lập phải đi được tới bữa cơm, lớp học và giường bệnh của từng người dân."},{"id":"b6-3","buoi":"6","chuDe":"04","chuong":"Chương 3 — Độc lập dân tộc","cau":"Độc lập dân tộc phải là nền độc lập ___.","dung":"thật sự, hoàn toàn và triệt để","bia":["toàn vẹn, thống nhất và bền vững","tự chủ, tự lực và tự cường","hòa bình, hữu nghị và hợp tác"],"giai":"Luận điểm thứ ba: “thật sự, hoàn toàn và triệt để” — không có quyền tự quyết về ngoại giao, quân đội, tài chính thì độc lập chẳng có nghĩa lý gì."},{"id":"b6-4","buoi":"6","chuDe":"04","chuong":"Chương 3 — Độc lập dân tộc","cau":"Độc lập dân tộc gắn liền với ___.","dung":"thống nhất và toàn vẹn lãnh thổ","bia":["hòa bình và hợp tác quốc tế","tự do tín ngưỡng, tôn giáo","phát triển kinh tế thị trường"],"giai":"Luận điểm thứ tư: “độc lập dân tộc gắn liền với thống nhất và toàn vẹn lãnh thổ”."},{"id":"b6-5","buoi":"6","chuDe":"04","chuong":"Chương 3 — Độc lập dân tộc","trich":true,"cau":"Ngày 17/7/1966, Hồ Chí Minh nêu lên chân lý lớn của thời đại: “___”.","dung":"Không có gì quý hơn độc lập, tự do","bia":["Không có gì quý hơn hòa bình, thống nhất","Độc lập dân tộc là trên hết, trước hết","Nước lấy dân làm gốc"],"giai":"“Không có gì quý hơn độc lập, tự do” — Lời kêu gọi đồng bào và chiến sĩ cả nước, 17/7/1966."},{"id":"b6-6","buoi":"6","chuDe":"04","chuong":"Chương 3 — Độc lập dân tộc","trich":true,"cau":"Lời kêu gọi toàn quốc kháng chiến (19/12/1946): “Không! Chúng ta thà hy sinh tất cả, chứ nhất định không chịu mất nước, nhất định không chịu ___”.","dung":"làm nô lệ","bia":["lùi bước","khuất phục","chia cắt"],"giai":"Nguyên văn giáo trình: “…nhất định không chịu làm nô lệ”. Nhiều người nhớ thành “đầu hàng” — viết như vậy trong bài thi là sai trích dẫn."},{"id":"b6-7","buoi":"6","chuDe":"04","chuong":"Chương 3 — Độc lập dân tộc","cau":"Năm 1919, Hồ Chí Minh gửi tới Hội nghị Vécxây bản Yêu sách của nhân dân An Nam, gồm ___ điểm.","dung":"8","bia":["10","5","12"],"giai":"8 điểm, với hai nội dung chính là đòi quyền bình đẳng về chế độ pháp lý và đòi các quyền tự do, dân chủ."},{"id":"b7-1","buoi":"7","chuDe":"05","chuong":"Chương 3 — Cách mạng giải phóng dân tộc","trich":true,"cau":"Hồ Chí Minh không chọn con đường cách mạng tư sản vì cho rằng: “Cách mệnh Pháp cũng như cách mệnh Mỹ, nghĩa là cách mệnh tư bản, cách mệnh ___”.","dung":"không đến nơi","bia":["đã bị phản bội","chỉ là hình thức","không vì dân nghèo"],"giai":"Nguyên văn: “cách mệnh không đến nơi, tiếng là cộng hòa và dân chủ, kỳ thực trong thì nó tước lục công nông, ngoài thì nó áp bức thuộc địa”."},{"id":"b7-2","buoi":"7","chuDe":"05","chuong":"Chương 3 — Cách mạng giải phóng dân tộc","trich":true,"cau":"“Trong thế giới bây giờ chỉ có ___ là đã thành công, và thành công đến nơi”.","dung":"cách mệnh Nga","bia":["cách mệnh Pháp","cách mệnh Mỹ","cách mệnh Trung Hoa"],"giai":"Cách mệnh Nga — “dân chúng được hưởng cái hạnh phúc tự do, bình đẳng thật”. Pháp và Mỹ chính là hai cuộc cách mạng “không đến nơi”."},{"id":"b7-3","buoi":"7","chuDe":"05","chuong":"Chương 3 — Cách mạng giải phóng dân tộc","cau":"Giải phóng dân tộc gắn liền giải phóng giai cấp, trong đó giải phóng dân tộc là ___.","dung":"trên hết, trước hết","bia":["ngang hàng với giải phóng giai cấp","nhiệm vụ sau cùng","thứ yếu, tạm thời"],"giai":"Trình tự trong đáp án: giải phóng dân tộc — giải phóng xã hội — giải phóng giai cấp — giải phóng con người; giải phóng dân tộc là trên hết, trước hết."},{"id":"b7-4","buoi":"7","chuDe":"05","chuong":"Chương 3 — Cách mạng giải phóng dân tộc","cau":"Cách mạng thuộc địa và cách mạng vô sản ở chính quốc có mối quan hệ ___.","dung":"bình đẳng, không lệ thuộc, phụ thuộc vào nhau","bia":["chính - phụ, thuộc địa phải chờ chính quốc","lệ thuộc một chiều vào chính quốc","tách biệt, không liên quan tới nhau"],"giai":"Bình đẳng, không lệ thuộc. Quan điểm “thuộc địa phải chờ chính quốc thắng trước” là của Quốc tế Cộng sản có lúc coi nhẹ cách mạng thuộc địa — Hồ Chí Minh không đồng ý."},{"id":"b7-5","buoi":"7","chuDe":"05","chuong":"Chương 3 — Cách mạng giải phóng dân tộc","cau":"Cách mạng giải phóng dân tộc cần ___, có khả năng giành thắng lợi trước cách mạng vô sản ở chính quốc.","dung":"chủ động, sáng tạo","bia":["kiên nhẫn chờ thời","dựa hoàn toàn vào viện trợ","đi sau chính quốc một bước"],"giai":"Tên luận điểm: “chủ động, sáng tạo, có khả năng giành thắng lợi trước”.","doiThuong":"Nhóm nào cũng ngồi chờ nhóm trưởng giao việc thì bài nhóm sẽ “thắng lợi sau cùng” — lúc 23 giờ 59."},{"id":"b7-6","buoi":"7","chuDe":"05","chuong":"Chương 3 — Cách mạng giải phóng dân tộc","cau":"Theo Hồ Chí Minh, Đảng Cộng sản Việt Nam vừa là đội tiên phong của giai cấp công nhân, vừa là đội tiên phong của ___.","dung":"nhân dân lao động","bia":["giai cấp nông dân","tầng lớp trí thức","các dân tộc thuộc địa"],"giai":"“…vừa là đội tiên phong của nhân dân lao động, kiên quyết nhất, hăng hái nhất, trong sạch nhất, tận tâm tận lực phụng sự Tổ quốc”."},{"id":"b7-7","buoi":"7","chuDe":"05","chuong":"Chương 3 — Cách mạng giải phóng dân tộc","trich":true,"cau":"Trong Bản án chế độ thực dân Pháp (1925), Người viết: “Chủ nghĩa tư bản là một ___ có một cái vòi bám vào giai cấp vô sản ở chính quốc và một cái vòi khác bám vào giai cấp vô sản ở thuộc địa”.","dung":"con đỉa","bia":["con bạch tuộc","con rắn","con sâu"],"giai":"Con đỉa hai vòi — muốn giết nó phải cắt cả hai vòi cùng lúc, nên cách mạng thuộc địa và cách mạng chính quốc phải gắn bó với nhau."},{"id":"b8-1","buoi":"8","chuDe":"06","chuong":"Chương 3 — Động lực của chủ nghĩa xã hội","cau":"Những động lực hàng đầu của chủ nghĩa xã hội: lợi ích của dân, ___, sức mạnh đoàn kết toàn dân.","dung":"dân chủ của dân","bia":["pháp luật của nhà nước","viện trợ quốc tế","vốn đầu tư nước ngoài"],"giai":"Ba động lực hàng đầu đều nằm ở nội lực, ở nhân dân: lợi ích — dân chủ — đoàn kết."},{"id":"b8-2","buoi":"8","chuDe":"06","chuong":"Chương 3 — Động lực của chủ nghĩa xã hội","trich":true,"cau":"Theo Hồ Chí Minh, “dân chủ là ___ của nhân dân”.","dung":"của quý báu nhất","bia":["quyền lợi đầu tiên","mục tiêu cuối cùng","nghĩa vụ thiêng liêng"],"giai":"“Dân chủ là của quý báu nhất của nhân dân”; “địa vị cao nhất là dân, vì dân là chủ”."},{"id":"b8-3","buoi":"8","chuDe":"06","chuong":"Chương 3 — Mục tiêu của chủ nghĩa xã hội","cau":"Mục tiêu của chủ nghĩa xã hội ở Việt Nam được xét trên bốn mặt: chính trị, kinh tế, văn hóa và ___.","dung":"xã hội","bia":["quốc phòng","đối ngoại","môi trường"],"giai":"Bốn mục tiêu: chính trị — kinh tế — văn hóa — xã hội. Câu hỏi thi hay hỏi “mục tiêu nào quan trọng nhất hiện nay”."},{"id":"b8-4","buoi":"8","chuDe":"06","chuong":"Chương 3 — Chủ nghĩa xã hội","cau":"Chủ nghĩa xã hội là xã hội bình đẳng, công bằng và hợp lý: làm nhiều hưởng nhiều, làm ít hưởng ít, ___.","dung":"không làm không hưởng","bia":["không làm vẫn được chia đều","ai cũng hưởng như nhau","làm ít cũng được bù cho đủ"],"giai":"“Không làm không hưởng” — bảo đảm phúc lợi cho người già, trẻ em và người còn khó khăn, nhưng không phải chia đều bất kể công sức.","doiThuong":"Bài nhóm mà ghi tên cả người không làm gì là trái nguyên tắc này."},{"id":"b8-5","buoi":"8","chuDe":"06","chuong":"Chương 3 — Động lực của chủ nghĩa xã hội","cau":"Hồ Chí Minh nhắc phải chống những tư tưởng, tác phong xấu: chủ nghĩa cá nhân; quan liêu, mệnh lệnh; tham ô, lãng phí; ___.","dung":"bảo thủ, rụt rè","bia":["chia rẽ, bè phái","xa hoa, trụy lạc","hữu khuynh, cơ hội"],"giai":"Bốn thứ phải chống trong đoạn này: chủ nghĩa cá nhân; quan liêu, mệnh lệnh; tham ô, lãng phí; bảo thủ, rụt rè."},{"id":"b9-1","buoi":"9","chuDe":"07","chuong":"Chương 4 — Sự ra đời của Đảng","cau":"Sự ra đời của Đảng Cộng sản Việt Nam là kết quả của sự kết hợp chủ nghĩa Mác - Lênin với ___.","dung":"phong trào công nhân và phong trào yêu nước","bia":["phong trào công nhân","phong trào nông dân và trí thức","phong trào cộng sản quốc tế"],"giai":"Lênin nói: chủ nghĩa Mác kết hợp với phong trào công nhân. Hồ Chí Minh thêm “phong trào yêu nước” — đó là điểm sáng tạo phù hợp nước thuộc địa."},{"id":"b9-2","buoi":"9","chuDe":"08","chuong":"Chương 4 — Đảng trong sạch, vững mạnh","trich":true,"cau":"Tại Lễ kỷ niệm 30 năm Ngày thành lập Đảng (năm 1960), Hồ Chí Minh khẳng định: “Đảng ta là ___”.","dung":"đạo đức, là văn minh","bia":["vững mạnh, là trong sạch","đội quân, là bộ tham mưu","đoàn kết, là thống nhất"],"giai":"“Đảng ta là đạo đức, là văn minh” — đầu mục “Đảng phải trong sạch, vững mạnh”."},{"id":"b9-3","buoi":"9","chuDe":"07","chuong":"Chương 4 — Đảng Cộng sản Việt Nam","trich":true,"cau":"Đảng Cộng sản Việt Nam “không phải trên trời sa xuống. Nó ___”.","dung":"ở trong xã hội mà ra","bia":["do lịch sử lựa chọn","do Quốc tế Cộng sản lập nên","do giai cấp công nhân sinh ra"],"giai":"“Nó ở trong xã hội mà ra.” Cùng một cách nói với câu về đạo đức cách mạng “không phải trên trời sa xuống”."},{"id":"b9-4","buoi":"9","chuDe":"08","chuong":"Chương 4 — Đảng Cộng sản Việt Nam","trich":true,"cau":"“Đảng không phải là một tổ chức để ___”.","dung":"làm quan phát tài","bia":["tranh giành quyền lực","làm kinh tế","hưởng thụ riêng"],"giai":"“Đảng không phải là một tổ chức để làm quan phát tài. Nó phải làm tròn nhiệm vụ giải phóng dân tộc, làm cho Tổ quốc giàu mạnh, đồng bào sung sướng.”","doiThuong":"Ai coi chức vụ là “cơ hội” làm giàu là đã hiểu ngược mục đích của tổ chức mình tham gia."},{"id":"b9-5","buoi":"9","chuDe":"09","chuong":"Chương 4 — Nhà nước dân chủ","cau":"Trong nhà nước do nhân dân, nòng cốt của nhân dân là liên minh ___, do giai cấp công nhân mà đội tiên phong của nó là Đảng Cộng sản lãnh đạo.","dung":"công - nông - trí","bia":["công - nông - binh","công nhân - tư sản dân tộc","nông dân - trí thức"],"giai":"Liên minh công - nông - trí. “Công - nông - binh” là cụm từ nghe quen nhưng không phải chữ của giáo trình ở đây."},{"id":"b10-1","buoi":"10","chuDe":"10","chuong":"Chương 4 — Nhà nước trong sạch, vững mạnh","cau":"Hồ Chí Minh coi tham ô, lãng phí, quan liêu là “___”, “giặc ở trong lòng”, thứ giặc nguy hiểm hơn giặc ngoại xâm.","dung":"giặc nội xâm","bia":["giặc dốt","giặc đói","giặc ngoài biên"],"giai":"“Giặc nội xâm”. Giặc đói, giặc dốt là hai thứ giặc khác Người nêu sau Cách mạng Tháng Tám — dễ nhầm.","doiThuong":"Mỗi vụ tham ô bị đưa ra xét xử là một trận đánh “giặc ở trong lòng”."},{"id":"b10-2","buoi":"10","chuDe":"10","chuong":"Chương 4 — Nhà nước trong sạch, vững mạnh","cau":"Theo quan điểm của Hồ Chí Minh, kiểm soát quyền lực nhà nước là ___.","dung":"tất yếu","bia":["không cần thiết nếu cán bộ có đạo đức","việc riêng của Quốc hội","biện pháp tạm thời"],"giai":"Tất yếu — vì cán bộ nhà nước, dù ít hay nhiều, đều nắm quyền lực trong tay. Đạo đức tốt không thay được kiểm soát."},{"id":"b10-3","buoi":"10","chuDe":"10","chuong":"Chương 4 — Phòng, chống tiêu cực trong Nhà nước","cau":"Cán bộ phải đi trước làm gương; cán bộ giữ chức vụ càng cao, ___.","dung":"trách nhiệm nêu gương càng lớn","bia":["quyền lợi được hưởng càng nhiều","càng ít phải chịu kiểm soát","càng cần được giữ uy tín"],"giai":"Biện pháp thứ tư: chức vụ càng cao, trách nhiệm nêu gương càng lớn — người đứng đầu nêu gương tác động mạnh nhất tới cấp dưới và nhân dân.","doiThuong":"Lớp trưởng nhắc cả lớp đi đúng giờ thì chính mình phải có mặt sớm nhất."},{"id":"b10-4","buoi":"10","chuDe":"10","chuong":"Chương 4 — Phòng, chống tiêu cực trong Nhà nước","cau":"Đặc quyền, đặc lợi là thói cậy mình là người trong cơ quan chính quyền để ___ với dân, lạm quyền.","dung":"cửa quyền, hách dịch","bia":["chia rẽ, bè phái","xa hoa, lãng phí","nói một đằng làm một nẻo"],"giai":"“Cửa quyền, hách dịch với dân, lạm quyền” — mặt thứ nhất trong ba nhóm tiêu cực (đặc quyền đặc lợi / tham ô lãng phí quan liêu / tư túng chia rẽ kiêu ngạo).","doiThuong":"Nộp hồ sơ mà bị bắt “quay lại sau” ba lần không rõ lý do — đó là mùi cửa quyền."},{"id":"b10-5","buoi":"10","chuDe":"11","chuong":"Chương 5 — Vai trò của đại đoàn kết","cau":"Đại đoàn kết toàn dân tộc là vấn đề có ý nghĩa ___, quyết định thành công của cách mạng.","dung":"chiến lược","bia":["sách lược","tạm thời","hỗ trợ"],"giai":"Chiến lược — lâu dài, nhất quán. “Sách lược” là cái bẫy kinh điển: đoàn kết không phải thủ đoạn nhất thời."},{"id":"b10-6","buoi":"10","chuDe":"11","chuong":"Chương 5 — Vai trò của đại đoàn kết","cau":"Đại đoàn kết toàn dân tộc là một ___ của cách mạng Việt Nam.","dung":"mục tiêu, nhiệm vụ hàng đầu","bia":["biện pháp tình thế","khẩu hiệu tuyên truyền","nhiệm vụ thứ yếu"],"giai":"Vai trò thứ hai: “mục tiêu, nhiệm vụ hàng đầu”. Đại đoàn kết không chỉ là khẩu hiệu chiến lược mà còn là mục tiêu lâu dài."},{"id":"b10-7","buoi":"10","chuDe":"11","chuong":"Chương 5 — Lực lượng của khối đại đoàn kết","cau":"Chủ thể của khối đại đoàn kết toàn dân tộc bao gồm ___.","dung":"toàn thể nhân dân, tất cả những người Việt Nam yêu nước","bia":["giai cấp công nhân và giai cấp nông dân","các đảng viên và đoàn viên","những người cùng giai cấp, cùng tôn giáo"],"giai":"Chủ thể là toàn thể nhân dân. Công nhân – nông dân là “nền tảng”, không phải “chủ thể” — hai khái niệm hay bị tráo.","doiThuong":"Nhóm lớp có bạn khác quê, khác tôn giáo, khác sở thích — vẫn chung một mục tiêu là qua môn."},{"id":"b10-8","buoi":"10","chuDe":"12","chuong":"Chương 5 — Mặt trận dân tộc thống nhất","cau":"Mặt trận dân tộc thống nhất phải được xây dựng trên nền tảng liên minh ___ và đặt dưới sự lãnh đạo của Đảng.","dung":"công nhân - nông dân - trí thức","bia":["công nhân - nông dân - binh lính","công nhân - tư sản dân tộc","toàn thể các tôn giáo"],"giai":"Nguyên tắc thứ nhất của Mặt trận: nền tảng liên minh công nhân - nông dân - trí thức, dưới sự lãnh đạo của Đảng."},{"id":"b10-9","buoi":"10","chuDe":"12","chuong":"Chương 5 — Điều kiện xây dựng khối đại đoàn kết","cau":"Một điều kiện để xây dựng khối đại đoàn kết toàn dân tộc: phải có lòng ___ với con người.","dung":"khoan dung, độ lượng","bia":["nghiêm khắc, cứng rắn","cảnh giác, dè chừng","thương hại, ban ơn"],"giai":"“Phải có lòng khoan dung, độ lượng với con người” — cùng với niềm tin vào nhân dân.","doiThuong":"Bạn cùng nhóm lỡ nộp muộn một lần — góp ý thẳng nhưng đừng loại luôn khỏi nhóm."},{"id":"b11-1","buoi":"11","chuDe":"13","chuong":"Chương 6 — Chuẩn mực đạo đức cách mạng","cau":"Trung với nước, hiếu với dân là phẩm chất đạo đức ___ và chi phối các phẩm chất khác.","dung":"bao trùm quan trọng nhất","bia":["truyền thống lâu đời nhất","dành riêng cho quân đội","cơ bản đầu tiên"],"giai":"“Bao trùm quan trọng nhất” — trung, hiếu là khái niệm cũ, được Hồ Chí Minh đưa vào nội dung mới: trung với nước chứ không phải trung với vua."},{"id":"b11-2","buoi":"11","chuDe":"13","chuong":"Chương 6 — Chuẩn mực đạo đức cách mạng","trich":true,"cau":"“Cần tức là siêng năng, chăm chỉ, cố gắng dẻo dai... Muốn cho chữ Cần có nhiều kết quả hơn, thì phải ___”.","dung":"có kế hoạch cho mọi công việc","bia":["làm việc suốt ngày đêm","có người đôn đốc thường xuyên","làm thật nhanh cho xong"],"giai":"“…thì phải có kế hoạch cho mọi công việc.” Cần không phải là cày bất kể.","doiThuong":"Ôn thi cả đêm trước ngày thi mà không có kế hoạch — chăm thì có, Cần thì chưa."},{"id":"b11-3","buoi":"11","chuDe":"13","chuong":"Chương 6 — Chuẩn mực đạo đức cách mạng","trich":true,"cau":"“CẦN với KIỆM phải đi đôi với nhau, như ___”.","dung":"hai chân của con người","bia":["hai mặt của một đồng tiền","hai cánh của một con chim","hai bánh của một chiếc xe"],"giai":"“…như hai chân của con người.” Kiệm là “tiết kiệm, không xa xỉ, không hoang phí, không bừa bãi”.","doiThuong":"Lương làm thêm về hôm trước, hết sạch hôm sau — mới có Cần, chưa có Kiệm, đang đi một chân."},{"id":"b11-4","buoi":"11","chuDe":"13","chuong":"Chương 6 — Chuẩn mực đạo đức cách mạng","trich":true,"cau":"Liêm “là trong sạch, ___”.","dung":"không tham lam","bia":["không nói dối","không lười biếng","không kiêu ngạo"],"giai":"Liêm “là trong sạch, không tham lam… Có KIỆM mới LIÊM được”. Không lười biếng là Cần; không kiêu ngạo gần với Chính."},{"id":"b11-5","buoi":"11","chuDe":"13","chuong":"Chương 6 — Chuẩn mực đạo đức cách mạng","cau":"Chí công vô tư là hoàn toàn vì lợi ích chung, không vì tư lợi; chỉ biết vì Đảng, vì dân tộc, “___”.","dung":"lo trước thiên hạ, vui sau thiên hạ","bia":["mình vì mọi người, mọi người vì mình","việc nước trước, việc nhà sau","ăn quả nhớ kẻ trồng cây"],"giai":"“Lo trước thiên hạ, vui sau thiên hạ” — và chí công vô tư là chống chủ nghĩa cá nhân."},{"id":"b11-6","buoi":"11","chuDe":"13","chuong":"Chương 6 — Chuẩn mực đạo đức cách mạng","cau":"Cán bộ, công chức nếu không giữ đúng cần, kiệm, liêm, chính thì dễ trở nên hủ bại, biến thành ___.","dung":"sâu mọt của dân","bia":["gánh nặng của xã hội","kẻ thù của Đảng","giặc ngoại xâm"],"giai":"“…dễ trở nên hủ bại, biến thành sâu mọt của dân.” Cán bộ, đảng viên phải thực hành cần, kiệm, liêm, chính trước để làm kiểu mẫu."},{"id":"b11-7","buoi":"11","chuDe":"14","chuong":"Chương 6 — Nguyên tắc xây dựng đạo đức","cau":"Nói đi đôi với làm được Hồ Chí Minh coi là nguyên tắc ___ trong xây dựng nền đạo đức mới.","dung":"quan trọng bậc nhất","bia":["bổ trợ","dành riêng cho cán bộ cấp cao","khó thực hiện nhất"],"giai":"“Nguyên tắc quan trọng bậc nhất” — đối lập với thói đạo đức giả, nói một đằng làm một nẻo.","doiThuong":"Đăng story “tuần này quyết tâm học” rồi mở game — nói chưa đi đôi với làm."},{"id":"b11-8","buoi":"11","chuDe":"14","chuong":"Chương 6 — Nguyên tắc xây dựng đạo đức","trich":true,"cau":"“Đạo đức cách mạng không phải trên trời sa xuống. Nó do đấu tranh, rèn luyện bền bỉ hằng ngày mà phát triển và củng cố. Cũng như ___”.","dung":"ngọc càng mài càng sáng, vàng càng luyện càng trong","bia":["nước chảy đá mòn, kiên trì ắt thành","có công mài sắt, có ngày nên kim","lửa thử vàng, gian nan thử sức"],"giai":"“Cũng như ngọc càng mài càng sáng, vàng càng luyện càng trong.” Hai câu bịa là tục ngữ quen — nghe rất hợp nhưng không phải lời trong giáo trình."},{"id":"b11-9","buoi":"11","chuDe":"14","chuong":"Chương 6 — Nguyên tắc xây dựng đạo đức","cau":"Theo Hồ Chí Minh, tu dưỡng đạo đức như một cuộc cách mạng ___.","dung":"trường kỳ, gian khổ","bia":["chớp nhoáng, quyết liệt","làm một lần là xong","dành riêng cho tuổi trẻ"],"giai":"“Trường kỳ, gian khổ” — nên nguyên tắc thứ ba là tu dưỡng đạo đức suốt đời."},{"id":"b11-10","buoi":"11","chuDe":"13","chuong":"Chương 6 — Chuẩn mực đạo đức cách mạng","trich":true,"cau":"Tinh thần quốc tế trong sáng: “Quan sơn muôn dặm một nhà, ___”.","dung":"Bốn phương vô sản đều là anh em","bia":["Năm châu bốn biển đều là anh em","Bốn phương vô sản chung một con đường","Trong nhà đoàn kết, ngoài ngõ thuận hòa"],"giai":"“Quan sơn muôn dặm một nhà, Bốn phương vô sản đều là anh em!”"}]};</script>
+
+<!-- ============ TRANG ĐẦU ============ -->
+<section class="screen on" id="s-home"><div class="page">
+  <div class="top"><h1>Phòng chống tin giả</h1><span class="sp"></span><span class="eyebrow">Tư tưởng Hồ Chí Minh · POL1001</span></div>
+  <div class="hero">
+    <svg class="mat" viewBox="0 0 104 100" aria-hidden="true">
+      <circle cx="48" cy="54" r="38" fill="#6A3E9A"/>
+      <path d="M26 41 q8 -6 16 0" stroke="#1B3350" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+      <path d="M54 35 q8 -7 16 -2" stroke="#1B3350" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="35" cy="50" rx="7" ry="4.2" fill="#fff"/><ellipse cx="61" cy="49" rx="7" ry="5" fill="#fff"/>
+      <circle cx="37" cy="51" r="2.8" fill="#1B3350"/><circle cx="63" cy="50" r="2.8" fill="#1B3350"/>
+      <path d="M30 63 q17 16 36 -2 z" fill="#fff"/>
+      <path d="M88 34 l11 -6 M90 46 l13 0 M88 58 l11 6" stroke="#E8B71E" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+    <p class="bubble" id="home-noi"><b>Kẻ Khoác Lác:</b> Mỗi câu ta đưa ra có một chỗ trống. Một cụm là nguyên văn giáo trình, còn lại là ta khoác lác. Ta nói giọng chắc nịch lắm, nghe là tin ngay.</p>
+  </div>
+  <div class="picks">
+    <button class="pick" id="p-cn"><div class="t">Chơi một mình</div><div class="d">Điện thoại của bạn đấu với Kẻ Khoác Lác. Chọn nguyên văn trong 4 cụm, 20 giây mỗi câu. Cuối game giải thích kết quả từng câu.</div></button>
+    <button class="pick" id="p-chu"><div class="t">Cả lớp — máy chiếu</div><div class="d">Dành cho giảng viên. Mở phòng, chiếu mã lên màn hình. Các nhóm tự bịa để lừa nhau.</div></button>
+    <button class="pick" id="p-nhom"><div class="t">Cả lớp — máy của nhóm</div><div class="d">Nhóm trưởng nhập mã phòng trên màn hình chiếu, gửi cụm bịa và bầu chọn cho nhóm.</div></button>
+  </div>
+  <p class="doi-song" style="margin-top:18px"><b>Vì sao gọi là phòng chống tin giả.</b> Trên mạng không thiếu những câu “Bác Hồ từng nói…” chẳng có trong văn bản nào, được kể bằng giọng rất chắc chắn. Người bị lừa thường là người chỉ nhớ đại ý. Thuộc nguyên văn là cách chống khoác lác tốt nhất — và cũng là cách giữ điểm trong bài thi.</p>
+</div></section>
+
+<!-- ============ CÁ NHÂN: VÀO ============ -->
+<section class="screen" id="s-cn-vao"><div class="page stack">
+  <div class="top"><button class="link" data-home>← Trang đầu</button><span class="sp"></span><span class="eyebrow">Chơi một mình</span></div>
+  <h2>Chọn bài</h2>
+  <div class="card stack">
+    <label class="f">Tên (số thứ tự điểm danh + tên)<input id="cn-ten" maxlength="40" placeholder="Ví dụ: 12 - Lan"></label>
+    <label class="f">Bài<select id="cn-buoi"></select></label>
+    <label class="chk"><input type="checkbox" id="cn-tron" checked> Trộn cả các buổi trước (ôn tích lũy)</label>
+    <div class="grid2">
+      <label class="f">Số câu<select id="cn-so"><option>5</option><option selected>10</option><option>15</option><option value="99">Tất cả</option></select></label>
+      <label class="f">Thời gian mỗi câu<select id="cn-giay"><option value="20" selected>20 giây</option><option value="30">30 giây</option><option value="0">Không tính giờ</option></select></label>
+    </div>
+    <p class="small muted" id="cn-dem"></p>
+    <button class="btn w" id="cn-bat">Vào trận</button>
+  </div>
+</div></section>
+
+<!-- ============ CÁ NHÂN: CHƠI ============ -->
+<section class="screen" id="s-cn-choi"><div class="page stack">
+  <div class="top"><button class="link" data-home>← Thoát</button><span class="sp"></span>
+    <div class="hud"><span class="chip" id="cn-tien"></span><span class="chip" id="cn-diem"></span><span class="chip" id="cn-chuoi"></span></div></div>
+  <div class="bar" id="cn-bar"><i></i></div>
+  <p class="bubble" id="cn-noi"></p>
+  <div class="card stack">
+    <p class="cau" id="cn-cau"></p>
+    <p class="nguon" id="cn-nguon"></p>
+  </div>
+  <div class="opts" id="cn-lua"></div>
+  <div class="card stack" id="cn-lat" hidden>
+    <div id="cn-giai"></div>
+    <button class="btn w" id="cn-tiep">Câu tiếp</button>
+  </div>
+</div></section>
+
+<!-- ============ CÁ NHÂN: KẾT QUẢ ============ -->
+<section class="screen" id="s-cn-kq"><div class="page stack">
+  <div class="top"><button class="link" data-home>← Trang đầu</button><span class="sp"></span><span class="eyebrow">Kết quả</span></div>
+  <div class="card stack" style="text-align:center">
+    <p class="eyebrow" id="kq-ten"></p>
+    <h2 style="font-size:40px" id="kq-dh"></h2>
+    <p class="ma" id="kq-so"></p>
+    <p class="muted" id="kq-nx"></p>
+    <p class="small muted" id="kq-best"></p>
+  </div>
+  <div class="card stack" id="kq-giai"></div>
+  <div id="kq-tung" class="stack"></div>
+  <div class="row"><button class="btn" id="kq-lai">Chơi lại</button><button class="btn g" data-home>Trang đầu</button></div>
+</div></section>
+
+<!-- ============ MÁY CHIẾU: MỞ PHÒNG ============ -->
+<section class="screen" id="s-chu-vao"><div class="page stack">
+  <div class="top"><button class="link" data-home>← Trang đầu</button><span class="sp"></span><span class="eyebrow">Máy chiếu · giảng viên</span></div>
+  <h2>Mở phòng cho cả lớp</h2>
+  <div class="card stack">
+    <label class="f">Bài<select id="chu-buoi"></select></label>
+    <label class="chk"><input type="checkbox" id="chu-tron"> Trộn cả các buổi trước</label>
+    <div class="grid2">
+      <label class="f">Số nhóm<select id="chu-nhom"><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option></select></label>
+      <label class="f">Số vòng<select id="chu-vong"><option>3</option><option selected>5</option><option>7</option></select></label>
+      <label class="f">Thời gian bịa<select id="chu-gb"><option value="45">45 giây</option><option value="60" selected>60 giây</option><option value="90">90 giây</option></select></label>
+      <label class="f">Thời gian chọn<select id="chu-gc"><option value="20">20 giây</option><option value="30" selected>30 giây</option><option value="45">45 giây</option></select></label>
+    </div>
+    <div class="doi-song small"><b>Luật một câu:</b> chọn đúng nguyên văn <b>+2</b>, mỗi nhóm khác bị cụm bịa của mình lừa <b>+1</b>. Kẻ Khoác Lác (máy) cũng góp cụm — ai chọn nó thì không ai được gì.</div>
+    <p class="small muted" id="chu-net"><span class="dot dang"></span>Đang nối mạng…</p>
+    <button class="btn w" id="chu-mo">Mở phòng</button>
+  </div>
+</div></section>
+
+<!-- ============ MÁY CHIẾU: PHÒNG ============ -->
+<section class="screen" id="s-chu"><div class="page wide stack big">
+  <div class="top">
+    <div><p class="eyebrow">Mã phòng</p><p class="ma" id="chu-ma"></p></div>
+    <div class="small muted" style="max-width:420px">Nhóm trưởng mở <b id="chu-url"></b> → <b>Cả lớp — máy của nhóm</b> → nhập mã, chọn số nhóm.<br><span id="chu-net2"></span></div>
+    <span class="sp"></span>
+    <div class="hud"><span class="chip" id="chu-vongtxt"></span></div>
+    <p class="dem" id="chu-dem"></p>
+  </div>
+  <div id="chu-main" class="stack"></div>
+</div></section>
+
+<!-- ============ MÁY NHÓM ============ -->
+<section class="screen" id="s-nh-vao"><div class="page stack">
+  <div class="top"><button class="link" data-home>← Trang đầu</button><span class="sp"></span><span class="eyebrow">Máy của nhóm</span></div>
+  <h2>Vào phòng</h2>
+  <div class="card stack">
+    <label class="f">Mã phòng (trên màn hình chiếu)<input id="nh-ma" inputmode="numeric" maxlength="6" placeholder="4 chữ số"></label>
+    <div><p class="small muted" style="margin-bottom:6px">Nhóm của bạn</p><div class="nhoms" id="nh-so"></div></div>
+    <p class="small muted" id="nh-net"><span class="dot dang"></span>Đang nối mạng…</p>
+    <p class="warn" id="nh-loi" hidden></p>
+    <button class="btn w" id="nh-vao">Vào phòng</button>
+  </div>
+</div></section>
+
+<section class="screen" id="s-nh"><div class="page stack">
+  <div class="top"><button class="link" data-home>← Rời phòng</button><span class="sp"></span>
+    <div class="hud"><span class="chip" id="nh-ten"></span><span class="chip" id="nh-diem"></span><span class="chip" id="nh-dem"></span></div></div>
+  <div id="nh-main" class="stack"></div>
+</div></section>
+
+<script>
+"use strict";
+/* ============================================================
+   PHÒNG CHỐNG TIN GIẢ — Tư tưởng Hồ Chí Minh (POL1001)
+   Nhân vật phản diện trong game: Kẻ Khoác Lác.
+   Dữ liệu: du-lieu/game-data/cau-bia.json (nhúng khi dựng bằng
+   cong-cu/tao-game-bia.py). Không sửa câu hỏi trong tệp này.
+   Giọng đùa chỉ dành cho Kẻ Khoác Lác, cái đồng hồ và người chơi —
+   nội dung giáo trình luôn hiện nguyên văn khi lật bài.
+   ============================================================ */
+const D = window.CAU_BIA;
+const $  = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const CHU_CAI = "ABCDEFGHIJ";
+const BUOI = Object.keys(D.buoi).sort((a,b)=>a-b);
+const THEO_ID = Object.fromEntries(D.cau.map(c=>[c.id, c]));
+const MAY = "Kẻ Khoác Lác (máy)";
+
+function rng(seed){ let a = seed >>> 0; return function(){
+  a |= 0; a = a + 0x6D2B79F5 | 0;
+  let t = Math.imul(a ^ a >>> 15, 1 | a);
+  t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+  return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+}
+function xao(arr, r){ const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j = Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const mot = arr => arr[Math.floor(Math.random()*arr.length)];
+const chuan = s => String(s||"").normalize("NFC").toLowerCase()
+  .replace(/[“”"'‘’.,;:!?…()\[\]\-–—]/g," ").replace(/\s+/g," ").trim();
+function kho(buoi, tron){ return D.cau.filter(c => tron ? +c.buoi <= +buoi : c.buoi === buoi); }
+/* Xáo có trọng số: câu của buổi đang chọn nặng gấp 4 câu buổi cũ, nên lấy
+   n câu đầu thì phần lớn là bài hôm nay, vài câu cũ xen vào ngẫu nhiên. */
+function uuTien(buoi, tron, r){
+  return kho(buoi, tron).map(c=>({c, k: Math.pow(r(), 1/(c.buoi === buoi ? 4 : 1))}))
+    .sort((a,b)=> b.k - a.k).map(x=> x.c);
+}
+function trongHTML(c){ const [a,b] = c.cau.split("___"); return esc(a) + '<span class="trong">?</span>' + esc(b); }
+function dienHTML(c, cum, lop){ const [a,b] = c.cau.split("___"); return esc(a) + `<mark class="${lop||"dung"}">${esc(cum)}</mark>` + esc(b); }
+function giaiHTML(c){
+  return `<p class="eyebrow">Nguyên văn</p><p class="cau" style="font-size:18px">${dienHTML(c, c.dung)}</p>
+    <p class="giai"><b>Vì sao:</b> ${esc(c.giai)}</p>` +
+    (c.doiThuong ? `<p class="doi-song"><b>Nhìn ra đời sống.</b> ${esc(c.doiThuong)}</p>` : "") +
+    `<p class="nguon">Buổi ${esc(c.buoi)} · Giáo trình 2026 · ${esc(c.chuong)}</p>`;
+}
+function veBuoi(sel){
+  sel.innerHTML = BUOI.map(b=>`<option value="${b}">Buổi ${b} — ${esc(D.buoi[b])} (${kho(b,false).length} câu)</option>`).join("");
+}
+function show(id){
+  $$(".screen").forEach(e=>e.classList.remove("on"));
+  $("#s-"+id).classList.add("on");
+  window.scrollTo({top:0, behavior:"instant"});
+}
+function luuDoc(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function luuGhi(k, v){ try{ localStorage.setItem(k, v); }catch(e){} }
+
+/* ---------- lời của Kẻ Khoác Lác (chỉ đùa về mình, đồng hồ, người chơi) ---------- */
+const NOI_TRUOC = [
+  "Ba trong bốn cụm này là ta nói. Ta khoác lác mười năm chưa ai bắt được.",
+  "Đọc kỹ từng chữ. Ta sống nhờ những người đọc lướt.",
+  "Cụm nào nghe “kêu” nhất thường là của ta.",
+  "Gợi ý: không có gợi ý nào cả. Câu này ta nói thật — lần duy nhất.",
+  "Đồng hồ đang chạy. Ta thì đang rất tự tin.",
+  "Câu này ta nói trôi chảy lắm, nghe là gật đầu ngay.",
+  "Nhớ đại ý thôi là thua ta đấy."
+];
+const NOI_DUNG = ["Hừ. Lần này ngươi may.","Mắt tinh đấy. Ta… chỉ hơi ngạc nhiên thôi.","Không lừa được. Ta đi nổ câu khác.","Chuẩn nguyên văn. Ta bực.","Được. Câu sau ta nổ to hơn."];
+const NOI_SAI  = ["Ha! Cụm đó ta nói bằng giọng rất chắc nịch.","Nghe kêu đúng không? Nghề của ta mà.","Đừng buồn — ta khoác lác chuyên nghiệp.","Ngươi vừa tin một câu khoác lác. Ghi nhớ cảm giác này."];
+const NOI_HET  = ["Hết giờ. Ngươi còn đang đọc, ta đã thắng.","Đồng hồ đứng về phía ta."];
+const XEP = [
+  {min:1.00, nhan:"100%",      dh:"Máy dò khoác lác",            nx:"Không một cụm khoác lác nào lọt qua. Kẻ Khoác Lác xin nghỉ phép."},
+  {min:0.80, nhan:"từ 80%",    dh:"Mắt diều hâu",                nx:"Chỉ vài cụm lọt lưới. Đọc lại các câu bị lừa bên dưới là kín."},
+  {min:0.60, nhan:"từ 60%",    dh:"Nghi ngờ đúng lúc",           nx:"Khung đã chắc. Còn mấy chữ then chốt cần đọc lại."},
+  {min:0.40, nhan:"từ 40%",    dh:"Hơi cả tin",                  nx:"Đọc lại các câu bên dưới một lượt rồi chơi lại — lần hai bao giờ cũng khác."},
+  {min:0,    nhan:"dưới 40%",  dh:"Khách quen của Kẻ Khoác Lác", nx:"Không sao. Mỗi cụm khoác lác đã lừa được bạn là một chữ bạn sẽ không bao giờ viết sai nữa."}
+];
+
+/* ---------- đồng hồ dùng chung ---------- */
+let gio = null;
+function demNguoc(giay, onTick, onHet){
+  dungGio();
+  if(!giay){ onTick(null); return; }
+  const het = Date.now() + giay*1000;
+  const buoc = ()=>{
+    const con = Math.max(0, het - Date.now());
+    onTick(con / (giay*1000), Math.ceil(con/1000));
+    if(con <= 0){ dungGio(); onHet(); }
+  };
+  buoc(); gio = setInterval(buoc, 200);
+}
+function dungGio(){ if(gio){ clearInterval(gio); gio = null; } }
+
+/* ============================================================
+   CÁ NHÂN
+   ============================================================ */
+const CN = {};
+function cnDem(){
+  const n = kho($("#cn-buoi").value, $("#cn-tron").checked).length;
+  $("#cn-dem").textContent = "Kho có " + n + " câu cho lựa chọn này.";
+}
+$("#p-cn").onclick = ()=>{ show("cn-vao"); cnDem(); };
+$("#cn-buoi").onchange = cnDem; $("#cn-tron").onchange = cnDem;
+$("#cn-bat").onclick = ()=>{
+  const b = $("#cn-buoi").value, tron = $("#cn-tron").checked;
+  const ds = uuTien(b, tron, rng(Date.now()));
+  Object.assign(CN, {ten: $("#cn-ten").value.trim() || "Bạn", buoi: b, tron,
+    ds: xao(ds.slice(0, Math.min(+$("#cn-so").value, ds.length)), rng(Date.now() ^ 0x5f3)),
+    i: 0, diem: 0, chuoi: 0, maxChuoi: 0, lich: [], giay: +$("#cn-giay").value});
+  luuGhi("tingia-ten", CN.ten);
+  show("cn-choi"); cnCau();
+};
+function cnHud(){
+  $("#cn-tien").textContent = "Câu " + (CN.i+1) + "/" + CN.ds.length;
+  $("#cn-diem").textContent = "Đúng " + CN.diem;
+  $("#cn-chuoi").textContent = CN.chuoi >= 2 ? "Chuỗi " + CN.chuoi + " 🔥" : "Chuỗi " + CN.chuoi;
+}
+function cnCau(){
+  const c = CN.ds[CN.i];
+  CN.lua = xao([c.dung, ...c.bia], rng(Date.now() ^ (CN.i*7919)));
+  CN.xong = false;
+  cnHud();
+  $("#cn-cau").innerHTML = trongHTML(c);
+  $("#cn-nguon").textContent = "Buổi " + c.buoi + " · " + c.chuong;
+  $("#cn-noi").innerHTML = "<b>Kẻ Khoác Lác:</b> " + esc(mot(NOI_TRUOC));
+  $("#cn-lua").innerHTML = CN.lua.map((t,k)=>
+    `<button class="opt" data-k="${k}"><span class="kk">${CHU_CAI[k]}</span><span>${esc(t)}</span></button>`).join("");
+  $$("#cn-lua .opt").forEach(b=> b.onclick = ()=> cnChon(+b.dataset.k));
+  $("#cn-lat").hidden = true;
+  $("#cn-bar").hidden = !CN.giay;
+  demNguoc(CN.giay, (tile)=>{
+    if(tile === null) return;
+    $("#cn-bar i").style.width = (tile*100) + "%";
+    $("#cn-bar").classList.toggle("gap", tile < 0.3);
+  }, ()=> cnChon(-1));
+}
+function cnChon(k){
+  if(CN.xong) return; CN.xong = true; dungGio();
+  const c = CN.ds[CN.i], dung = CN.lua.indexOf(c.dung);
+  $$("#cn-lua .opt").forEach((b,j)=>{
+    b.disabled = true;
+    if(j === dung) b.classList.add("ok");
+    else if(j === k) b.classList.add("no");
+    else b.classList.add("mo");
+  });
+  const trung = k === dung;
+  CN.lich.push({id: c.id, dung: trung, hetGio: k < 0, chon: k >= 0 ? CN.lua[k] : null});
+  let noi;
+  if(trung){ CN.diem++; CN.chuoi++; CN.maxChuoi = Math.max(CN.maxChuoi, CN.chuoi); noi = mot(NOI_DUNG); }
+  else { CN.chuoi = 0; noi = k < 0 ? mot(NOI_HET) : mot(NOI_SAI); }
+  cnHud();
+  $("#cn-noi").innerHTML = "<b>Kẻ Khoác Lác:</b> " + esc(noi);
+  $("#cn-giai").innerHTML = (trung ? "" : k < 0 ? `<p class="warn"><b>Hết giờ</b> — câu này tính chưa đúng.</p>`
+    : `<p class="warn">Bạn chọn <mark class="bia">${esc(CN.lua[k])}</mark> — đó là cụm khoác lác.</p>`) + giaiHTML(c);
+  $("#cn-tiep").textContent = CN.i + 1 < CN.ds.length ? "Câu tiếp" : "Xem kết quả";
+  $("#cn-lat").hidden = false;
+  $("#cn-lat").scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+$("#cn-tiep").onclick = ()=>{ CN.i++; if(CN.i < CN.ds.length) cnCau(); else cnKetQua(); };
+
+function cnKetQua(){
+  const n = CN.lich.length, ty = n ? CN.diem/n : 0, pt = Math.round(ty*100);
+  const x = XEP.find(e => ty >= e.min);
+  $("#kq-ten").textContent = CN.ten + " · Buổi " + CN.buoi + (CN.tron ? " (trộn các buổi trước)" : "");
+  $("#kq-dh").textContent = x.dh;
+  $("#kq-so").textContent = CN.diem + "/" + n;
+  $("#kq-nx").textContent = x.nx;
+  const khoa = "tingia-best-" + CN.buoi + (CN.tron ? "t" : "");
+  const cu = +(luuDoc(khoa) || 0);
+  if(pt > cu) luuGhi(khoa, String(pt));
+  $("#kq-best").textContent = pt > cu && cu ? "Kỷ lục mới trên máy này (trước: " + cu + "%)." : cu ? "Kỷ lục trên máy này: " + Math.max(cu, pt) + "%." : "";
+
+  /* ---- giải thích kết quả ---- */
+  const sai = CN.lich.filter(l=> !l.dung), het = sai.filter(l=> l.hetGio).length;
+  const tb = {};
+  CN.lich.forEach(l=>{ const b = THEO_ID[l.id].buoi; tb[b] = tb[b] || {d:0, n:0}; tb[b].n++; if(l.dung) tb[b].d++; });
+  const bs = Object.keys(tb).sort((a,b)=> a - b);
+  const yeu = bs.filter(b=> tb[b].d < tb[b].n).sort((a,b)=> tb[a].d/tb[a].n - tb[b].d/tb[b].n || b - a);
+  $("#kq-giai").innerHTML = `
+    <h3>Giải thích kết quả</h3>
+    <p><b>Điểm ${CN.diem}/${n}</b> là số câu bạn chọn đúng cụm nguyên văn giáo trình. Mỗi câu đúng tính 1 điểm; chọn nhầm cụm khoác lác hoặc để hết giờ tính 0, không bị trừ.</p>
+    <p>Tỷ lệ đúng <b>${pt}%</b> nên danh hiệu của bạn là <b>${esc(x.dh)}</b>:</p>
+    <table class="xep">${XEP.map(e=>`<tr class="${e === x ? "on" : ""}"><td>${e.nhan}</td><td>${esc(e.dh)}</td></tr>`).join("")}</table>
+    <p>${sai.length
+      ? `Trong <b>${sai.length}</b> câu chưa đúng: <b>${sai.length - het}</b> câu chọn nhầm cụm khoác lác${het ? `, <b>${het}</b> câu để hết giờ` : ""}.`
+      : "Không có câu nào chưa đúng."}
+      ${CN.maxChuoi >= 2 ? ` Chuỗi đúng liền dài nhất: <b>${CN.maxChuoi}</b> câu.` : ""}</p>
+    <p class="eyebrow">Đúng theo từng buổi</p>
+    <div>${bs.map(b=>`<div class="kdong"><span>Buổi ${b} — ${esc(D.buoi[b])}</span><span class="bar"><i style="width:${Math.round(tb[b].d/tb[b].n*100)}%"></i></span><b>${tb[b].d}/${tb[b].n}</b></div>`).join("")}</div>
+    <p class="doi-song">${yeu.length
+      ? `<b>Nên đọc lại trước:</b> ${yeu.slice(0, 2).map(b=> "Buổi " + b + " — " + esc(D.buoi[b])).join("; ")}. Mọi câu bị lừa đều có nguyên văn và lời giải thích ngay bên dưới.`
+      : `<b>Không buổi nào bị lừa.</b> Thử bật trộn các buổi trước, hoặc chơi cả lớp để tự bịa lừa bạn bè.`}</p>
+    ${het && het * 2 >= sai.length ? `<p class="small muted">Phần lớn câu chưa đúng là do hết giờ. Thử chọn 30 giây: đọc hết cả 4 cụm quan trọng hơn chọn nhanh.</p>` : ""}`;
+
+  $("#kq-tung").innerHTML = `<h3>Từng câu — bạn chọn gì, đáp án là gì, vì sao</h3>` + CN.lich.map((l,i)=>{
+    const c = THEO_ID[l.id];
+    if(l.dung) return `<details class="cau-dung"><summary><b>Câu ${i+1} · ✓ Đúng</b> · Buổi ${c.buoi} — <mark class="dung">${esc(c.dung)}</mark></summary><div class="stack" style="margin-top:9px">${giaiHTML(c)}</div></details>`;
+    return `<div class="card stack cau-sai"><p class="warn"><b>Câu ${i+1} · ✗ ${l.hetGio ? "Hết giờ" : "Bị lừa"}</b> · Buổi ${c.buoi}</p>
+      ${l.hetGio ? "" : `<p>Bạn chọn: <mark class="bia">${esc(l.chon)}</mark></p>`}${giaiHTML(c)}</div>`;
+  }).join("");
+  show("cn-kq");
+}
+$("#kq-lai").onclick = ()=> $("#cn-bat").click();
+
+/* ============================================================
+   ĐƯỜNG NỐI GIỮA CÁC MÁY — cùng cơ chế với game Đi Tìm Liên Kết:
+   nối tới vài máy chủ MQTT công cộng qua WebSocket, tin nhắn giữ
+   lại (retained) nên máy vào sau vẫn đọc được. Thêm ?noi=bc vào
+   đường dẫn để chỉ nối các tab trong một trình duyệt (thử một máy).
+   ============================================================ */
+const MAY_CHU = [
+  {url:"wss://broker.emqx.io:8084/mqtt"},
+  {url:"wss://broker.hivemq.com:8884/mqtt"},
+  {url:"wss://public.cloud.shiftr.io/mqtt", user:"public", pass:"public"}
+];
+const KHONG_GIAN = "hanu-pol1001/tingia/v1/";
+const CHI_BC = /[?&]noi=bc\b/.test(location.search);
+
+function taoMQTT(cfg, onMsg, onState){
+  let ws = null, ok = false, buf = new Uint8Array(0), pid = 0, ping = null, lui = 1000;
+  const subs = new Set(), cho = new Map();
+  const te = new TextEncoder(), td = new TextDecoder();
+  const vlen = n=>{ const o=[]; do{ let b = n % 128; n = Math.floor(n/128); if(n>0) b |= 128; o.push(b); }while(n>0); return o; };
+  const chu = x=>{ const b = te.encode(x); return [b.length>>8, b.length&255].concat(Array.from(b)); };
+  const goi = (h, body)=>{
+    if(!ws || ws.readyState !== 1) return false;
+    ws.send(new Uint8Array([h].concat(vlen(body.length), body))); return true; };
+  const moiId = ()=>{ pid = pid % 65535 + 1; return pid; };
+  function dangKy(f){ const id = moiId(); goi(0x82, [id>>8, id&255].concat(chu(f), [1])); return id; }
+  function ketNoi(){
+    try{ ws = new WebSocket(cfg.url, ["mqtt"]); }catch(e){ henLai(); return; }
+    ws.binaryType = "arraybuffer";
+    ws.onopen = ()=>{
+      let co = 0x02; let pl = chu("kkl" + Math.random().toString(36).slice(2, 12));
+      if(cfg.user){ co |= 0x80; pl = pl.concat(chu(cfg.user)); }
+      if(cfg.pass){ co |= 0x40; pl = pl.concat(chu(cfg.pass)); }
+      goi(0x10, chu("MQTT").concat([4, co, 0, 30], pl));
+    };
+    ws.onmessage = e=>{
+      const d = new Uint8Array(e.data), n = new Uint8Array(buf.length + d.length);
+      n.set(buf); n.set(d, buf.length); buf = n; tach(); };
+    ws.onclose = ()=>{
+      const truoc = ok; ok = false; ws = null; buf = new Uint8Array(0);
+      clearInterval(ping); cho.forEach(f=>f(false)); cho.clear();
+      if(truoc) onState(); henLai(); };
+    ws.onerror = ()=>{ try{ ws && ws.close(); }catch(e){} };
+  }
+  function henLai(){ setTimeout(ketNoi, lui); lui = Math.min(lui*2, 15000); }
+  function tach(){
+    for(;;){
+      if(buf.length < 2) return;
+      let m = 1, len = 0, i = 1, b;
+      do{ if(i >= buf.length) return; b = buf[i++]; len += (b & 127) * m; m *= 128; }while(b & 128);
+      if(buf.length < i + len) return;
+      const h = buf[0], p = buf.slice(i, i + len); buf = buf.slice(i + len);
+      try{ xuLy(h, p); }catch(e){}
+    }
+  }
+  function xuLy(h, p){
+    const t = h >> 4;
+    if(t === 2){
+      if(p[1] === 0){ ok = true; lui = 1000; subs.forEach(dangKy);
+        clearInterval(ping); ping = setInterval(()=>goi(0xC0, []), 25000); onState(); }
+      else { try{ ws.close(); }catch(e){} }
+    } else if(t === 3){
+      const qos = (h >> 1) & 3, tl = (p[0] << 8) | p[1];
+      const topic = td.decode(p.subarray(2, 2 + tl)); let o = 2 + tl;
+      if(qos > 0){ const id = (p[o] << 8) | p[o+1]; o += 2; goi(0x40, [id>>8, id&255]); }
+      onMsg(topic, td.decode(p.subarray(o)));
+    } else if(t === 4 || t === 9){
+      const id = (p[0] << 8) | p[1], f = cho.get(id);
+      if(f){ cho.delete(id); f(true); }
+    }
+  }
+  const doi = (id, r, ms)=>{ cho.set(id, r); setTimeout(()=>{ if(cho.delete(id)) r(false); }, ms); };
+  return {
+    get ok(){ return ok; },
+    batDau: ketNoi,
+    sub(f){
+      if(subs.has(f)) return Promise.resolve(true);
+      subs.add(f);
+      if(!ok) return Promise.resolve(false);
+      return new Promise(r=> doi(dangKy(f), r, 4000));
+    },
+    pub(topic, text){
+      return new Promise(r=>{
+        if(!ok) return r(false);
+        const id = moiId();
+        const pl = chu(topic).concat([id>>8, id&255], Array.from(te.encode(text)));
+        if(!goi(0x33, pl)) return r(false);
+        doi(id, r, 6000);
+      });
+    }
+  };
+}
+
+const SYNC = (()=>{
+  const kho = new Map(), nghe = new Set(), may = [];
+  let bc = null, batDauLuc = 0, baoDoi = ()=>{};
+  const dc = p => KHONG_GIAN + p;
+  const khop = (f, t)=>{
+    if(f.endsWith("/+")){ const g = f.slice(0, -1); return t.startsWith(g) && t.length > g.length && !t.slice(g.length).includes("/"); }
+    return f === t; };
+  function nhan(t, text){
+    if(!t.startsWith(KHONG_GIAN) || !text) return;
+    let r; try{ r = JSON.parse(text); }catch(e){ return; }
+    if(!r || typeof r.t !== "number" || typeof r.v !== "object") return;
+    const cu = kho.get(t);
+    if(cu && cu.t >= r.t) return;
+    kho.set(t, r);
+    nghe.forEach(l=>{ if(khop(l.f, t)) try{ l.cb(); }catch(e){} });
+  }
+  const coMay = ()=> CHI_BC || may.some(m=>m.ok);
+  const cho = (dk, ms)=> new Promise(r=>{
+    if(dk()) return r(true);
+    const t0 = Date.now(), iv = setInterval(()=>{
+      if(dk()){ clearInterval(iv); r(true); } else if(Date.now()-t0 > ms){ clearInterval(iv); r(false); } }, 100); });
+  async function sub(f){
+    if(bc) bc.postMessage({k:"hoi", f});
+    await Promise.all(may.map(m=>m.sub(f)));
+  }
+  function snap(p){ const t = dc(p), r = kho.get(t);
+    return {exists: !!r, id: p.split("/").pop(), data: ()=> r ? r.v : undefined}; }
+  let tCuoi = 0;   /* hai lần ghi trong cùng một mili giây vẫn phải có thứ tự */
+  async function ghi(p, v){
+    tCuoi = Math.max(Date.now(), tCuoi + 1);
+    const t = dc(p), tx = JSON.stringify({t: tCuoi, v});
+    if(!coMay()) await cho(coMay, 6000);
+    nhan(t, tx);
+    if(bc) bc.postMessage({k:"pub", t, tx});
+    if(CHI_BC) return;
+    const kq = await Promise.all(may.map(m=>m.pub(t, tx)));
+    if(!kq.some(Boolean)) throw new Error("không gửi được");
+  }
+  function ngheDoc(p, cb){
+    const t = dc(p), l = {f: t, cb: ()=>cb(snap(p))};
+    nghe.add(l); sub(t);
+    if(kho.has(t)) setTimeout(l.cb, 0);
+    return ()=> nghe.delete(l);
+  }
+  function ngheBo(p, cb){
+    const f = dc(p) + "/+", g = f.slice(0, -1);
+    const l = {f, cb: ()=>{ const docs = [];
+      kho.forEach((r, t)=>{ if(khop(f, t)) docs.push({id: t.slice(g.length), data: ()=> r.v}); });
+      cb({docs}); }};
+    nghe.add(l); sub(f); setTimeout(l.cb, 0);
+    return ()=> nghe.delete(l);
+  }
+  return {
+    coMay,
+    dangThu: ()=> !coMay() && Date.now() - batDauLuc < 9000,
+    batDau(onDoi){
+      baoDoi = onDoi || baoDoi; batDauLuc = Date.now();
+      if("BroadcastChannel" in window){
+        bc = new BroadcastChannel("tingia");
+        bc.onmessage = e=>{ const d = e.data || {};
+          if(d.k === "pub") nhan(d.t, d.tx);
+          else if(d.k === "hoi") kho.forEach((r, t)=>{ if(khop(d.f, t)) bc.postMessage({k:"pub", t, tx: JSON.stringify(r)}); }); };
+      }
+      if(!CHI_BC) MAY_CHU.forEach(c=>{ const m = taoMQTT(c, nhan, ()=>baoDoi()); may.push(m); m.batDau(); });
+      setTimeout(()=>baoDoi(), 9500);
+      baoDoi();
+    },
+    doc: p => ({ set: v => ghi(p, v), onSnapshot: cb => ngheDoc(p, cb) }),
+    collection: p => ({ onSnapshot: cb => ngheBo(p, cb) })
+  };
+})();
+let MANG_BAT = false;
+function batMang(){
+  if(MANG_BAT) return; MANG_BAT = true;
+  if(!("WebSocket" in window) && !CHI_BC){ veMang(); return; }
+  SYNC.batDau(veMang);
+  setInterval(veMang, 1500);
+}
+function veMang(){
+  const on = SYNC.coMay(), dang = !on && SYNC.dangThu();
+  const html = `<span class="dot ${on ? "on" : dang ? "dang" : ""}"></span>` +
+    (on ? "Đã nối mạng." : dang ? "Đang nối mạng…" : "Chưa nối được mạng.");
+  ["#chu-net", "#nh-net"].forEach(s=>{ const e = $(s); if(e) e.innerHTML = html +
+    (!on && !dang ? (s === "#chu-net" ? " Vẫn mở phòng được — giảng viên nhập hộ cụm bịa và lựa chọn của các nhóm." : " Báo giảng viên nhập hộ cho nhóm mình.") : ""); });
+  const e2 = $("#chu-net2"); if(e2) e2.innerHTML = html;
+}
+
+/* ============================================================
+   KẾT QUẢ CHẾ ĐỘ CẢ LỚP — dùng chung cho máy chiếu và máy nhóm
+   Mỗi vòng lưu: {cauId, lua:[{k,loai,tx,nhom}], phieu:{nhóm: chữ}, cong:{nhóm: điểm}, trung:[nhóm]}
+   ============================================================ */
+function xepHang(diem, soNhom){
+  const ds = []; for(let n=1;n<=soNhom;n++) ds.push({n, d: diem[n] || 0});
+  ds.sort((a,b)=> b.d - a.d || a.n - b.n);
+  ds.forEach((x,i)=>{ x.hang = i && x.d === ds[i-1].d ? ds[i-1].hang : i + 1; x.so3 = Math.max(0, 4 - x.hang); });
+  return ds;
+}
+const dsNhom = soNhom => Array.from({length: soNhom}, (_, i)=> i + 1);
+const tenN = n => "Nhóm " + n;
+function tongKet(lich, soNhom){
+  const T = {}; dsNhom(soNhom).forEach(n=> T[n] = {dung:0, lua:0, biNhom:0, biMay:0, bo:0, diem:0});
+  lich.forEach(v=>{
+    dsNhom(soNhom).forEach(n=>{
+      const o = v.lua.find(x=> x.k === v.phieu[n]);
+      if(!o || o.nhom.includes(n)){ T[n].bo++; }
+      else if(o.loai === "dung") T[n].dung++;
+      else if(o.loai === "may") T[n].biMay++;
+      else { T[n].biNhom++; o.nhom.forEach(a=> T[a].lua++); }
+      T[n].diem += v.cong[n] || 0;
+    });
+  });
+  return T;
+}
+function vongHTML(v, i, soNhom, chiNhom){
+  const c = THEO_ID[v.cauId];
+  const soDung = dsNhom(soNhom).filter(n=>{ const o = v.lua.find(x=> x.k === v.phieu[n]); return o && o.loai === "dung"; }).length;
+  const dong = (chiNhom ? [chiNhom] : dsNhom(soNhom)).map(n=>{
+    const o = v.lua.find(x=> x.k === v.phieu[n]);
+    let chon;
+    if(!o) chon = "không chọn cụm nào";
+    else if(o.nhom.includes(n)) chon = "chọn trúng cụm của chính nhóm mình — không tính";
+    else if(o.loai === "dung") chon = `chọn <b>${o.k}</b> — đúng nguyên văn <span class="cong">+2</span>`;
+    else if(o.loai === "may") chon = `chọn <b>${o.k}</b> <mark class="bia">${esc(o.tx)}</mark> — bị ${MAY} lừa`;
+    else chon = `chọn <b>${o.k}</b> <mark class="bia">${esc(o.tx)}</mark> — bị ${o.nhom.map(tenN).join(", ")} lừa`;
+    const cua = v.lua.find(x=> x.nhom.includes(n));
+    let bia;
+    if(cua){
+      const ai = dsNhom(soNhom).filter(m=> m !== n && v.phieu[m] === cua.k && !cua.nhom.includes(m));
+      bia = `cụm bịa “${esc(cua.tx)}” ${ai.length ? `lừa được ${ai.map(tenN).join(", ")} <span class="cong">+${ai.length}</span>` : "không lừa được ai"}`;
+    } else if((v.trung || []).includes(n)) bia = "viết trùng nguyên văn nên cụm bịa không được đưa vào";
+    else bia = "không gửi cụm bịa";
+    return `<li><b>${tenN(n)}</b> (vòng này +${v.cong[n] || 0}): ${chon}; ${bia}.</li>`;
+  }).join("");
+  return `<details class="vong"><summary><b>Vòng ${i+1}</b> · ${soDung}/${soNhom} nhóm chọn đúng · nguyên văn: <mark class="dung">${esc(c.dung)}</mark></summary>
+    <div class="stack" style="margin-top:10px"><ul class="ket-ds">${dong}</ul>${giaiHTML(c)}</div></details>`;
+}
+const CACH_TINH = `<p><b>Điểm của mỗi nhóm = số vòng chọn đúng nguyên văn × 2 + số lượt cụm bịa của nhóm lừa được nhóm khác × 1.</b> Chọn phải cụm của ${MAY}, chọn trúng cụm của chính mình hoặc không chọn: 0 điểm, không bị trừ.</p>`;
+const CACH_HANG = `<p class="small muted">Thứ hạng buổi: hạng 1 được <b>3</b>, hạng 2 được <b>2</b>, hạng 3 được <b>1</b>, hạng 4 trở xuống <b>0</b>. Bằng điểm thì cùng hạng, cùng mức. Điểm trong game không ghi vào sổ — sổ chỉ nhận thứ hạng buổi của nhóm.</p>`;
+
+/* ============================================================
+   MÁY CHIẾU (giảng viên giữ nhịp)
+   ============================================================ */
+const CHU = {ma:"", phien:"", pha:"cho", vong:0, soVong:5, soNhom:4, gb:60, gc:30, ds:[], han:0,
+  bia:{}, phieu:{}, tay:{bia:{}, phieu:{}}, co:{}, lua:[], cong:null, trung:[], diem:{}, lich:[], huy:[], khoaVe:""};
+$("#p-chu").onclick = ()=>{ show("chu-vao"); batMang(); };
+$("#chu-mo").onclick = ()=>{
+  const b = $("#chu-buoi").value, tron = $("#chu-tron").checked;
+  const ds = uuTien(b, tron, rng(Date.now()));
+  Object.assign(CHU, {ma: String(1000 + Math.floor(Math.random()*9000)), phien: Math.random().toString(36).slice(2, 10),
+    pha: "cho", vong: 0, soNhom: +$("#chu-nhom").value, gb: +$("#chu-gb").value, gc: +$("#chu-gc").value,
+    ds: xao(ds.slice(0, Math.min(+$("#chu-vong").value, ds.length)), rng(Date.now() ^ 0x5f3)), han: 0,
+    bia:{}, phieu:{}, tay:{bia:{}, phieu:{}}, co:{}, lua:[], cong:null, trung:[], diem:{}, lich:[], khoaVe:""});
+  CHU.soVong = CHU.ds.length;
+  CHU.huy.forEach(f=>f()); CHU.huy = [];
+  const goc = "phong/" + CHU.ma + "/";
+  CHU.huy.push(SYNC.collection(goc + "co").onSnapshot(s=>{
+    s.docs.forEach(d=>{ const v = d.data(); if(v && v.phien === CHU.phien) CHU.co[d.id] = true; }); chuO(); }));
+  CHU.huy.push(SYNC.collection(goc + "bia").onSnapshot(s=>{
+    s.docs.forEach(d=>{ const v = d.data(); if(v && v.phien === CHU.phien && v.vong === CHU.vong && CHU.pha === "bia") CHU.bia[d.id] = v.tx; });
+    chuO(); chuTuDong(); }));
+  CHU.huy.push(SYNC.collection(goc + "phieu").onSnapshot(s=>{
+    s.docs.forEach(d=>{ const v = d.data(); if(v && v.phien === CHU.phien && v.vong === CHU.vong && CHU.pha === "chon") CHU.phieu[d.id] = v.k; });
+    chuO(); chuTuDong(); }));
+  $("#chu-ma").textContent = CHU.ma;
+  $("#chu-url").textContent = location.host ? location.host + location.pathname.replace(/index\.html$/, "") : "trang game này";
+  show("chu"); chuGui(); chuVe();
+};
+const cauChu = ()=> CHU.ds[CHU.vong];
+const nhomDs = ()=> dsNhom(CHU.soNhom);
+const biaCua = n => CHU.tay.bia[n] != null && CHU.tay.bia[n] !== "" ? CHU.tay.bia[n] : CHU.bia[n];
+const phieuCua = n => CHU.tay.phieu[n] || CHU.phieu[n];
+function chuGui(){
+  const c = cauChu();
+  const v = {phien: CHU.phien, pha: CHU.pha, vong: CHU.vong, soVong: CHU.soVong, soNhom: CHU.soNhom,
+    cauId: c ? c.id : null, han: CHU.han, diem: CHU.diem,
+    lua: CHU.pha === "chon" || CHU.pha === "lat" ? CHU.lua.map(o=>({k:o.k, tx:o.tx})) : [],
+    lat: CHU.pha === "lat" ? CHU.lich[CHU.lich.length - 1] : null,
+    lich: CHU.pha === "het" ? CHU.lich : null};
+  SYNC.doc("phong/" + CHU.ma + "/tt").set(v).catch(()=>{});
+}
+function chuBatVong(){
+  Object.assign(CHU, {pha:"bia", bia:{}, phieu:{}, tay:{bia:{}, phieu:{}}, lua:[], cong:null, trung:[], han: Date.now() + CHU.gb*1000});
+  chuGui(); chuVe();
+}
+function chuSangChon(){
+  if(CHU.pha !== "bia") return;
+  const c = cauChu(), dn = chuan(c.dung), gom = {};
+  CHU.trung = [];
+  nhomDs().forEach(n=>{
+    const tx = (biaCua(n) || "").trim(); const k = chuan(tx);
+    if(!k) return;
+    if(k === dn){ CHU.trung.push(n); return; }
+    (gom[k] = gom[k] || {tx, nhom: []}).nhom.push(n);
+  });
+  const lua = Object.values(gom).map(o=>({loai:"nhom", tx:o.tx, nhom:o.nhom}));
+  const may = c.bia.filter(b=> !gom[chuan(b)]);
+  const soMay = lua.length >= 2 ? 1 : 2;
+  may.slice(0, soMay).forEach(b=> lua.push({loai:"may", tx:b, nhom:[]}));
+  lua.push({loai:"dung", tx:c.dung, nhom:[]});
+  CHU.lua = xao(lua, rng(Date.now())).map((o,i)=>({...o, k: CHU_CAI[i]}));
+  Object.assign(CHU, {pha:"chon", phieu:{}, han: Date.now() + CHU.gc*1000});
+  chuGui(); chuVe();
+}
+function chuLat(){
+  if(CHU.pha !== "chon") return;
+  const cong = {}; nhomDs().forEach(n=> cong[n] = 0);
+  nhomDs().forEach(n=>{
+    const o = CHU.lua.find(x=> x.k === phieuCua(n));
+    if(!o || o.nhom.includes(n)) return;
+    if(o.loai === "dung") cong[n] += 2;
+    else if(o.loai === "nhom") o.nhom.forEach(a=> cong[a] += 1);
+  });
+  nhomDs().forEach(n=> CHU.diem[n] = (CHU.diem[n] || 0) + cong[n]);
+  CHU.lich.push({cauId: cauChu().id, lua: CHU.lua, phieu: Object.fromEntries(nhomDs().map(n=>[n, phieuCua(n) || ""])),
+    cong, trung: CHU.trung.slice()});
+  Object.assign(CHU, {pha:"lat", cong, han: 0});
+  chuGui(); chuVe();
+}
+function chuTiep(){
+  if(CHU.vong + 1 >= CHU.soVong){ Object.assign(CHU, {pha:"het", han:0}); chuGui(); chuVe(); return; }
+  CHU.vong++; chuBatVong();
+}
+function chuTuDong(){
+  const du = f => nhomDs().every(n=> f(n));
+  if(CHU.pha === "bia" && du(n=> biaCua(n))) setTimeout(()=>{ if(du(n=> biaCua(n))) chuSangChon(); }, 900);
+  if(CHU.pha === "chon" && du(n=> phieuCua(n))) setTimeout(()=>{ if(du(n=> phieuCua(n))) chuLat(); }, 900);
+}
+setInterval(()=>{
+  if(!$("#s-chu").classList.contains("on")) return;
+  const e = $("#chu-dem");
+  if(CHU.han && (CHU.pha === "bia" || CHU.pha === "chon")){
+    const s = Math.max(0, Math.ceil((CHU.han - Date.now())/1000));
+    e.textContent = s; e.classList.toggle("gap", s <= 5);
+    if(s <= 0){ if(CHU.pha === "bia") chuSangChon(); else chuLat(); }
+  } else e.textContent = "";
+}, 250);
+
+function tenNhom(n){ return `<span style="color:var(--d${n})">Nhóm ${n}</span>`; }
+function bangDiem(){
+  return `<table class="bang-diem"><tbody>` + xepHang(CHU.diem, CHU.soNhom).map(x=>
+    `<tr><td>${x.hang}</td><td><b>${tenNhom(x.n)}</b></td><td class="so">${x.d}${CHU.cong && CHU.cong[x.n] ? ` <span class="cong">+${CHU.cong[x.n]}</span>` : ""}</td></tr>`).join("") + `</tbody></table>`;
+}
+function chuVe(){
+  $("#chu-vongtxt").textContent = CHU.pha === "cho" ? CHU.soVong + " vòng" : CHU.pha === "het" ? "Tổng kết" : "Vòng " + (CHU.vong+1) + "/" + CHU.soVong;
+  const khoa = CHU.pha + "|" + CHU.vong;
+  if(khoa === CHU.khoaVe){ chuO(); return; }
+  CHU.khoaVe = khoa;
+  const c = cauChu(), m = $("#chu-main");
+  if(CHU.pha === "cho"){
+    m.innerHTML = `<div class="card stack"><h2>Chờ các nhóm vào phòng</h2>
+      <div class="tiles" id="chu-o"></div>
+      <p class="doi-song small"><b>Luật một câu:</b> mỗi vòng, nhóm viết một cụm <b>sai nhưng nghe thật</b> vào chỗ trống; sau đó cả lớp chọn đâu là nguyên văn. Chọn đúng <b>+2</b> · mỗi nhóm khác bị cụm của mình lừa <b>+1</b>.</p>
+      <div class="row"><button class="btn" id="chu-bat">Bắt đầu vòng 1</button><span class="small muted">Nhóm nào không có mạng vẫn chơi được — giảng viên nhập hộ.</span></div></div>`;
+    $("#chu-bat").onclick = chuBatVong;
+  } else if(CHU.pha === "bia"){
+    m.innerHTML = `<div class="card stack"><p class="eyebrow">Bước 1 · Các nhóm bịa</p><p class="cau">${trongHTML(c)}</p>
+      <p class="muted">Viết một cụm <b>sai</b> điền vào chỗ trống, nói sao cho nghe thật đến mức nhóm khác tin. Cấm viết đúng nguyên văn.</p></div>
+      <div class="tiles" id="chu-o"></div>
+      <details class="tay"><summary>Nhập hộ cụm bịa cho nhóm không có mạng</summary>${nhomDs().map(n=>
+        `<div class="tay-dong"><span class="lb">${tenNhom(n)}</span><input data-tay-bia="${n}" maxlength="120" placeholder="Nhóm đọc, giảng viên gõ"></div>`).join("")}</details>
+      <div class="row"><button class="btn" id="chu-chot">Chốt, sang bước chọn</button><button class="btn g sm" id="chu-them">+15 giây</button></div>`;
+    $$("[data-tay-bia]").forEach(i=> i.oninput = ()=>{ CHU.tay.bia[i.dataset.tayBia] = i.value; chuO(); });
+    $("#chu-chot").onclick = chuSangChon;
+    $("#chu-them").onclick = ()=>{ CHU.han += 15000; chuGui(); };
+  } else if(CHU.pha === "chon"){
+    m.innerHTML = `<div class="card stack"><p class="eyebrow">Bước 2 · Chọn nguyên văn</p><p class="cau">${trongHTML(c)}</p></div>
+      <div class="opts">${CHU.lua.map(o=>`<div class="opt"><span class="kk">${o.k}</span><span>${esc(o.tx)}</span></div>`).join("")}</div>
+      ${CHU.trung.length ? `<p class="warn">${CHU.trung.map(tenNhom).join(", ")} lỡ viết đúng nguyên văn — cụm đó không đưa vào.</p>` : ""}
+      <div class="tiles" id="chu-o"></div>
+      <details class="tay"><summary>Nhập hộ lựa chọn cho nhóm không có mạng</summary>${nhomDs().map(n=>
+        `<div class="tay-dong"><span class="lb">${tenNhom(n)}</span>${CHU.lua.map(o=>`<button class="kb" data-tay-n="${n}" data-tay-k="${o.k}" aria-pressed="false">${o.k}</button>`).join("")}</div>`).join("")}</details>
+      <div class="row"><button class="btn" id="chu-lat">Lật bài</button><button class="btn g sm" id="chu-them">+15 giây</button></div>`;
+    $$("[data-tay-n]").forEach(b=> b.onclick = ()=>{
+      const n = b.dataset.tayN; CHU.tay.phieu[n] = b.dataset.tayK;
+      $$(`[data-tay-n="${n}"]`).forEach(x=> x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+      chuO(); chuTuDong(); });
+    $("#chu-lat").onclick = chuLat;
+    $("#chu-them").onclick = ()=>{ CHU.han += 15000; chuGui(); };
+  } else if(CHU.pha === "lat"){
+    m.innerHTML = `<div class="stack" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;align-items:start">
+      <div class="stack"><div class="opts">${CHU.lua.map(o=>{
+        const ai = nhomDs().filter(n=> phieuCua(n) === o.k);
+        const tac = o.loai === "dung" ? "✔ NGUYÊN VĂN GIÁO TRÌNH" : o.loai === "may" ? MAY + " nói" : o.nhom.map(n=>"Nhóm " + n).join(", ") + " bịa";
+        return `<div class="opt ${o.loai === "dung" ? "ok" : ""}"><span class="kk">${o.k}</span><span>${esc(o.tx)}
+          <span class="tac">${tac}${ai.length ? " · chọn: " + ai.map(n=>"Nhóm " + n).join(", ") : ""}</span></span></div>`; }).join("")}</div>
+        <div class="card stack">${giaiHTML(c)}</div></div>
+      <div class="card stack"><h3>Bảng điểm</h3>${bangDiem()}
+        <button class="btn w" id="chu-tiep">${CHU.vong + 1 >= CHU.soVong ? "Tổng kết và giải thích kết quả" : "Vòng tiếp"}</button></div></div>`;
+    $("#chu-tiep").onclick = chuTiep;
+  } else if(CHU.pha === "het"){
+    m.innerHTML = hetLopHTML();
+    $$("#chu-main [data-home]").forEach(b=> b.onclick = veTrangDau);
+  }
+  chuO();
+}
+function hetLopHTML(){
+  const hs = xepHang(CHU.diem, CHU.soNhom), T = tongKet(CHU.lich, CHU.soNhom), sv = CHU.lich.length;
+  const ns = nhomDs();
+  const maxDung = Math.max(...ns.map(n=> T[n].dung)), maxLua = Math.max(...ns.map(n=> T[n].lua));
+  const khoNhat = CHU.lich.map((v,i)=>({i, v, d: ns.filter(n=>{ const o = v.lua.find(x=> x.k === v.phieu[n]); return o && o.loai === "dung"; }).length}))
+    .sort((a,b)=> a.d - b.d)[0];
+  const nhanXet = [
+    maxDung ? `<li><b>Thuộc bài nhất:</b> ${ns.filter(n=> T[n].dung === maxDung).map(tenNhom).join(", ")} — chọn đúng nguyên văn ${maxDung}/${sv} vòng.</li>`
+            : `<li><b>Thuộc bài nhất:</b> chưa nhóm nào chọn đúng nguyên văn ở vòng nào — cả lớp nên đọc lại các câu trong phần xem lại từng vòng.</li>`,
+    maxLua ? `<li><b>Khoác lác khéo nhất:</b> ${ns.filter(n=> T[n].lua === maxLua).map(tenNhom).join(", ")} — cụm bịa lừa được ${maxLua} lượt.</li>`
+           : `<li><b>Khoác lác khéo nhất:</b> chưa cụm bịa nào của các nhóm lừa được ai — ${MAY} vẫn giữ ngôi.</li>`,
+    khoNhat && khoNhat.d < CHU.soNhom
+      ? `<li><b>Câu cả lớp dễ bị lừa nhất:</b> vòng ${khoNhat.i+1}, chỉ ${khoNhat.d}/${CHU.soNhom} nhóm chọn đúng. Nguyên văn: “${dienHTML(THEO_ID[khoNhat.v.cauId], THEO_ID[khoNhat.v.cauId].dung)}” — nên chữa lại câu này trên lớp.</li>`
+      : `<li><b>Vòng nào cả lớp cũng chọn đúng nguyên văn.</b> Buổi sau bật trộn các buổi trước cho khó hơn.</li>`
+  ].join("");
+  return `<div class="card stack"><h2>Tổng kết</h2>
+      ${hs.map(x=>`<div class="hang"><span class="h">${x.hang}</span><span class="t">${tenNhom(x.n)}</span><span class="dd">${x.d} điểm</span><span class="so3">thứ hạng buổi: ${x.so3}</span></div>`).join("")}</div>
+    <div class="card stack"><h3>Giải thích kết quả</h3>
+      ${CACH_TINH}
+      <div class="cuon"><table class="bang-diem"><thead><tr><th>Nhóm</th><th>Chọn đúng (× 2)</th><th>Lừa được (× 1)</th><th>Bị lừa</th><th class="so">Điểm</th><th>Hạng → thứ hạng buổi</th></tr></thead><tbody>
+      ${hs.map(x=>{ const t = T[x.n]; return `<tr><td><b>${tenNhom(x.n)}</b></td><td>${t.dung}/${sv} vòng = ${t.dung*2}</td><td>${t.lua} lượt = ${t.lua}</td>
+        <td>${t.biNhom + t.biMay} lần${t.biMay ? ` (${t.biMay} bởi máy)` : ""}${t.bo ? ` · ${t.bo} vòng không tính` : ""}</td><td class="so">${x.d}</td><td>hạng ${x.hang} → <b>${x.so3}</b></td></tr>`; }).join("")}
+      </tbody></table></div>
+      ${CACH_HANG}
+      <p class="eyebrow">Nhận xét</p><ul class="ket-ds">${nhanXet}</ul></div>
+    <div class="card stack"><h3>Xem lại từng vòng — ai chọn gì, ai lừa ai, vì sao</h3>${CHU.lich.map((v,i)=> vongHTML(v, i, CHU.soNhom, 0)).join("")}</div>
+    <div class="row"><button class="btn" data-home>Về trang đầu</button></div>`;
+}
+function chuO(){
+  const o = $("#chu-o"); if(!o) return;
+  o.innerHTML = nhomDs().map(n=>{
+    let xong, s;
+    if(CHU.pha === "cho"){ xong = !!CHU.co[n]; s = xong ? "đã vào phòng" : "chưa thấy"; }
+    else if(CHU.pha === "bia"){ xong = !!biaCua(n); s = xong ? "đã bịa xong" : "đang nghĩ…"; }
+    else { xong = !!phieuCua(n); s = xong ? "đã chọn" : "đang cân nhắc…"; }
+    return `<div class="tile ${xong ? "xong" : ""}"><div class="n">${tenNhom(n)}</div><div class="s">${xong ? "✓ " : ""}${s}</div></div>`;
+  }).join("");
+}
+
+/* ============================================================
+   MÁY CỦA NHÓM
+   ============================================================ */
+const NH = {ma:"", nhom:0, tt:null, huy:null, khoaVe:"", daBia:{}, daChon:{}, daCo:""};
+$("#p-nhom").onclick = ()=>{
+  show("nh-vao"); batMang();
+  $("#nh-ma").value = luuDoc("tingia-ma") || "";
+  const cu = +(luuDoc("tingia-nhom") || 0);
+  $("#nh-so").innerHTML = [1,2,3,4,5,6].map(n=>`<button data-n="${n}" aria-pressed="${n === cu}" style="color:var(--d${n})">${n}</button>`).join("");
+  NH.nhom = cu;
+  $$("#nh-so button").forEach(b=> b.onclick = ()=>{ NH.nhom = +b.dataset.n; $$("#nh-so button").forEach(x=> x.setAttribute("aria-pressed", x === b)); });
+};
+$("#nh-vao").onclick = ()=>{
+  const ma = $("#nh-ma").value.replace(/\D/g, ""), loi = $("#nh-loi");
+  if(ma.length !== 4){ loi.textContent = "Mã phòng gồm 4 chữ số, xem trên màn hình chiếu."; loi.hidden = false; return; }
+  if(!NH.nhom){ loi.textContent = "Chọn số nhóm của bạn."; loi.hidden = false; return; }
+  loi.hidden = true;
+  Object.assign(NH, {ma, tt:null, khoaVe:"", daBia:{}, daChon:{}, daCo:""});
+  luuGhi("tingia-ma", ma); luuGhi("tingia-nhom", String(NH.nhom));
+  if(NH.huy) NH.huy();
+  NH.huy = SYNC.doc("phong/" + ma + "/tt").onSnapshot(s=>{ if(s.exists){ NH.tt = s.data(); nhVe(); } });
+  $("#nh-ten").innerHTML = "Nhóm " + NH.nhom; $("#nh-ten").style.color = `var(--d${NH.nhom})`;
+  show("nh"); nhVe();
+};
+function nhGui(loai, v){
+  return SYNC.doc("phong/" + NH.ma + "/" + loai + "/" + NH.nhom).set(v);
+}
+function nhVe(){
+  const t = NH.tt, m = $("#nh-main");
+  if(!t){
+    m.innerHTML = `<div class="card stack"><h2>Đang tìm phòng ${esc(NH.ma)}…</h2>
+      <p class="muted">Nếu chờ quá 10 giây: kiểm tra lại mã trên màn hình chiếu, hoặc báo giảng viên nhập hộ cho nhóm.</p></div>`;
+    return;
+  }
+  if(NH.nhom > t.soNhom){ m.innerHTML = `<div class="card"><p class="warn">Phòng này chỉ có ${t.soNhom} nhóm. Quay lại chọn đúng số nhóm.</p></div>`; return; }
+  if(NH.daCo !== t.phien){ NH.daCo = t.phien; nhGui("co", {phien: t.phien, luc: Date.now()}).catch(()=>{}); }
+  $("#nh-diem").textContent = (t.diem && t.diem[NH.nhom] || 0) + " điểm";
+  const khoa = t.phien + "|" + t.pha + "|" + t.vong;
+  if(khoa === NH.khoaVe) return;
+  NH.khoaVe = khoa;
+  const c = THEO_ID[t.cauId];
+  if(t.pha === "cho"){
+    m.innerHTML = `<div class="card stack"><h2>Đã vào phòng ✓</h2><p class="muted">Chờ giảng viên bắt đầu vòng 1. Trong lúc chờ: phân công ai cầm máy, ai nghĩ cụm bịa, ai soát chính tả.</p></div>`;
+  } else if(t.pha === "bia"){
+    const cu = NH.daBia[t.vong] || "";
+    m.innerHTML = `<div class="card stack"><p class="eyebrow">Vòng ${t.vong+1}/${t.soVong} · Bịa</p><p class="cau">${trongHTML(c)}</p></div>
+      <div class="card stack"><label class="f">Cụm bịa của nhóm — sai, nhưng nói sao cho nghe thật<input id="nh-bia" maxlength="120" value="${esc(cu)}" autocomplete="off"></label>
+        <p class="warn" id="nh-bia-loi" hidden></p><p class="ok-t" id="nh-bia-ok" ${cu ? "" : "hidden"}>Đã gửi ✓ — còn sửa được tới khi hết giờ.</p>
+        <button class="btn w" id="nh-gui">Gửi cụm bịa</button></div>
+      <p class="small muted">Mẹo: cụm bịa giỏi thường chỉ lệch <b>một chữ</b> so với thứ người ta nhớ mang máng.</p>`;
+    $("#nh-gui").onclick = ()=>{
+      const tx = $("#nh-bia").value.trim(), l = $("#nh-bia-loi");
+      if(!tx){ l.textContent = "Chưa viết gì cả. Khoác lác cũng phải mở miệng chứ."; l.hidden = false; return; }
+      if(chuan(tx) === chuan(c.dung)){ l.textContent = "Ơ — cụm này đúng nguyên văn rồi! Nhóm biết đáp án thì càng dễ bịa một cụm sai nghe thật. Viết lại nhé."; l.hidden = false; return; }
+      l.hidden = true; $("#nh-gui").disabled = true;
+      nhGui("bia", {phien: t.phien, vong: t.vong, tx}).then(()=>{
+        NH.daBia[t.vong] = tx; $("#nh-bia-ok").hidden = false;
+      }).catch(()=>{ l.textContent = "Chưa gửi được. Thử lại, hoặc đọc cụm bịa cho giảng viên nhập hộ."; l.hidden = false; })
+        .finally(()=>{ $("#nh-gui").disabled = false; });
+    };
+  } else if(t.pha === "chon"){
+    const cuaMinh = chuan(NH.daBia[t.vong] || "");
+    m.innerHTML = `<div class="card stack"><p class="eyebrow">Vòng ${t.vong+1}/${t.soVong} · Chọn nguyên văn</p><p class="cau">${trongHTML(c)}</p></div>
+      <div class="opts" id="nh-lua">${t.lua.map(o=>{ const minh = cuaMinh && chuan(o.tx) === cuaMinh;
+        return `<button class="opt ${NH.daChon[t.vong] === o.k ? "chon" : ""}" data-k="${o.k}" ${minh ? "disabled" : ""}><span class="kk">${o.k}</span><span>${esc(o.tx)}${minh ? '<span class="tac">cụm của nhóm mình — không chọn được</span>' : ""}</span></button>`; }).join("")}</div>
+      <p class="ok-t" id="nh-chon-ok" ${NH.daChon[t.vong] ? "" : "hidden"}>Đã chọn ✓ — đổi được tới khi hết giờ.</p><p class="warn" id="nh-chon-loi" hidden></p>`;
+    $$("#nh-lua .opt").forEach(b=> b.onclick = ()=>{
+      const k = b.dataset.k;
+      nhGui("phieu", {phien: t.phien, vong: t.vong, k}).then(()=>{
+        NH.daChon[t.vong] = k;
+        $$("#nh-lua .opt").forEach(x=> x.classList.toggle("chon", x === b));
+        $("#nh-chon-ok").hidden = false; $("#nh-chon-loi").hidden = true;
+      }).catch(()=>{ $("#nh-chon-loi").textContent = "Chưa gửi được — đọc chữ cái cho giảng viên nhập hộ."; $("#nh-chon-loi").hidden = false; });
+    });
+  } else if(t.pha === "lat"){
+    const L = t.lat, o = L.lua.find(x=> x.k === L.phieu[NH.nhom]);
+    let tieuDe;
+    if(!o) tieuDe = "Nhóm mình chưa chọn gì ở vòng này.";
+    else if(o.nhom.includes(NH.nhom)) tieuDe = "Nhóm mình chọn trúng cụm của chính mình — không tính.";
+    else if(o.loai === "dung") tieuDe = "Chọn đúng nguyên văn! +2";
+    else if(o.loai === "may") tieuDe = "Bị " + MAY + " lừa rồi.";
+    else tieuDe = "Bị " + o.nhom.map(tenN).join(", ") + " lừa rồi.";
+    m.innerHTML = `<div class="card stack"><p class="eyebrow">Vòng ${t.vong+1}/${t.soVong} · Lật bài</p>
+        <h2>${tieuDe}</h2>
+        <ul class="ket-ds">${vongHTML(L, t.vong, t.soNhom, NH.nhom).match(/<li>[\s\S]*<\/li>/)[0]}</ul></div>
+      <div class="card stack">${giaiHTML(c)}</div>`;
+  } else if(t.pha === "het"){
+    const lich = t.lich || [], sv = lich.length;
+    const T = tongKet(lich, t.soNhom)[NH.nhom], x = xepHang(t.diem, t.soNhom).find(e=> e.n === NH.nhom);
+    m.innerHTML = `<div class="card stack" style="text-align:center"><p class="eyebrow">Tổng kết</p>
+        <h2 style="font-size:40px">Hạng ${x.hang}/${t.soNhom}</h2><p class="ma">${x.d} điểm</p>
+        <p class="muted">${x.hang === 1 ? "Vừa thuộc bài vừa khoác lác khéo. Kẻ Khoác Lác xin nhận làm đệ tử." : "Xem lại từng vòng bên dưới — mỗi lần bị lừa là một chữ cần thuộc."}</p></div>
+      <div class="card stack"><h3>Giải thích kết quả</h3>
+        <ul class="ket-ds">
+          <li>Chọn đúng nguyên văn <b>${T.dung}/${sv}</b> vòng × 2 = <b>${T.dung*2}</b> điểm.</li>
+          <li>Cụm bịa của nhóm lừa được <b>${T.lua}</b> lượt × 1 = <b>${T.lua}</b> điểm.</li>
+          <li>Cộng lại: <b>${x.d}</b> điểm.</li>
+          <li>Bị lừa <b>${T.biNhom + T.biMay}</b> lần (${T.biNhom} bởi nhóm khác, ${T.biMay} bởi ${MAY})${T.bo ? `; ${T.bo} vòng không tính lựa chọn` : ""}.</li>
+          <li>Xếp hạng <b>${x.hang}</b> trên ${t.soNhom} nhóm → <b>thứ hạng buổi ${x.so3}</b>.</li>
+        </ul>${CACH_HANG}</div>
+      <div class="card stack"><h3>Nhóm mình ở từng vòng</h3>${lich.map((v,i)=> vongHTML(v, i, t.soNhom, NH.nhom)).join("")}</div>
+      <button class="btn" data-home>Về trang đầu</button>`;
+    $$("#nh-main [data-home]").forEach(b=> b.onclick = veTrangDau);
+  }
+}
+setInterval(()=>{
+  if(!$("#s-nh").classList.contains("on") || !NH.tt) return;
+  const t = NH.tt, e = $("#nh-dem");
+  if(t.han && (t.pha === "bia" || t.pha === "chon")){ e.hidden = false; e.textContent = Math.max(0, Math.ceil((t.han - Date.now())/1000)) + " giây"; }
+  else e.hidden = true;
+}, 300);
+
+/* ---------- điều hướng ---------- */
+function veTrangDau(){ dungGio(); if(NH.huy){ NH.huy(); NH.huy = null; } show("home"); }
+$$("[data-home]").forEach(b=> b.onclick = veTrangDau);
+veBuoi($("#cn-buoi")); veBuoi($("#chu-buoi"));
+$("#cn-ten").value = luuDoc("tingia-ten") || "";
+</script>
+</body>
+</html>

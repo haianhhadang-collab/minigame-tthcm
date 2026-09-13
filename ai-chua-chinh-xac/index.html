@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Ai chưa chính xác? — minigame Tư tưởng Hồ Chí Minh (POL1001). Trong mấy câu nghe rất chắc, có đúng một câu sai một cụm. Chơi một mình với bốn nhân vật văn phòng phẩm, hoặc cả nhóm đọc to thẻ của mình rồi bỏ phiếu.">
+<meta name="theme-color" content="#F0F1EC">
+<title>Ai chưa chính xác?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --giay:#F0F1EC; --the:#FBFBF7; --the2:#E7EAE1;
+  --muc:#1B3350; --muc2:#4E657E; --muc3:#8496A6; --vien:#D1D6CA;
+  --vang:#E8B71E; --vang-nen:#F8EDBE;
+  --do:#CE4132; --do-nen:#F6DDD8;
+  --bang:#2F6B52; --bang-nen:#DDEAE1;
+  --gio:#1F7A8C; --gio-nen:#DCEEF1;
+  --r:12px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --giay:#121922; --the:#1B2531; --the2:#222D3A;
+  --muc:#E7EEF5; --muc2:#A5B7C7; --muc3:#718597; --vien:#2B3947;
+  --vang:#F6CD44; --vang-nen:#3C3418; --do:#F2705F; --do-nen:#3A211D;
+  --bang:#5CBF90; --bang-nen:#163024; --gio:#4FB6C8; --gio-nen:#13303A;
+}}
+:root[data-theme="dark"]{
+  --giay:#121922; --the:#1B2531; --the2:#222D3A;
+  --muc:#E7EEF5; --muc2:#A5B7C7; --muc3:#718597; --vien:#2B3947;
+  --vang:#F6CD44; --vang-nen:#3C3418; --do:#F2705F; --do-nen:#3A211D;
+  --bang:#5CBF90; --bang-nen:#163024; --gio:#4FB6C8; --gio-nen:#13303A;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+body{margin:0;background:var(--giay);color:var(--muc);
+  font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.55}
+h1,h2,h3{margin:0;font-family:"Baloo 2","Be Vietnam Pro",system-ui,sans-serif;font-weight:700;line-height:1.15;text-wrap:balance}
+p{margin:0} button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2.5px solid var(--vang);outline-offset:2px;border-radius:5px}
+.page{max-width:760px;margin:0 auto;padding:0 16px 80px}
+.screen{display:none} .screen.on{display:block}
+.stack{display:flex;flex-direction:column;gap:13px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.sp{flex:1}
+.muted{color:var(--muc2)} .small{font-size:13.5px}
+.eyebrow{font-family:"Baloo 2",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--muc3)}
+.card{background:var(--the);border:1px solid var(--vien);border-radius:var(--r);padding:16px}
+.btn{background:var(--muc);color:var(--giay);border:0;border-radius:9px;padding:12px 18px;
+  font-family:"Baloo 2",sans-serif;font-weight:700;font-size:17px}
+.btn:hover{filter:brightness(1.12)} .btn:disabled{opacity:.4;cursor:not-allowed;filter:none}
+.btn.g{background:transparent;color:var(--muc);border:1.5px solid var(--vien)}
+.btn.sm{padding:7px 13px;font-size:14.5px;border-radius:7px}
+.btn.w{width:100%}
+input,select{background:var(--the);border:1.5px solid var(--vien);color:var(--muc);
+  border-radius:8px;padding:10px 12px;font:inherit;width:100%}
+label.f{display:flex;flex-direction:column;gap:5px;font-size:13.5px;color:var(--muc2);font-weight:500}
+label.chk{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--muc2)}
+label.chk input{width:auto}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:11px}
+.top{display:flex;align-items:center;gap:12px;padding:16px 0 10px;flex-wrap:wrap}
+.top h1{font-size:clamp(26px,5vw,36px)}
+.link{background:none;border:0;color:var(--muc2);text-decoration:underline;padding:4px}
+.picks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.pick{background:var(--the);border:1.5px solid var(--vien);border-radius:var(--r);padding:16px;text-align:left}
+.pick:hover{border-color:var(--muc3)}
+.pick .t{font-family:"Baloo 2",sans-serif;font-weight:700;font-size:20px}
+.pick .d{font-size:13.5px;color:var(--muc2);margin-top:3px}
+.doi-song{border-left:4px solid var(--vang);background:var(--vang-nen);border-radius:8px;padding:10px 13px;font-size:14.5px}
+.hud{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-family:"Baloo 2",sans-serif;font-weight:700}
+.chip{background:var(--the2);border-radius:99px;padding:3px 11px;font-size:14px}
+.giai{font-size:15px;color:var(--muc2)}
+.nguon{font-size:12px;color:var(--muc3)}
+mark.dung{background:var(--bang-nen);color:var(--bang);font-weight:700;padding:0 4px;border-radius:4px}
+mark.bia{background:var(--do-nen);color:var(--do);font-weight:700;padding:0 4px;border-radius:4px}
+mark.bia.gach{text-decoration:line-through}
+
+/* nhân vật */
+.hoi{display:flex;flex-direction:column;gap:11px}
+.nv{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;
+  background:var(--the);border:2px solid var(--vien);border-radius:12px;padding:12px 13px}
+.nv:hover:not(:disabled){border-color:var(--muc3)}
+.nv:disabled{cursor:default}
+.av{flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:#fff;
+  font-family:"Baloo 2",sans-serif;font-weight:800;font-size:21px}
+.nv .ten{font-family:"Baloo 2",sans-serif;font-weight:700;font-size:15px}
+.nv .mo{font-size:13px;color:var(--muc2);font-style:italic}
+.nv .noi{display:block;font-size:16px;margin-top:3px}
+.nv .dap{display:block;font-size:13.5px;margin-top:6px;font-weight:600}
+.nv.bat{border-color:var(--gio);box-shadow:0 0 0 2px var(--gio)}
+.nv.la-gio{border-color:var(--do);background:var(--do-nen)}
+.nv.oan{border-color:var(--vang);background:var(--vang-nen)}
+.nv.sach{opacity:.72}
+
+/* thẻ nhóm */
+.the-lon{background:var(--the);border:2px solid var(--vien);border-radius:16px;padding:22px 20px;
+  font-size:clamp(20px,4.6vw,27px);line-height:1.5;font-weight:500}
+.cho-ngoi{font-family:"Baloo 2",sans-serif;font-weight:800;font-size:64px;line-height:1;color:var(--gio)}
+.vong{display:flex;align-items:center;gap:10px}
+.vong .so{font-family:"Baloo 2",sans-serif;font-weight:800;font-size:30px;min-width:3.4em;text-align:center}
+.chus{display:flex;gap:8px;flex-wrap:wrap}
+.chus button{min-width:52px;padding:10px 12px;border-radius:9px;border:2px solid var(--vien);background:var(--the);
+  font-family:"Baloo 2",sans-serif;font-weight:800;font-size:19px}
+.chus button[aria-pressed="true"]{border-color:var(--muc);background:var(--muc);color:var(--giay)}
+.ma{font-family:"Baloo 2",sans-serif;font-weight:800;font-size:clamp(36px,8vw,52px);letter-spacing:.06em;line-height:1}
+.warn{color:var(--do);font-size:14px}
+.tab{display:flex;gap:6px;border-bottom:1.5px solid var(--vien)}
+.tab button{background:none;border:0;padding:9px 12px;font-family:"Baloo 2",sans-serif;font-weight:700;font-size:16px;color:var(--muc3);border-bottom:3px solid transparent;margin-bottom:-1.5px}
+.tab button[aria-selected="true"]{color:var(--muc);border-bottom-color:var(--muc)}
+.ds-the{display:flex;flex-direction:column;gap:8px}
+.ds-the .dong{display:flex;gap:10px;align-items:flex-start;font-size:15px;padding:8px 10px;border-radius:9px;background:var(--the2)}
+.ds-the .dong b{flex:none;width:24px}
+.ds-the .dong.gio{background:var(--do-nen)}
+</style>
+</head>
+<body>
+<script>window.CAU_BIA = {"ten":"Câu có chỗ bịa — dữ liệu chung của hai game Phòng chống tin giả và Ai chưa chính xác","moTa":"Mỗi mục là một câu rút từ Giáo trình 2026 hoặc khung đáp án, trong đó cụm then chốt thay bằng ___. 'dung' là cụm đúng; 'bia' là 3 cụm bịa nghe xuôi tai nhưng sai. Game Phòng chống tin giả che cụm then chốt cho người chơi đoán; game Ai chưa chính xác thay cụm then chốt bằng một cụm bịa để tạo thẻ sai. 'trich' = true nếu phần chứa ___ là nguyên văn lời Hồ Chí Minh mà giáo trình trích (không bịa chữ vào lời Bác ngoài chỗ trống). 'doiThuong' là câu nối sang đời sống, không thuộc khung đáp án.","nguon":"Giáo trình Tư tưởng Hồ Chí Minh 2026 (KQ.docx) — mọi cụm 'dung' đã đối chiếu với toan-van/tai-lieu-giang-day/giao-trinh-2026.txt ngày 13/9/2026","capNhat":"2026-09-13","buoi":{"2":"Khái niệm và ý nghĩa học tập môn học","3":"Cơ sở thực tiễn Việt Nam cuối XIX – đầu XX","4":"Cơ sở thực tiễn thế giới và cơ sở lý luận","5":"Giá trị truyền thống và quá trình hình thành","6":"Độc lập dân tộc","7":"Cách mạng giải phóng dân tộc","8":"Chủ nghĩa xã hội ở Việt Nam","9":"Đảng Cộng sản và Nhà nước dân chủ","10":"Nhà nước trong sạch và đại đoàn kết","11":"Đạo đức cách mạng"},"cau":[{"id":"b2-1","buoi":"2","chuDe":"01","chuong":"Chương 1 — Khái niệm tư tưởng Hồ Chí Minh","cau":"Tư tưởng Hồ Chí Minh là một hệ thống quan điểm ___ về những vấn đề cơ bản của cách mạng Việt Nam.","dung":"toàn diện và sâu sắc","bia":["khoa học và cách mạng","cơ bản và nhất quán","độc đáo và sáng tạo"],"giai":"Nguyên văn khái niệm của Đại hội XI: “hệ thống quan điểm toàn diện và sâu sắc”. “Khoa học và cách mạng” là cách giáo trình nói về bản chất, không phải chữ trong định nghĩa."},{"id":"b2-2","buoi":"2","chuDe":"01","chuong":"Chương 1 — Khái niệm tư tưởng Hồ Chí Minh","cau":"Tư tưởng Hồ Chí Minh là kết quả của sự vận dụng và ___ chủ nghĩa Mác - Lênin vào điều kiện cụ thể của nước ta.","dung":"phát triển sáng tạo","bia":["tiếp thu nguyên vẹn","bổ sung hoàn chỉnh","kế thừa có chọn lọc"],"giai":"Chữ then chốt là “phát triển sáng tạo” — khẳng định Hồ Chí Minh không sao chép. Viết “nguyên vẹn” là sai bản chất.","doiThuong":"Chép nguyên đáp án của bạn vào bài mình là “vận dụng nguyên vẹn” — và thường sai, vì đề của mình khác đề của bạn."},{"id":"b2-3","buoi":"2","chuDe":"01","chuong":"Chương 1 — Khái niệm tư tưởng Hồ Chí Minh","cau":"Tư tưởng Hồ Chí Minh kế thừa và phát triển các giá trị truyền thống tốt đẹp của dân tộc, ___.","dung":"tiếp thu tinh hoa văn hóa nhân loại","bia":["tiếp thu văn minh phương Tây","học tập kinh nghiệm các nước","chọn lọc tinh hoa phương Đông"],"giai":"Nguyên văn: “tiếp thu tinh hoa văn hóa nhân loại” — cả Đông lẫn Tây, không khoanh vào một phía."},{"id":"b2-4","buoi":"2","chuDe":"01","chuong":"Chương 1 — Khái niệm tư tưởng Hồ Chí Minh","cau":"Tư tưởng Hồ Chí Minh là tài sản tinh thần vô cùng to lớn và quý giá của ___, mãi mãi soi đường cho sự nghiệp cách mạng của nhân dân ta giành thắng lợi.","dung":"Đảng và dân tộc ta","bia":["riêng Đảng Cộng sản Việt Nam","giai cấp công nhân Việt Nam","các dân tộc thuộc địa"],"giai":"Nguyên văn: “của Đảng và dân tộc ta”. Bỏ mất chữ “dân tộc” là làm hẹp hẳn khái niệm."},{"id":"b2-5","buoi":"2","chuDe":"01","chuong":"Chương 1 — Khái niệm tư tưởng Hồ Chí Minh","cau":"Khái niệm tư tưởng Hồ Chí Minh được dùng trong giáo trình là khái niệm do ___ nêu ra.","dung":"Đại hội XI của Đảng (năm 2011)","bia":["Đại hội IX của Đảng (năm 2001)","Đại hội VII của Đảng (năm 1991)","Đại hội XIII của Đảng (năm 2021)"],"giai":"Đại hội XI (2011). Đại hội IX (2001) có nêu một khái niệm rất giống nhưng thiếu vế “tài sản tinh thần… soi đường”."},{"id":"b2-6","buoi":"2","chuDe":"01","chuong":"Chương 1 — Ý nghĩa của việc học tập môn học","cau":"Ý nghĩa học tập môn học: nâng cao năng lực tư duy lý luận; giáo dục và định hướng thực hành đạo đức cách mạng; ___.","dung":"xây dựng, rèn luyện phương pháp và phong cách công tác","bia":["nâng cao năng lực thực hành nghề nghiệp","bồi dưỡng kỹ năng lãnh đạo, quản lý","trang bị kiến thức lịch sử Đảng"],"giai":"Ba ý nghĩa trong giáo trình: tư duy lý luận — đạo đức cách mạng — phương pháp và phong cách công tác. “Năng lực nghề nghiệp” nghe hợp lý nhưng là ý bịa.","doiThuong":"Phong cách công tác thấy rõ nhất khi làm bài nhóm: ai họp đúng giờ, ai chia việc rõ ràng."},{"id":"b3-1","buoi":"3","chuDe":"02","chuong":"Chương 2 — Cơ sở thực tiễn Việt Nam","cau":"Cuối thế kỷ XIX – đầu thế kỷ XX, Việt Nam từ một nước phong kiến độc lập trở thành ___.","dung":"nước thuộc địa nửa phong kiến","bia":["nước phong kiến phụ thuộc","nước tư bản chủ nghĩa non trẻ","nước bảo hộ tự trị"],"giai":"Tính chất xã hội thay đổi: thuộc địa nửa phong kiến. Đây là ý đầu tiên của “xã hội Việt Nam thay đổi” trong đáp án."},{"id":"b3-2","buoi":"3","chuDe":"02","chuong":"Chương 2 — Cơ sở thực tiễn Việt Nam","cau":"Các cuộc khởi nghĩa dưới ngọn cờ “Cần Vương” cuối cùng đều thất bại, chứng tỏ ___ trước các nhiệm vụ lịch sử.","dung":"tư tưởng phong kiến tỏ ra lỗi thời","bia":["lực lượng vũ trang còn quá mỏng","giai cấp tư sản còn non yếu","phong trào thiếu sự ủng hộ của nhân dân"],"giai":"Giáo trình: “tư tưởng phong kiến tỏ ra lỗi thời trước các nhiệm vụ lịch sử”. “Giai cấp tư sản non yếu” là chuyện của khuynh hướng dân chủ tư sản — bẫy tráo nguyên nhân."},{"id":"b3-3","buoi":"3","chuDe":"02","chuong":"Chương 2 — Cơ sở thực tiễn Việt Nam","cau":"Các phong trào yêu nước đầu thế kỷ XX thất bại vì các tổ chức và người lãnh đạo ___.","dung":"chưa có đường lối và phương pháp cách mạng đúng đắn","bia":["không có lòng yêu nước sâu sắc","quá phụ thuộc vào triều đình nhà Nguyễn","không liên hệ được với nước ngoài"],"giai":"Giáo trình nói rõ: tinh thần yêu nước vẫn sục sôi; cái thiếu là đường lối và phương pháp cách mạng đúng đắn."},{"id":"b3-4","buoi":"3","chuDe":"02","chuong":"Chương 2 — Cơ sở thực tiễn Việt Nam","cau":"Tinh thần yêu nước vẫn sục sôi trong lòng nhân dân, song cuộc khủng hoảng về ___ diễn ra sâu sắc.","dung":"đường lối cứu nước","bia":["lực lượng lãnh đạo phong kiến","kinh tế thuộc địa","niềm tin của nhân dân"],"giai":"Khủng hoảng về đường lối cứu nước — câu hỏi đặt ra là “cứu nước bằng con đường nào?”. Niềm tin của nhân dân không hề khủng hoảng."},{"id":"b3-5","buoi":"3","chuDe":"02","chuong":"Chương 2 — Cơ sở thực tiễn Việt Nam","cau":"Xã hội Việt Nam thay đổi: xuất hiện ___ bên cạnh tồn tại giai cấp cũ.","dung":"giai tầng mới","bia":["tầng lớp quan lại mới","tầng lớp thương nhân ngoại quốc","giai cấp quý tộc mới"],"giai":"Đáp án ghi: “Xuất hiện giai tầng mới bên cạnh tồn tại giai cấp cũ” — tức công nhân, tư sản, tiểu tư sản bên cạnh địa chủ, nông dân."},{"id":"b4-1","buoi":"4","chuDe":"02","chuong":"Chương 2 — Cơ sở thực tiễn thế giới","cau":"Ngày ___, Quốc tế Cộng sản ra đời ở Mátxcơva, trở thành Bộ tham mưu, lãnh đạo phong trào cách mạng thế giới.","dung":"2/3/1919","bia":["7/11/1917","18/6/1919","3/2/1930"],"giai":"2/3/1919. Ba ngày kia là Cách mạng Tháng Mười (7/11/1917), Yêu sách gửi Hội nghị Vécxây (18/6/1919) và thành lập Đảng (3/2/1930)."},{"id":"b4-2","buoi":"4","chuDe":"02","chuong":"Chương 2 — Cơ sở thực tiễn thế giới","cau":"Năm 1917, ___ thắng lợi đã ảnh hưởng sâu sắc tới Hồ Chí Minh trong việc lựa chọn con đường cứu nước.","dung":"Cách mạng Tháng Mười Nga","bia":["Cách mạng Tân Hợi","Công xã Pari","Cách mạng Pháp"],"giai":"Cách mạng Tháng Mười Nga (1917). Tân Hợi là năm 1911, Công xã Pari năm 1871, Cách mạng Pháp năm 1789."},{"id":"b4-3","buoi":"4","chuDe":"02","chuong":"Chương 2 — Cơ sở lý luận","cau":"Cơ sở lý luận hình thành tư tưởng Hồ Chí Minh gồm: giá trị truyền thống tốt đẹp của dân tộc, tinh hoa văn hóa nhân loại và ___.","dung":"chủ nghĩa Mác - Lênin","bia":["chủ nghĩa Tam dân của Tôn Trung Sơn","tư tưởng Khai sáng Pháp","học thuyết Nho giáo"],"giai":"Ba cơ sở lý luận. Nho giáo, chủ nghĩa Tam dân… đều nằm trong “tinh hoa văn hóa nhân loại”, không đứng riêng thành một cơ sở."},{"id":"b4-4","buoi":"4","chuDe":"02","chuong":"Chương 2 — Cơ sở lý luận","cau":"Chủ nghĩa Mác - Lênin là ___, có vai trò quyết định trong việc hình thành tư tưởng Hồ Chí Minh.","dung":"tiền đề lý luận quan trọng nhất","bia":["nguồn gốc lý luận duy nhất","điểm xuất phát đầu tiên","nhân tố chủ quan quyết định"],"giai":"“Quan trọng nhất”, không phải “duy nhất” — vẫn còn hai cơ sở lý luận kia. Điểm xuất phát là chủ nghĩa yêu nước."},{"id":"b4-5","buoi":"4","chuDe":"02","chuong":"Chương 2 — Cơ sở thực tiễn thế giới","cau":"Thực tiễn thế giới cuối thế kỷ XIX – đầu thế kỷ XX: sự ra đời của chủ nghĩa đế quốc và ___.","dung":"hệ thống thuộc địa","bia":["Hội Quốc liên","Quốc tế thứ hai","chủ nghĩa phát xít"],"giai":"Đáp án ghi: “Sự ra đời của chủ nghĩa đế quốc và hệ thống thuộc địa”."},{"id":"b5-1","buoi":"5","chuDe":"02","chuong":"Chương 2 — Giá trị truyền thống dân tộc","cau":"___ là giá trị xuyên suốt trong những truyền thống tốt đẹp của dân tộc Việt Nam.","dung":"Chủ nghĩa yêu nước","bia":["Tinh thần đoàn kết","Truyền thống hiếu học","Lòng nhân nghĩa"],"giai":"Chủ nghĩa yêu nước — động lực, sức mạnh giúp dân tộc vượt qua mọi khó khăn, và là điểm xuất phát thúc đẩy Hồ Chí Minh ra đi tìm đường cứu nước."},{"id":"b5-2","buoi":"5","chuDe":"03","chuong":"Chương 2 — Quá trình hình thành","cau":"Thời kỳ trước năm 1911: hình thành ___.","dung":"tư tưởng yêu nước và chí hướng tìm đường cứu nước mới","bia":["tư tưởng cứu nước theo con đường cách mạng vô sản","những nội dung cơ bản tư tưởng về cách mạng Việt Nam","chí hướng xây dựng chủ nghĩa xã hội"],"giai":"Ba cụm bịa là tên của các thời kỳ khác (hoặc ý bịa). Nhớ thứ tự: yêu nước → con đường vô sản (1911–1920) → nội dung cơ bản (1920–1930)."},{"id":"b5-3","buoi":"5","chuDe":"03","chuong":"Chương 2 — Quá trình hình thành","cau":"Thời kỳ 1920 - 1930: ___.","dung":"hình thành những nội dung cơ bản tư tưởng về cách mạng Việt Nam","bia":["vượt qua thử thách, giữ vững đường lối cách mạng đúng đắn","tiếp tục phát triển, soi đường cho sự nghiệp cách mạng","hình thành tư tưởng cứu nước theo con đường cách mạng vô sản"],"giai":"1920–1930 là hình thành nội dung cơ bản. “Vượt qua thử thách” là 1930–1941; “tiếp tục phát triển, soi đường” là 1941–1969."},{"id":"b5-4","buoi":"5","chuDe":"03","chuong":"Chương 2 — Quá trình hình thành","cau":"Thời kỳ 1930 - 1941: ___.","dung":"vượt qua thử thách, giữ vững đường lối, phương pháp cách mạng Việt Nam đúng đắn, sáng tạo","bia":["hình thành những nội dung cơ bản tư tưởng về cách mạng Việt Nam","tư tưởng Hồ Chí Minh tiếp tục phát triển, soi đường cho cách mạng","hình thành tư tưởng yêu nước và chí hướng tìm đường cứu nước"],"giai":"1930–1941: vượt qua thử thách, giữ vững đường lối. Mỗi thời kỳ một cụm động từ — nhớ động từ là nhớ thời kỳ."},{"id":"b5-5","buoi":"5","chuDe":"03","chuong":"Chương 2 — Quá trình hình thành","cau":"Ngày ___, Hồ Chí Minh đi ra nước ngoài tìm con đường cứu nước, cứu dân.","dung":"5/6/1911","bia":["19/5/1911","5/6/1920","18/6/1911"],"giai":"5/6/1911. Ngày 19/5 là ngày sinh (1890); năm 1920 là năm Người đọc Luận cương của Lênin."},{"id":"b5-6","buoi":"5","chuDe":"03","chuong":"Chương 2 — Quá trình hình thành","cau":"Tháng 7/1920, Hồ Chí Minh đọc ___ và tìm thấy con đường cứu nước: con đường cách mạng vô sản.","dung":"Sơ thảo lần thứ nhất những luận cương về vấn đề dân tộc và vấn đề thuộc địa của V.I. Lênin","bia":["Tuyên ngôn của Đảng Cộng sản của C. Mác và Ph. Ăngghen","Tuyên ngôn Nhân quyền và Dân quyền của Cách mạng Pháp","bản Tuyên ngôn Độc lập của nước Mỹ"],"giai":"Luận cương của Lênin. Người kể: “Luận cương của Lênin làm cho tôi rất cảm động, phấn khởi, sáng tỏ, tin tưởng biết bao!”"},{"id":"b5-7","buoi":"5","chuDe":"03","chuong":"Chương 2 — Quá trình hình thành","cau":"Tác phẩm ___ (xuất bản năm 1927 ở Quảng Châu) là sự chuẩn bị về chính trị, tư tưởng, tổ chức cho sự ra đời của Đảng Cộng sản Việt Nam.","dung":"Đường cách mệnh","bia":["Bản án chế độ thực dân Pháp","Chánh cương vắn tắt của Đảng","Yêu sách của nhân dân An Nam"],"giai":"Đường cách mệnh (1927). Bản án chế độ thực dân Pháp xuất bản ở Pari năm 1925; Chánh cương vắn tắt là văn kiện năm 1930; Yêu sách gửi Hội nghị Vécxây năm 1919."},{"id":"b6-1","buoi":"6","chuDe":"04","chuong":"Chương 3 — Độc lập dân tộc","cau":"Độc lập, tự do là quyền ___ của tất cả các dân tộc.","dung":"thiêng liêng, bất khả xâm phạm","bia":["tự nhiên, tất yếu","chính đáng, cơ bản","cao quý, vĩnh viễn"],"giai":"Tên luận điểm thứ nhất: “quyền thiêng liêng, bất khả xâm phạm của tất cả các dân tộc”. Hai tính từ này hay bị đảo hoặc thay."},{"id":"b6-2","buoi":"6","chuDe":"04","chuong":"Chương 3 — Độc lập dân tộc","trich":true,"cau":"“Nước độc lập mà dân không hưởng hạnh phúc tự do, thì độc lập ___”.","dung":"cũng chẳng có nghĩa lý gì","bia":["cũng chỉ là hình thức","chưa phải là độc lập thật sự","cũng không bền vững"],"giai":"Nguyên văn lời Hồ Chí Minh: “…thì độc lập cũng chẳng có nghĩa lý gì”. Câu này là dẫn chứng cho luận điểm “độc lập phải gắn với tự do, hạnh phúc của nhân dân”.","doiThuong":"Độc lập phải đi được tới bữa cơm, lớp học và giường bệnh của từng người dân."},{"id":"b6-3","buoi":"6","chuDe":"04","chuong":"Chương 3 — Độc lập dân tộc","cau":"Độc lập dân tộc phải là nền độc lập ___.","dung":"thật sự, hoàn toàn và triệt để","bia":["toàn vẹn, thống nhất và bền vững","tự chủ, tự lực và tự cường","hòa bình, hữu nghị và hợp tác"],"giai":"Luận điểm thứ ba: “thật sự, hoàn toàn và triệt để” — không có quyền tự quyết về ngoại giao, quân đội, tài chính thì độc lập chẳng có nghĩa lý gì."},{"id":"b6-4","buoi":"6","chuDe":"04","chuong":"Chương 3 — Độc lập dân tộc","cau":"Độc lập dân tộc gắn liền với ___.","dung":"thống nhất và toàn vẹn lãnh thổ","bia":["hòa bình và hợp tác quốc tế","tự do tín ngưỡng, tôn giáo","phát triển kinh tế thị trường"],"giai":"Luận điểm thứ tư: “độc lập dân tộc gắn liền với thống nhất và toàn vẹn lãnh thổ”."},{"id":"b6-5","buoi":"6","chuDe":"04","chuong":"Chương 3 — Độc lập dân tộc","trich":true,"cau":"Ngày 17/7/1966, Hồ Chí Minh nêu lên chân lý lớn của thời đại: “___”.","dung":"Không có gì quý hơn độc lập, tự do","bia":["Không có gì quý hơn hòa bình, thống nhất","Độc lập dân tộc là trên hết, trước hết","Nước lấy dân làm gốc"],"giai":"“Không có gì quý hơn độc lập, tự do” — Lời kêu gọi đồng bào và chiến sĩ cả nước, 17/7/1966."},{"id":"b6-6","buoi":"6","chuDe":"04","chuong":"Chương 3 — Độc lập dân tộc","trich":true,"cau":"Lời kêu gọi toàn quốc kháng chiến (19/12/1946): “Không! Chúng ta thà hy sinh tất cả, chứ nhất định không chịu mất nước, nhất định không chịu ___”.","dung":"làm nô lệ","bia":["lùi bước","khuất phục","chia cắt"],"giai":"Nguyên văn giáo trình: “…nhất định không chịu làm nô lệ”. Nhiều người nhớ thành “đầu hàng” — viết như vậy trong bài thi là sai trích dẫn."},{"id":"b6-7","buoi":"6","chuDe":"04","chuong":"Chương 3 — Độc lập dân tộc","cau":"Năm 1919, Hồ Chí Minh gửi tới Hội nghị Vécxây bản Yêu sách của nhân dân An Nam, gồm ___ điểm.","dung":"8","bia":["10","5","12"],"giai":"8 điểm, với hai nội dung chính là đòi quyền bình đẳng về chế độ pháp lý và đòi các quyền tự do, dân chủ."},{"id":"b7-1","buoi":"7","chuDe":"05","chuong":"Chương 3 — Cách mạng giải phóng dân tộc","trich":true,"cau":"Hồ Chí Minh không chọn con đường cách mạng tư sản vì cho rằng: “Cách mệnh Pháp cũng như cách mệnh Mỹ, nghĩa là cách mệnh tư bản, cách mệnh ___”.","dung":"không đến nơi","bia":["đã bị phản bội","chỉ là hình thức","không vì dân nghèo"],"giai":"Nguyên văn: “cách mệnh không đến nơi, tiếng là cộng hòa và dân chủ, kỳ thực trong thì nó tước lục công nông, ngoài thì nó áp bức thuộc địa”."},{"id":"b7-2","buoi":"7","chuDe":"05","chuong":"Chương 3 — Cách mạng giải phóng dân tộc","trich":true,"cau":"“Trong thế giới bây giờ chỉ có ___ là đã thành công, và thành công đến nơi”.","dung":"cách mệnh Nga","bia":["cách mệnh Pháp","cách mệnh Mỹ","cách mệnh Trung Hoa"],"giai":"Cách mệnh Nga — “dân chúng được hưởng cái hạnh phúc tự do, bình đẳng thật”. Pháp và Mỹ chính là hai cuộc cách mạng “không đến nơi”."},{"id":"b7-3","buoi":"7","chuDe":"05","chuong":"Chương 3 — Cách mạng giải phóng dân tộc","cau":"Giải phóng dân tộc gắn liền giải phóng giai cấp, trong đó giải phóng dân tộc là ___.","dung":"trên hết, trước hết","bia":["ngang hàng với giải phóng giai cấp","nhiệm vụ sau cùng","thứ yếu, tạm thời"],"giai":"Trình tự trong đáp án: giải phóng dân tộc — giải phóng xã hội — giải phóng giai cấp — giải phóng con người; giải phóng dân tộc là trên hết, trước hết."},{"id":"b7-4","buoi":"7","chuDe":"05","chuong":"Chương 3 — Cách mạng giải phóng dân tộc","cau":"Cách mạng thuộc địa và cách mạng vô sản ở chính quốc có mối quan hệ ___.","dung":"bình đẳng, không lệ thuộc, phụ thuộc vào nhau","bia":["chính - phụ, thuộc địa phải chờ chính quốc","lệ thuộc một chiều vào chính quốc","tách biệt, không liên quan tới nhau"],"giai":"Bình đẳng, không lệ thuộc. Quan điểm “thuộc địa phải chờ chính quốc thắng trước” là của Quốc tế Cộng sản có lúc coi nhẹ cách mạng thuộc địa — Hồ Chí Minh không đồng ý."},{"id":"b7-5","buoi":"7","chuDe":"05","chuong":"Chương 3 — Cách mạng giải phóng dân tộc","cau":"Cách mạng giải phóng dân tộc cần ___, có khả năng giành thắng lợi trước cách mạng vô sản ở chính quốc.","dung":"chủ động, sáng tạo","bia":["kiên nhẫn chờ thời","dựa hoàn toàn vào viện trợ","đi sau chính quốc một bước"],"giai":"Tên luận điểm: “chủ động, sáng tạo, có khả năng giành thắng lợi trước”.","doiThuong":"Nhóm nào cũng ngồi chờ nhóm trưởng giao việc thì bài nhóm sẽ “thắng lợi sau cùng” — lúc 23 giờ 59."},{"id":"b7-6","buoi":"7","chuDe":"05","chuong":"Chương 3 — Cách mạng giải phóng dân tộc","cau":"Theo Hồ Chí Minh, Đảng Cộng sản Việt Nam vừa là đội tiên phong của giai cấp công nhân, vừa là đội tiên phong của ___.","dung":"nhân dân lao động","bia":["giai cấp nông dân","tầng lớp trí thức","các dân tộc thuộc địa"],"giai":"“…vừa là đội tiên phong của nhân dân lao động, kiên quyết nhất, hăng hái nhất, trong sạch nhất, tận tâm tận lực phụng sự Tổ quốc”."},{"id":"b7-7","buoi":"7","chuDe":"05","chuong":"Chương 3 — Cách mạng giải phóng dân tộc","trich":true,"cau":"Trong Bản án chế độ thực dân Pháp (1925), Người viết: “Chủ nghĩa tư bản là một ___ có một cái vòi bám vào giai cấp vô sản ở chính quốc và một cái vòi khác bám vào giai cấp vô sản ở thuộc địa”.","dung":"con đỉa","bia":["con bạch tuộc","con rắn","con sâu"],"giai":"Con đỉa hai vòi — muốn giết nó phải cắt cả hai vòi cùng lúc, nên cách mạng thuộc địa và cách mạng chính quốc phải gắn bó với nhau."},{"id":"b8-1","buoi":"8","chuDe":"06","chuong":"Chương 3 — Động lực của chủ nghĩa xã hội","cau":"Những động lực hàng đầu của chủ nghĩa xã hội: lợi ích của dân, ___, sức mạnh đoàn kết toàn dân.","dung":"dân chủ của dân","bia":["pháp luật của nhà nước","viện trợ quốc tế","vốn đầu tư nước ngoài"],"giai":"Ba động lực hàng đầu đều nằm ở nội lực, ở nhân dân: lợi ích — dân chủ — đoàn kết."},{"id":"b8-2","buoi":"8","chuDe":"06","chuong":"Chương 3 — Động lực của chủ nghĩa xã hội","trich":true,"cau":"Theo Hồ Chí Minh, “dân chủ là ___ của nhân dân”.","dung":"của quý báu nhất","bia":["quyền lợi đầu tiên","mục tiêu cuối cùng","nghĩa vụ thiêng liêng"],"giai":"“Dân chủ là của quý báu nhất của nhân dân”; “địa vị cao nhất là dân, vì dân là chủ”."},{"id":"b8-3","buoi":"8","chuDe":"06","chuong":"Chương 3 — Mục tiêu của chủ nghĩa xã hội","cau":"Mục tiêu của chủ nghĩa xã hội ở Việt Nam được xét trên bốn mặt: chính trị, kinh tế, văn hóa và ___.","dung":"xã hội","bia":["quốc phòng","đối ngoại","môi trường"],"giai":"Bốn mục tiêu: chính trị — kinh tế — văn hóa — xã hội. Câu hỏi thi hay hỏi “mục tiêu nào quan trọng nhất hiện nay”."},{"id":"b8-4","buoi":"8","chuDe":"06","chuong":"Chương 3 — Chủ nghĩa xã hội","cau":"Chủ nghĩa xã hội là xã hội bình đẳng, công bằng và hợp lý: làm nhiều hưởng nhiều, làm ít hưởng ít, ___.","dung":"không làm không hưởng","bia":["không làm vẫn được chia đều","ai cũng hưởng như nhau","làm ít cũng được bù cho đủ"],"giai":"“Không làm không hưởng” — bảo đảm phúc lợi cho người già, trẻ em và người còn khó khăn, nhưng không phải chia đều bất kể công sức.","doiThuong":"Bài nhóm mà ghi tên cả người không làm gì là trái nguyên tắc này."},{"id":"b8-5","buoi":"8","chuDe":"06","chuong":"Chương 3 — Động lực của chủ nghĩa xã hội","cau":"Hồ Chí Minh nhắc phải chống những tư tưởng, tác phong xấu: chủ nghĩa cá nhân; quan liêu, mệnh lệnh; tham ô, lãng phí; ___.","dung":"bảo thủ, rụt rè","bia":["chia rẽ, bè phái","xa hoa, trụy lạc","hữu khuynh, cơ hội"],"giai":"Bốn thứ phải chống trong đoạn này: chủ nghĩa cá nhân; quan liêu, mệnh lệnh; tham ô, lãng phí; bảo thủ, rụt rè."},{"id":"b9-1","buoi":"9","chuDe":"07","chuong":"Chương 4 — Sự ra đời của Đảng","cau":"Sự ra đời của Đảng Cộng sản Việt Nam là kết quả của sự kết hợp chủ nghĩa Mác - Lênin với ___.","dung":"phong trào công nhân và phong trào yêu nước","bia":["phong trào công nhân","phong trào nông dân và trí thức","phong trào cộng sản quốc tế"],"giai":"Lênin nói: chủ nghĩa Mác kết hợp với phong trào công nhân. Hồ Chí Minh thêm “phong trào yêu nước” — đó là điểm sáng tạo phù hợp nước thuộc địa."},{"id":"b9-2","buoi":"9","chuDe":"08","chuong":"Chương 4 — Đảng trong sạch, vững mạnh","trich":true,"cau":"Tại Lễ kỷ niệm 30 năm Ngày thành lập Đảng (năm 1960), Hồ Chí Minh khẳng định: “Đảng ta là ___”.","dung":"đạo đức, là văn minh","bia":["vững mạnh, là trong sạch","đội quân, là bộ tham mưu","đoàn kết, là thống nhất"],"giai":"“Đảng ta là đạo đức, là văn minh” — đầu mục “Đảng phải trong sạch, vững mạnh”."},{"id":"b9-3","buoi":"9","chuDe":"07","chuong":"Chương 4 — Đảng Cộng sản Việt Nam","trich":true,"cau":"Đảng Cộng sản Việt Nam “không phải trên trời sa xuống. Nó ___”.","dung":"ở trong xã hội mà ra","bia":["do lịch sử lựa chọn","do Quốc tế Cộng sản lập nên","do giai cấp công nhân sinh ra"],"giai":"“Nó ở trong xã hội mà ra.” Cùng một cách nói với câu về đạo đức cách mạng “không phải trên trời sa xuống”."},{"id":"b9-4","buoi":"9","chuDe":"08","chuong":"Chương 4 — Đảng Cộng sản Việt Nam","trich":true,"cau":"“Đảng không phải là một tổ chức để ___”.","dung":"làm quan phát tài","bia":["tranh giành quyền lực","làm kinh tế","hưởng thụ riêng"],"giai":"“Đảng không phải là một tổ chức để làm quan phát tài. Nó phải làm tròn nhiệm vụ giải phóng dân tộc, làm cho Tổ quốc giàu mạnh, đồng bào sung sướng.”","doiThuong":"Ai coi chức vụ là “cơ hội” làm giàu là đã hiểu ngược mục đích của tổ chức mình tham gia."},{"id":"b9-5","buoi":"9","chuDe":"09","chuong":"Chương 4 — Nhà nước dân chủ","cau":"Trong nhà nước do nhân dân, nòng cốt của nhân dân là liên minh ___, do giai cấp công nhân mà đội tiên phong của nó là Đảng Cộng sản lãnh đạo.","dung":"công - nông - trí","bia":["công - nông - binh","công nhân - tư sản dân tộc","nông dân - trí thức"],"giai":"Liên minh công - nông - trí. “Công - nông - binh” là cụm từ nghe quen nhưng không phải chữ của giáo trình ở đây."},{"id":"b10-1","buoi":"10","chuDe":"10","chuong":"Chương 4 — Nhà nước trong sạch, vững mạnh","cau":"Hồ Chí Minh coi tham ô, lãng phí, quan liêu là “___”, “giặc ở trong lòng”, thứ giặc nguy hiểm hơn giặc ngoại xâm.","dung":"giặc nội xâm","bia":["giặc dốt","giặc đói","giặc ngoài biên"],"giai":"“Giặc nội xâm”. Giặc đói, giặc dốt là hai thứ giặc khác Người nêu sau Cách mạng Tháng Tám — dễ nhầm.","doiThuong":"Mỗi vụ tham ô bị đưa ra xét xử là một trận đánh “giặc ở trong lòng”."},{"id":"b10-2","buoi":"10","chuDe":"10","chuong":"Chương 4 — Nhà nước trong sạch, vững mạnh","cau":"Theo quan điểm của Hồ Chí Minh, kiểm soát quyền lực nhà nước là ___.","dung":"tất yếu","bia":["không cần thiết nếu cán bộ có đạo đức","việc riêng của Quốc hội","biện pháp tạm thời"],"giai":"Tất yếu — vì cán bộ nhà nước, dù ít hay nhiều, đều nắm quyền lực trong tay. Đạo đức tốt không thay được kiểm soát."},{"id":"b10-3","buoi":"10","chuDe":"10","chuong":"Chương 4 — Phòng, chống tiêu cực trong Nhà nước","cau":"Cán bộ phải đi trước làm gương; cán bộ giữ chức vụ càng cao, ___.","dung":"trách nhiệm nêu gương càng lớn","bia":["quyền lợi được hưởng càng nhiều","càng ít phải chịu kiểm soát","càng cần được giữ uy tín"],"giai":"Biện pháp thứ tư: chức vụ càng cao, trách nhiệm nêu gương càng lớn — người đứng đầu nêu gương tác động mạnh nhất tới cấp dưới và nhân dân.","doiThuong":"Lớp trưởng nhắc cả lớp đi đúng giờ thì chính mình phải có mặt sớm nhất."},{"id":"b10-4","buoi":"10","chuDe":"10","chuong":"Chương 4 — Phòng, chống tiêu cực trong Nhà nước","cau":"Đặc quyền, đặc lợi là thói cậy mình là người trong cơ quan chính quyền để ___ với dân, lạm quyền.","dung":"cửa quyền, hách dịch","bia":["chia rẽ, bè phái","xa hoa, lãng phí","nói một đằng làm một nẻo"],"giai":"“Cửa quyền, hách dịch với dân, lạm quyền” — mặt thứ nhất trong ba nhóm tiêu cực (đặc quyền đặc lợi / tham ô lãng phí quan liêu / tư túng chia rẽ kiêu ngạo).","doiThuong":"Nộp hồ sơ mà bị bắt “quay lại sau” ba lần không rõ lý do — đó là mùi cửa quyền."},{"id":"b10-5","buoi":"10","chuDe":"11","chuong":"Chương 5 — Vai trò của đại đoàn kết","cau":"Đại đoàn kết toàn dân tộc là vấn đề có ý nghĩa ___, quyết định thành công của cách mạng.","dung":"chiến lược","bia":["sách lược","tạm thời","hỗ trợ"],"giai":"Chiến lược — lâu dài, nhất quán. “Sách lược” là cái bẫy kinh điển: đoàn kết không phải thủ đoạn nhất thời."},{"id":"b10-6","buoi":"10","chuDe":"11","chuong":"Chương 5 — Vai trò của đại đoàn kết","cau":"Đại đoàn kết toàn dân tộc là một ___ của cách mạng Việt Nam.","dung":"mục tiêu, nhiệm vụ hàng đầu","bia":["biện pháp tình thế","khẩu hiệu tuyên truyền","nhiệm vụ thứ yếu"],"giai":"Vai trò thứ hai: “mục tiêu, nhiệm vụ hàng đầu”. Đại đoàn kết không chỉ là khẩu hiệu chiến lược mà còn là mục tiêu lâu dài."},{"id":"b10-7","buoi":"10","chuDe":"11","chuong":"Chương 5 — Lực lượng của khối đại đoàn kết","cau":"Chủ thể của khối đại đoàn kết toàn dân tộc bao gồm ___.","dung":"toàn thể nhân dân, tất cả những người Việt Nam yêu nước","bia":["giai cấp công nhân và giai cấp nông dân","các đảng viên và đoàn viên","những người cùng giai cấp, cùng tôn giáo"],"giai":"Chủ thể là toàn thể nhân dân. Công nhân – nông dân là “nền tảng”, không phải “chủ thể” — hai khái niệm hay bị tráo.","doiThuong":"Nhóm lớp có bạn khác quê, khác tôn giáo, khác sở thích — vẫn chung một mục tiêu là qua môn."},{"id":"b10-8","buoi":"10","chuDe":"12","chuong":"Chương 5 — Mặt trận dân tộc thống nhất","cau":"Mặt trận dân tộc thống nhất phải được xây dựng trên nền tảng liên minh ___ và đặt dưới sự lãnh đạo của Đảng.","dung":"công nhân - nông dân - trí thức","bia":["công nhân - nông dân - binh lính","công nhân - tư sản dân tộc","toàn thể các tôn giáo"],"giai":"Nguyên tắc thứ nhất của Mặt trận: nền tảng liên minh công nhân - nông dân - trí thức, dưới sự lãnh đạo của Đảng."},{"id":"b10-9","buoi":"10","chuDe":"12","chuong":"Chương 5 — Điều kiện xây dựng khối đại đoàn kết","cau":"Một điều kiện để xây dựng khối đại đoàn kết toàn dân tộc: phải có lòng ___ với con người.","dung":"khoan dung, độ lượng","bia":["nghiêm khắc, cứng rắn","cảnh giác, dè chừng","thương hại, ban ơn"],"giai":"“Phải có lòng khoan dung, độ lượng với con người” — cùng với niềm tin vào nhân dân.","doiThuong":"Bạn cùng nhóm lỡ nộp muộn một lần — góp ý thẳng nhưng đừng loại luôn khỏi nhóm."},{"id":"b11-1","buoi":"11","chuDe":"13","chuong":"Chương 6 — Chuẩn mực đạo đức cách mạng","cau":"Trung với nước, hiếu với dân là phẩm chất đạo đức ___ và chi phối các phẩm chất khác.","dung":"bao trùm quan trọng nhất","bia":["truyền thống lâu đời nhất","dành riêng cho quân đội","cơ bản đầu tiên"],"giai":"“Bao trùm quan trọng nhất” — trung, hiếu là khái niệm cũ, được Hồ Chí Minh đưa vào nội dung mới: trung với nước chứ không phải trung với vua."},{"id":"b11-2","buoi":"11","chuDe":"13","chuong":"Chương 6 — Chuẩn mực đạo đức cách mạng","trich":true,"cau":"“Cần tức là siêng năng, chăm chỉ, cố gắng dẻo dai... Muốn cho chữ Cần có nhiều kết quả hơn, thì phải ___”.","dung":"có kế hoạch cho mọi công việc","bia":["làm việc suốt ngày đêm","có người đôn đốc thường xuyên","làm thật nhanh cho xong"],"giai":"“…thì phải có kế hoạch cho mọi công việc.” Cần không phải là cày bất kể.","doiThuong":"Ôn thi cả đêm trước ngày thi mà không có kế hoạch — chăm thì có, Cần thì chưa."},{"id":"b11-3","buoi":"11","chuDe":"13","chuong":"Chương 6 — Chuẩn mực đạo đức cách mạng","trich":true,"cau":"“CẦN với KIỆM phải đi đôi với nhau, như ___”.","dung":"hai chân của con người","bia":["hai mặt của một đồng tiền","hai cánh của một con chim","hai bánh của một chiếc xe"],"giai":"“…như hai chân của con người.” Kiệm là “tiết kiệm, không xa xỉ, không hoang phí, không bừa bãi”.","doiThuong":"Lương làm thêm về hôm trước, hết sạch hôm sau — mới có Cần, chưa có Kiệm, đang đi một chân."},{"id":"b11-4","buoi":"11","chuDe":"13","chuong":"Chương 6 — Chuẩn mực đạo đức cách mạng","trich":true,"cau":"Liêm “là trong sạch, ___”.","dung":"không tham lam","bia":["không nói dối","không lười biếng","không kiêu ngạo"],"giai":"Liêm “là trong sạch, không tham lam… Có KIỆM mới LIÊM được”. Không lười biếng là Cần; không kiêu ngạo gần với Chính."},{"id":"b11-5","buoi":"11","chuDe":"13","chuong":"Chương 6 — Chuẩn mực đạo đức cách mạng","cau":"Chí công vô tư là hoàn toàn vì lợi ích chung, không vì tư lợi; chỉ biết vì Đảng, vì dân tộc, “___”.","dung":"lo trước thiên hạ, vui sau thiên hạ","bia":["mình vì mọi người, mọi người vì mình","việc nước trước, việc nhà sau","ăn quả nhớ kẻ trồng cây"],"giai":"“Lo trước thiên hạ, vui sau thiên hạ” — và chí công vô tư là chống chủ nghĩa cá nhân."},{"id":"b11-6","buoi":"11","chuDe":"13","chuong":"Chương 6 — Chuẩn mực đạo đức cách mạng","cau":"Cán bộ, công chức nếu không giữ đúng cần, kiệm, liêm, chính thì dễ trở nên hủ bại, biến thành ___.","dung":"sâu mọt của dân","bia":["gánh nặng của xã hội","kẻ thù của Đảng","giặc ngoại xâm"],"giai":"“…dễ trở nên hủ bại, biến thành sâu mọt của dân.” Cán bộ, đảng viên phải thực hành cần, kiệm, liêm, chính trước để làm kiểu mẫu."},{"id":"b11-7","buoi":"11","chuDe":"14","chuong":"Chương 6 — Nguyên tắc xây dựng đạo đức","cau":"Nói đi đôi với làm được Hồ Chí Minh coi là nguyên tắc ___ trong xây dựng nền đạo đức mới.","dung":"quan trọng bậc nhất","bia":["bổ trợ","dành riêng cho cán bộ cấp cao","khó thực hiện nhất"],"giai":"“Nguyên tắc quan trọng bậc nhất” — đối lập với thói đạo đức giả, nói một đằng làm một nẻo.","doiThuong":"Đăng story “tuần này quyết tâm học” rồi mở game — nói chưa đi đôi với làm."},{"id":"b11-8","buoi":"11","chuDe":"14","chuong":"Chương 6 — Nguyên tắc xây dựng đạo đức","trich":true,"cau":"“Đạo đức cách mạng không phải trên trời sa xuống. Nó do đấu tranh, rèn luyện bền bỉ hằng ngày mà phát triển và củng cố. Cũng như ___”.","dung":"ngọc càng mài càng sáng, vàng càng luyện càng trong","bia":["nước chảy đá mòn, kiên trì ắt thành","có công mài sắt, có ngày nên kim","lửa thử vàng, gian nan thử sức"],"giai":"“Cũng như ngọc càng mài càng sáng, vàng càng luyện càng trong.” Hai câu bịa là tục ngữ quen — nghe rất hợp nhưng không phải lời trong giáo trình."},{"id":"b11-9","buoi":"11","chuDe":"14","chuong":"Chương 6 — Nguyên tắc xây dựng đạo đức","cau":"Theo Hồ Chí Minh, tu dưỡng đạo đức như một cuộc cách mạng ___.","dung":"trường kỳ, gian khổ","bia":["chớp nhoáng, quyết liệt","làm một lần là xong","dành riêng cho tuổi trẻ"],"giai":"“Trường kỳ, gian khổ” — nên nguyên tắc thứ ba là tu dưỡng đạo đức suốt đời."},{"id":"b11-10","buoi":"11","chuDe":"13","chuong":"Chương 6 — Chuẩn mực đạo đức cách mạng","trich":true,"cau":"Tinh thần quốc tế trong sáng: “Quan sơn muôn dặm một nhà, ___”.","dung":"Bốn phương vô sản đều là anh em","bia":["Năm châu bốn biển đều là anh em","Bốn phương vô sản chung một con đường","Trong nhà đoàn kết, ngoài ngõ thuận hòa"],"giai":"“Quan sơn muôn dặm một nhà, Bốn phương vô sản đều là anh em!”"}]};</script>
+
+<!-- ============ TRANG ĐẦU ============ -->
+<section class="screen on" id="s-home"><div class="page">
+  <div class="top"><h1>Ai chưa chính xác?</h1><span class="sp"></span><span class="eyebrow">Tư tưởng Hồ Chí Minh · POL1001</span></div>
+  <p class="muted" style="margin-bottom:16px;font-size:17px">Mấy câu dưới đây, câu nào cũng nói giọng chắc nịch. Nhưng <b>đúng một câu</b> đã bị tráo một cụm từ. Tìm ra câu chưa chính xác.</p>
+  <div class="picks">
+    <button class="pick" id="p-cn"><div class="t">Chơi một mình</div><div class="d">Bốn nhân vật văn phòng phẩm thay nhau phát biểu. Một đứa đang nói chưa chính xác.</div></button>
+    <button class="pick" id="p-nhom"><div class="t">Cả nhóm — mỗi người một máy</div><div class="d">Nhóm trưởng tạo mã ván. Mỗi người nhận một thẻ, đọc to cho cả nhóm nghe, rồi bỏ phiếu.</div></button>
+    <button class="pick" id="p-ct"><div class="t">Cả nhóm — một máy chuyền tay</div><div class="d">Nhóm chỉ có một điện thoại? Chuyền tay nhau, ai cầm máy thì đọc to thẻ của mình.</div></button>
+  </div>
+  <p class="doi-song" style="margin-top:18px"><b>Nhìn ra đời sống.</b> Nhóm chat nào cũng có một người nói rất tự tin mà sai đúng một chữ — và cả nhóm tin theo. Bài thi cũng vậy: sai một chữ then chốt là mất điểm cả ý. Game này luyện tai nghe ra chữ sai đó.</p>
+</div></section>
+
+<!-- ============ CÁ NHÂN ============ -->
+<section class="screen" id="s-cn-vao"><div class="page stack">
+  <div class="top"><button class="link" data-home>← Trang đầu</button><span class="sp"></span><span class="eyebrow">Chơi một mình</span></div>
+  <h2>Chọn bài</h2>
+  <div class="card stack">
+    <label class="f">Tên (số thứ tự điểm danh + tên)<input id="cn-ten" maxlength="40" placeholder="Ví dụ: 12 - Lan"></label>
+    <label class="f">Bài<select id="cn-buoi"></select></label>
+    <label class="chk"><input type="checkbox" id="cn-tron" checked> Trộn cả các buổi trước (ôn tích lũy)</label>
+    <label class="f">Số vòng<select id="cn-so"><option>5</option><option selected>8</option><option>12</option></select></label>
+    <button class="btn w" id="cn-bat">Vào phòng họp</button>
+  </div>
+</div></section>
+
+<section class="screen" id="s-cn-choi"><div class="page stack">
+  <div class="top"><button class="link" data-home>← Thoát</button><span class="sp"></span>
+    <div class="hud"><span class="chip" id="cn-tien"></span><span class="chip" id="cn-diem"></span></div></div>
+  <p class="muted" id="cn-hd">Chạm vào nhân vật bạn nghĩ đang nói chưa chính xác.</p>
+  <div class="hoi" id="cn-hoi"></div>
+  <div class="card stack" id="cn-lat" hidden>
+    <h3 id="cn-kl"></h3>
+    <div id="cn-giai"></div>
+    <button class="btn w" id="cn-tiep">Vòng tiếp</button>
+  </div>
+</div></section>
+
+<section class="screen" id="s-cn-kq"><div class="page stack">
+  <div class="top"><button class="link" data-home>← Trang đầu</button><span class="sp"></span><span class="eyebrow">Kết quả</span></div>
+  <div class="card stack" style="text-align:center">
+    <p class="eyebrow" id="kq-ten"></p>
+    <h2 style="font-size:38px" id="kq-dh"></h2>
+    <p class="ma" id="kq-so"></p>
+    <p class="muted" id="kq-nx"></p>
+  </div>
+  <div id="kq-sai" class="stack"></div>
+  <div class="row"><button class="btn" id="kq-lai">Chơi lại</button><button class="btn g" data-home>Trang đầu</button></div>
+</div></section>
+
+<!-- ============ NHÓM: MỖI NGƯỜI MỘT MÁY ============ -->
+<section class="screen" id="s-nh-vao"><div class="page stack">
+  <div class="top"><button class="link" data-home>← Trang đầu</button><span class="sp"></span><span class="eyebrow">Mỗi người một máy</span></div>
+  <div class="tab" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="vao">Thành viên — vào ván</button>
+    <button role="tab" aria-selected="false" data-tab="tao">Nhóm trưởng — tạo ván</button>
+  </div>
+  <div class="card stack" id="tab-vao">
+    <label class="f">Mã ván (nhóm trưởng đọc)<input id="nh-ma" maxlength="12" placeholder="Ví dụ: 6-5-382" autocomplete="off"></label>
+    <div><p class="small muted" style="margin-bottom:6px">Chữ cái của bạn — mỗi người một chữ, không trùng</p><div class="chus" id="nh-chu"></div></div>
+    <p class="warn" id="nh-loi" hidden></p>
+    <button class="btn w" id="nh-vao">Nhận thẻ</button>
+  </div>
+  <div class="card stack" id="tab-tao" hidden>
+    <label class="f">Bài<select id="tao-buoi"></select></label>
+    <label class="chk"><input type="checkbox" id="tao-tron"> Trộn cả các buổi trước</label>
+    <label class="f">Số người trong nhóm cầm máy<select id="tao-n"></select></label>
+    <button class="btn w" id="tao-bat">Tạo mã ván</button>
+    <div id="tao-kq" class="stack" hidden>
+      <p class="eyebrow">Đọc mã này cho cả nhóm</p>
+      <p class="ma" id="tao-ma"></p>
+      <p class="small muted" id="tao-chia"></p>
+      <p class="doi-song small"><b>Luật một câu:</b> mỗi vòng có đúng một thẻ chưa chính xác — kể cả người cầm nó cũng không biết; cả nhóm bắt đúng thì được một vòng.</p>
+      <button class="btn w" id="tao-vao">Nhóm trưởng nhận thẻ (chữ A)</button>
+    </div>
+  </div>
+</div></section>
+
+<section class="screen" id="s-nh"><div class="page stack">
+  <div class="top"><button class="link" data-home>← Rời ván</button><span class="sp"></span>
+    <div class="hud"><span class="chip" id="nh-ma-txt"></span><span class="chip" id="nh-ban"></span><span class="chip" id="nh-diem" hidden></span></div></div>
+  <div class="vong"><button class="btn g sm" id="nh-lui">◀</button><span class="so" id="nh-vong"></span><button class="btn g sm" id="nh-toi">▶</button>
+    <span class="small muted">Cả nhóm cùng một số vòng.</span></div>
+  <div id="nh-main" class="stack"></div>
+  <div id="nh-lat" class="stack"></div>
+</div></section>
+
+<!-- ============ NHÓM: MỘT MÁY CHUYỀN TAY ============ -->
+<section class="screen" id="s-ct-vao"><div class="page stack">
+  <div class="top"><button class="link" data-home>← Trang đầu</button><span class="sp"></span><span class="eyebrow">Một máy chuyền tay</span></div>
+  <h2>Chuẩn bị</h2>
+  <div class="card stack">
+    <label class="f">Bài<select id="ct-buoi"></select></label>
+    <label class="chk"><input type="checkbox" id="ct-tron"> Trộn cả các buổi trước</label>
+    <div class="grid2">
+      <label class="f">Số người đọc thẻ<select id="ct-n"></select></label>
+      <label class="f">Số vòng<select id="ct-so"><option>3</option><option selected>5</option><option>8</option></select></label>
+    </div>
+    <p class="doi-song small"><b>Luật một câu:</b> máy chuyền qua từng người, ai cầm thì đọc to thẻ của mình; đúng một thẻ chưa chính xác, cả nhóm tìm đúng thì được một vòng.</p>
+    <button class="btn w" id="ct-bat">Bắt đầu</button>
+  </div>
+</div></section>
+
+<section class="screen" id="s-ct"><div class="page stack">
+  <div class="top"><button class="link" data-home>← Thoát</button><span class="sp"></span>
+    <div class="hud"><span class="chip" id="ct-tien"></span><span class="chip" id="ct-diem"></span></div></div>
+  <div id="ct-main" class="stack"></div>
+</div></section>
+
+<script>
+"use strict";
+/* ============================================================
+   AI CHƯA CHÍNH XÁC? — Tư tưởng Hồ Chí Minh (POL1001)
+   Dữ liệu: du-lieu/game-data/cau-bia.json (nhúng khi dựng bằng
+   cong-cu/tao-game-bia.py). Thẻ chưa chính xác = câu thật với cụm then
+   chốt bị tráo bằng một cụm bịa. Không cần mạng: mã ván sinh ra
+   cùng một bộ thẻ trên mọi máy.
+   ============================================================ */
+const D = window.CAU_BIA;
+const $  = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const CHU_CAI = "ABCDEFGH";
+const TOI_DA = 8;
+const BUOI = Object.keys(D.buoi).sort((a,b)=>a-b);
+
+function rng(seed){ let a = seed >>> 0; return function(){
+  a |= 0; a = a + 0x6D2B79F5 | 0;
+  let t = Math.imul(a ^ a >>> 15, 1 | a);
+  t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+  return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+}
+function xao(arr, r){ const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j = Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const mot = arr => arr[Math.floor(Math.random()*arr.length)];
+function kho(buoi, tron){ return D.cau.filter(c => tron ? +c.buoi <= +buoi : c.buoi === buoi); }
+function dien(c, cum){ return c.cau.replace("___", cum); }
+function dienHTML(c, cum, lop){ const [a,b] = c.cau.split("___"); return esc(a) + `<mark class="${lop}">${esc(cum)}</mark>` + esc(b); }
+function show(id){
+  $$(".screen").forEach(e=>e.classList.remove("on"));
+  $("#s-"+id).classList.add("on");
+  window.scrollTo({top:0, behavior:"instant"});
+}
+function veBuoi(sel){
+  sel.innerHTML = BUOI.map(b=>`<option value="${b}">Buổi ${b} — ${esc(D.buoi[b])} (${kho(b,false).length} câu)</option>`).join("");
+}
+function luuDoc(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function luuGhi(k, v){ try{ localStorage.setItem(k, v); }catch(e){} }
+
+/* Lời giải cho thẻ chưa chính xác: câu sai (gạch cụm bịa) → nguyên văn → vì sao */
+function giaiHTML(the){
+  const c = the.c;
+  return `<p class="eyebrow">Thẻ chưa chính xác nói</p><p>${dienHTML(c, the.bia, "bia gach")}</p>
+    <p class="eyebrow">Nguyên văn</p><p style="font-size:17px">${dienHTML(c, c.dung, "dung")}</p>
+    <p class="giai">${esc(c.giai)}</p>` +
+    (c.doiThuong ? `<p class="doi-song"><b>Nhìn ra đời sống.</b> ${esc(c.doiThuong)}</p>` : "") +
+    `<p class="nguon">Buổi ${esc(c.buoi)} · Giáo trình 2026 · ${esc(c.chuong)}</p>`;
+}
+
+/* Chia thẻ một vòng — cùng hạt giống thì mọi máy ra cùng một bộ.
+   the[i].gio = true là thẻ chưa chính xác. */
+function chiaVong(buoi, tron, soNguoi, seed, vong){
+  const r = rng(seed*7919 + vong*104729 + (+buoi)*131 + (tron ? 17 : 0));
+  /* câu buổi đang chọn lấy trước, câu buổi cũ bù cho đủ người; thẻ chưa chính xác luôn là câu buổi đang chọn */
+  const nay = xao(kho(buoi, false), r), cu = tron ? xao(D.cau.filter(c=> +c.buoi < +buoi), r) : [];
+  const soThe = Math.min(soNguoi, nay.length + cu.length);
+  const bo = xao(nay.concat(cu).slice(0, soThe), r);
+  const viTri = bo.map((c,i)=> c.buoi === buoi ? i : -1).filter(i=> i >= 0);
+  const gio = viTri[Math.floor(r()*viTri.length)], k = Math.floor(r()*3);
+  return bo.map((c,i)=>({c, gio: i === gio, bia: c.bia[k], tx: i === gio ? dien(c, c.bia[k]) : dien(c, c.dung)}));
+}
+const XEP = [
+  {min:1.00, dh:"Máy dò sai sót",      nx:"Không một chữ sai nào lọt qua tai bạn."},
+  {min:0.75, dh:"Tai thính",         nx:"Gần như bắt hết. Đọc lại vài câu bên dưới là kín."},
+  {min:0.50, dh:"Nghe ra được một nửa", nx:"Ý thì nhớ, chữ then chốt thì còn lỏng. Xem lại các câu bên dưới."},
+  {min:0,    dh:"Còn dễ tin", nx:"Không sao — mỗi câu bị lừa là một chữ bạn sẽ không viết sai trong bài thi nữa."}
+];
+
+/* ============================================================
+   CHƠI MỘT MÌNH — bốn nhân vật văn phòng phẩm
+   ============================================================ */
+const NPC = [
+  {ten:"Thước Kẻ",     mo:"Nói thẳng như kẻ chỉ:",           mau:"#1F7A8C", chu:"T",
+   oan:"Oan! Tôi thẳng như thước kẻ, sai một li tôi biết ngay.", thu:"Chắc… tôi kẻ lệch một li. Một li thôi mà."},
+  {ten:"Bút Dạ Quang", mo:"CHỖ NÀY QUAN TRỌNG NÈ:",          mau:"#C8890B", chu:"B",
+   oan:"Ơ kìa, tôi tô đậm đúng từng chữ đấy nhé!",             thu:"Ờ thì… tôi tô đậm nhầm dòng."},
+  {ten:"Cục Tẩy",      mo:"Ờm… mình nhớ không nhầm thì:",    mau:"#CB4F70", chu:"C",
+   oan:"Lần này mình nhớ không nhầm thật mà!",                 thu:"Mình… lỡ tẩy mất đúng chữ quan trọng."},
+  {ten:"Kẹp Giấy",     mo:"Tôi kẹp chặt ý này rồi:",          mau:"#7B3FA0", chu:"K",
+   oan:"Tôi kẹp chặt từng chữ, không rơi chữ nào!",            thu:"Kẹp chặt ý… nhưng rơi mất chữ."},
+  {ten:"Ghim Bấm",     mo:"Chốt một phát, khỏi bàn:",         mau:"#2F6B52", chu:"G",
+   oan:"Ghim bấm không bao giờ bấm nhầm, nhớ đấy.",            thu:"Bấm nhanh quá nên ghim lệch."},
+  {ten:"Giấy Nhớ",     mo:"Dán lên tủ lạnh đi này:",          mau:"#D9682A", chu:"N",
+   oan:"Tôi là giấy NHỚ, không phải giấy QUÊN!",               thu:"Tôi nhớ đại ý thôi… nên mới bị lột ra."}
+];
+const CN = {};
+$("#p-cn").onclick = ()=>{ show("cn-vao"); };
+$("#cn-bat").onclick = ()=>{
+  const b = $("#cn-buoi").value, tron = $("#cn-tron").checked;
+  Object.assign(CN, {ten: $("#cn-ten").value.trim() || "Bạn", buoi: b, tron, so: +$("#cn-so").value,
+    i: 0, diem: 0, sai: [], seed: Math.floor(Math.random()*1e9), daGio: new Set()});
+  luuGhi("chinhxac-ten", CN.ten);
+  show("cn-choi"); cnVong();
+};
+function cnVong(){
+  /* chọn 4 câu; ưu tiên câu chưa từng làm thẻ chưa chính xác */
+  const r = rng(CN.seed + CN.i*65537);
+  const p = xao(kho(CN.buoi, CN.tron), r);
+  const nay = p.filter(c=> c.buoi === CN.buoi);          /* thẻ chưa chính xác luôn là câu của buổi đang chọn */
+  const chuaGio = nay.filter(c=> !CN.daGio.has(c.id));
+  const gioC = (chuaGio.length ? chuaGio : nay)[0];
+  const khac = p.filter(c=> c !== gioC).slice(0, 3);
+  const bon = xao([gioC, ...khac], r);
+  const k = Math.floor(r()*3);
+  CN.daGio.add(gioC.id);
+  const nv = xao(NPC, r).slice(0, bon.length);
+  CN.the = bon.map((c,i)=>({c, gio: c === gioC, bia: c.bia[k], tx: c === gioC ? dien(c, c.bia[k]) : dien(c, c.dung), nv: nv[i]}));
+  CN.xong = false;
+  $("#cn-tien").textContent = "Vòng " + (CN.i+1) + "/" + CN.so;
+  $("#cn-diem").textContent = "Bắt được " + CN.diem;
+  $("#cn-hd").textContent = "Chạm vào nhân vật bạn nghĩ đang nói chưa chính xác.";
+  $("#cn-hoi").innerHTML = CN.the.map((t,i)=>`
+    <button class="nv" data-i="${i}"><span class="av" style="background:${t.nv.mau}">${t.nv.chu}</span>
+      <span><span class="ten">${esc(t.nv.ten)}</span> <span class="mo">${esc(t.nv.mo)}</span>
+      <span class="noi">${esc(t.tx)}</span><span class="dap"></span></span></button>`).join("");
+  $$("#cn-hoi .nv").forEach(b=> b.onclick = ()=> cnBat(+b.dataset.i));
+  $("#cn-lat").hidden = true;
+}
+function cnBat(i){
+  if(CN.xong) return; CN.xong = true;
+  const g = CN.the.findIndex(t=> t.gio), trung = i === g;
+  $$("#cn-hoi .nv").forEach((b,j)=>{
+    b.disabled = true;
+    const t = CN.the[j], dap = b.querySelector(".dap");
+    if(j === g){ b.classList.add("la-gio"); dap.textContent = "🙊 " + t.nv.thu; }
+    else if(j === i){ b.classList.add("oan"); dap.textContent = "😤 " + t.nv.oan; }
+    else b.classList.add("sach");
+  });
+  if(trung) CN.diem++; else CN.sai.push(CN.the[g]);
+  $("#cn-diem").textContent = "Bắt được " + CN.diem;
+  $("#cn-kl").textContent = trung ? "Bắt đúng! " + CN.the[g].nv.ten + " đang nói chưa chính xác." : "Trượt rồi — người nói chưa chính xác là " + CN.the[g].nv.ten + ".";
+  $("#cn-giai").innerHTML = giaiHTML(CN.the[g]);
+  $("#cn-tiep").textContent = CN.i + 1 < CN.so ? "Vòng tiếp" : "Xem kết quả";
+  $("#cn-lat").hidden = false;
+  $("#cn-lat").scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+$("#cn-tiep").onclick = ()=>{ CN.i++; if(CN.i < CN.so) cnVong(); else cnKetQua(); };
+function cnKetQua(){
+  const ty = CN.diem / CN.so, x = XEP.find(e=> ty >= e.min);
+  $("#kq-ten").textContent = CN.ten + " · Buổi " + CN.buoi + (CN.tron ? " (trộn)" : "");
+  $("#kq-dh").textContent = x.dh;
+  $("#kq-so").textContent = CN.diem + "/" + CN.so;
+  $("#kq-nx").textContent = x.nx;
+  $("#kq-sai").innerHTML = CN.sai.length
+    ? `<h3>Những câu chưa chính xác đã lọt tai — đọc lại nguyên văn</h3>` + CN.sai.map(t=>`<div class="card stack">${giaiHTML(t)}</div>`).join("")
+    : `<p class="doi-song">Bắt trọn không sót. Thử bật <b>Trộn cả các buổi trước</b> cho khó hơn.</p>`;
+  show("cn-kq");
+}
+$("#kq-lai").onclick = ()=> $("#cn-bat").click();
+
+/* ============================================================
+   NHÓM — MỖI NGƯỜI MỘT MÁY (không cần mạng)
+   Mã ván: <buổi>[T]-<số người>-<hạt giống>, ví dụ 6-5-382, 9T-6-517
+   ============================================================ */
+const NH = {buoi:"", tron:false, n:0, seed:0, ma:"", chu:"", vong:1, kq:{}};
+function docMa(s){
+  const m = String(s).trim().toUpperCase().replace(/\s+/g, "").match(/^(\d{1,2})(T?)-(\d)-(\d{3})$/);
+  if(!m || !D.buoi[m[1]]) return null;
+  const n = +m[3]; if(n < 2 || n > TOI_DA) return null;
+  return {buoi: m[1], tron: m[2] === "T", n, seed: +m[4]};
+}
+$("#p-nhom").onclick = ()=>{ show("nh-vao"); veChu(); $("#nh-ma").value = luuDoc("chinhxac-ma") || ""; };
+$$("[data-tab]").forEach(b=> b.onclick = ()=>{
+  $$("[data-tab]").forEach(x=> x.setAttribute("aria-selected", x === b));
+  $("#tab-vao").hidden = b.dataset.tab !== "vao"; $("#tab-tao").hidden = b.dataset.tab !== "tao";
+});
+function veChu(){
+  const cu = luuDoc("chinhxac-chu") || "";
+  $("#nh-chu").innerHTML = CHU_CAI.split("").map(c=>`<button data-c="${c}" aria-pressed="${c === cu}">${c}</button>`).join("");
+  NH.chu = cu;
+  $$("#nh-chu button").forEach(b=> b.onclick = ()=>{ NH.chu = b.dataset.c; $$("#nh-chu button").forEach(x=> x.setAttribute("aria-pressed", x === b)); });
+}
+function veSoNguoi(sel, buoiSel, tronBox){
+  const ve = ()=>{
+    const toiDa = Math.min(TOI_DA, kho(buoiSel.value, tronBox.checked).length), cu = +sel.value || 4;
+    sel.innerHTML = Array.from({length: toiDa - 1}, (_, i)=> i + 2).map(n=>`<option ${n === Math.min(cu, toiDa) ? "selected" : ""}>${n}</option>`).join("");
+  };
+  buoiSel.onchange = ve; tronBox.onchange = ve; ve();
+}
+$("#tao-bat").onclick = ()=>{
+  const b = $("#tao-buoi").value, tron = $("#tao-tron").checked, n = +$("#tao-n").value;
+  const ma = b + (tron ? "T" : "") + "-" + n + "-" + (100 + Math.floor(Math.random()*900));
+  $("#tao-ma").textContent = ma;
+  $("#tao-chia").innerHTML = `Buổi ${b} · ${n} người, chữ A đến ${CHU_CAI[n-1]}. Bạn nào không cầm máy thì làm <b>trọng tài</b>: nghe, hỏi vặn, giữ cho mỗi người đọc đúng nguyên văn thẻ.`;
+  $("#tao-kq").hidden = false;
+  $("#tao-vao").onclick = ()=> vaoVan(ma, "A");
+};
+$("#nh-vao").onclick = ()=>{
+  const loi = $("#nh-loi"), ma = $("#nh-ma").value;
+  if(!docMa(ma)){ loi.textContent = "Mã ván chưa đúng dạng. Ví dụ đúng: 6-5-382 (buổi 6, 5 người, số 382)."; loi.hidden = false; return; }
+  if(!NH.chu){ loi.textContent = "Chọn chữ cái của bạn — hỏi nhóm trưởng xem mình là chữ nào."; loi.hidden = false; return; }
+  const v = docMa(ma);
+  if(CHU_CAI.indexOf(NH.chu) >= v.n){ loi.textContent = `Ván này chỉ có ${v.n} người, từ A đến ${CHU_CAI[v.n-1]}.`; loi.hidden = false; return; }
+  loi.hidden = true; vaoVan(ma, NH.chu);
+};
+function vaoVan(ma, chu){
+  const v = docMa(ma);
+  Object.assign(NH, v, {ma: ma.trim().toUpperCase(), chu, vong: 1, kq: {}});
+  luuGhi("chinhxac-ma", NH.ma); luuGhi("chinhxac-chu", chu);
+  $("#nh-ma-txt").textContent = "Ván " + NH.ma;
+  $("#nh-ban").textContent = "Bạn là " + chu + (chu === "A" ? " · nhóm trưởng" : "");
+  show("nh"); nhVe();
+}
+$("#nh-lui").onclick = ()=>{ if(NH.vong > 1){ NH.vong--; nhVe(); } };
+$("#nh-toi").onclick = ()=>{ NH.vong++; nhVe(); };
+function nhVe(){
+  const bo = chiaVong(NH.buoi, NH.tron, NH.n, NH.seed, NH.vong), i = CHU_CAI.indexOf(NH.chu);
+  $("#nh-vong").textContent = "Vòng " + NH.vong;
+  const the = bo[i];
+  $("#nh-main").innerHTML = the
+    ? `<p class="eyebrow">Thẻ của bạn — ${NH.chu}</p><div class="the-lon">${esc(the.tx)}</div>
+       <p class="muted small">Tới lượt thì <b>đọc to nguyên văn</b>, không đọc lướt. Thẻ này có thể đúng, có thể là thẻ chưa chính xác — <b>chính bạn cũng không biết</b>. Được quyền cãi nếu bị nghi oan.</p>`
+    : `<div class="card stack"><p class="cho-ngoi">${NH.chu}</p><h3>Vòng này bạn là trọng tài</h3>
+       <p class="muted">Bài này chỉ đủ ${bo.length} thẻ. Nghe từng người đọc, hỏi vặn chữ nào nghe lạ, và giữ nhịp bỏ phiếu.</p></div>`;
+  /* NH.kq[vòng] = {bat: nhóm bắt đúng?, chon: chỉ số thẻ nhóm bầu} — chỉ máy nhóm trưởng giữ */
+  const ds = Object.values(NH.kq), bat = ds.filter(x=> x.bat).length;
+  const d = $("#nh-diem"); d.hidden = NH.chu !== "A" || !ds.length; d.textContent = "Bắt được " + bat + "/" + ds.length;
+  if(NH.chu !== "A"){ $("#nh-lat").innerHTML = ""; return; }
+  $("#nh-lat").innerHTML = NH.kq[NH.vong] ? latHTML(bo, NH.kq[NH.vong].chon) :
+    `<div class="card stack"><h3>Nhóm trưởng: bỏ phiếu rồi lật bài</h3>
+      <p class="small muted">Mọi người đọc xong thẻ → bàn nhau tối đa 1 phút → đếm 1-2-3 cùng chỉ tay. Chạm chữ cái bị nhiều người chỉ nhất.</p>
+      <div class="chus">${bo.map((_, j)=>`<button data-bau="${j}">${CHU_CAI[j]}</button>`).join("")}</div></div>`;
+  $$("[data-bau]").forEach(b=> b.onclick = ()=>{
+    const j = +b.dataset.bau; NH.kq[NH.vong] = {bat: bo[j].gio, chon: j};
+    nhVe();
+  });
+  const tiep = $("#nh-tiep"); if(tiep) tiep.onclick = ()=>{ NH.vong++; nhVe(); };
+}
+function latHTML(bo, chon){
+  const g = bo.findIndex(t=> t.gio), trung = chon === g;
+  return `<div class="card stack"><h2>${trung ? "Tìm đúng! Thẻ " + CHU_CAI[g] + " chưa chính xác 🎯" : "Để lọt rồi — thẻ chưa chính xác là " + CHU_CAI[g] + (chon >= 0 ? " (nhóm bầu " + CHU_CAI[chon] + ")" : "")}</h2>
+    ${giaiHTML(bo[g])}
+    <details><summary class="small">Xem lại cả ${bo.length} thẻ của vòng này</summary><div class="ds-the" style="margin-top:8px">
+      ${bo.map((t,j)=>`<div class="dong ${t.gio ? "gio" : ""}"><b>${CHU_CAI[j]}</b><span>${t.gio ? dienHTML(t.c, t.bia, "bia gach") : dienHTML(t.c, t.c.dung, "dung")}</span></div>`).join("")}</div></details>
+    <button class="btn w" id="nh-tiep">Vòng tiếp — cả nhóm bấm ▶</button></div>`;
+}
+
+/* ============================================================
+   NHÓM — MỘT MÁY CHUYỀN TAY
+   ============================================================ */
+const CT = {};
+$("#p-ct").onclick = ()=> show("ct-vao");
+$("#ct-bat").onclick = ()=>{
+  Object.assign(CT, {buoi: $("#ct-buoi").value, tron: $("#ct-tron").checked, n: +$("#ct-n").value, so: +$("#ct-so").value,
+    seed: Math.floor(Math.random()*900) + 100, vong: 1, buoc: 0, bat: 0, sai: []});
+  show("ct"); ctVe();
+};
+function ctVe(){
+  const bo = chiaVong(CT.buoi, CT.tron, CT.n, CT.seed, CT.vong), m = $("#ct-main");
+  $("#ct-tien").textContent = "Vòng " + CT.vong + "/" + CT.so;
+  $("#ct-diem").textContent = "Bắt được " + CT.bat;
+  if(CT.buoc < bo.length * 2){
+    const j = Math.floor(CT.buoc / 2), c = CHU_CAI[j];
+    if(CT.buoc % 2 === 0){
+      m.innerHTML = `<div class="card stack" style="text-align:center"><p class="eyebrow">Người thứ ${j+1}/${bo.length}</p>
+        <p class="cho-ngoi">${c}</p><h2>Đưa máy cho bạn ${c}</h2><p class="muted">Bạn ${c} cầm máy rồi mới bấm.</p>
+        <button class="btn w" id="ct-xem">Mình là ${c} — xem thẻ</button></div>`;
+    } else {
+      m.innerHTML = `<p class="eyebrow">Thẻ của ${c}</p><div class="the-lon">${esc(bo[j].tx)}</div>
+        <p class="muted small">Đọc to nguyên văn cho cả nhóm. Bạn không biết thẻ này đúng hay là thẻ chưa chính xác.</p>
+        <button class="btn w" id="ct-xem">${j + 1 < bo.length ? "Đọc xong — chuyền máy" : "Đọc xong — cả nhóm bỏ phiếu"}</button>`;
+    }
+    $("#ct-xem").onclick = ()=>{ CT.buoc++; ctVe(); };
+  } else if(CT.chon === undefined){
+    m.innerHTML = `<div class="card stack"><h2>Thẻ nào chưa chính xác?</h2>
+      <p class="muted">Bàn nhau tối đa 1 phút, đếm 1-2-3 cùng chỉ tay. Chạm chữ cái bị nhiều người chỉ nhất.</p>
+      <div class="chus">${bo.map((_, j)=>`<button data-bau="${j}">${CHU_CAI[j]}</button>`).join("")}</div>
+      <button class="btn g sm" id="ct-nghe">Cho nghe lại: xem nhanh cả ${bo.length} thẻ</button>
+      <div class="ds-the" id="ct-ds" hidden>${bo.map((t,j)=>`<div class="dong"><b>${CHU_CAI[j]}</b><span>${esc(t.tx)}</span></div>`).join("")}</div></div>`;
+    $("#ct-nghe").onclick = ()=>{ $("#ct-ds").hidden = !$("#ct-ds").hidden; };
+    $$("[data-bau]").forEach(b=> b.onclick = ()=>{
+      CT.chon = +b.dataset.bau; const g = bo.findIndex(t=> t.gio);
+      if(CT.chon === g) CT.bat++; else CT.sai.push(bo[g]);
+      ctVe(); });
+  } else {
+    m.innerHTML = latHTML(bo, CT.chon).replace('id="nh-tiep"', 'id="ct-tiep"')
+      .replace("Vòng tiếp — cả nhóm bấm ▶", CT.vong < CT.so ? "Vòng tiếp" : "Tổng kết");
+    $("#ct-diem").textContent = "Bắt được " + CT.bat;
+    $("#ct-tiep").onclick = ()=>{
+      if(CT.vong >= CT.so){ ctTong(); return; }
+      CT.vong++; CT.buoc = 0; CT.chon = undefined; ctVe(); };
+  }
+}
+function ctTong(){
+  const ty = CT.bat / CT.so, x = XEP.find(e=> ty >= e.min);
+  $("#ct-main").innerHTML = `<div class="card stack" style="text-align:center"><p class="eyebrow">Tổng kết nhóm</p>
+    <h2 style="font-size:36px">${x.dh}</h2><p class="ma">${CT.bat}/${CT.so}</p><p class="muted">${x.nx}</p>
+    <p class="small muted">So với các nhóm khác: nhóm nào bắt được nhiều vòng hơn (cùng số vòng) xếp trên.</p></div>
+    ${CT.sai.map(t=>`<div class="card stack">${giaiHTML(t)}</div>`).join("")}
+    <div class="row"><button class="btn" id="ct-lai">Chơi ván mới</button><button class="btn g" id="ct-ve">Trang đầu</button></div>`;
+  $("#ct-lai").onclick = ()=> show("ct-vao");
+  $("#ct-ve").onclick = ()=> show("home");
+}
+
+/* ---------- khởi động ---------- */
+$$("[data-home]").forEach(b=> b.onclick = ()=> show("home"));
+[$("#cn-buoi"), $("#tao-buoi"), $("#ct-buoi")].forEach(veBuoi);
+veSoNguoi($("#tao-n"), $("#tao-buoi"), $("#tao-tron"));
+veSoNguoi($("#ct-n"), $("#ct-buoi"), $("#ct-tron"));
+$("#cn-ten").value = luuDoc("chinhxac-ten") || "";
+</script>
+</body>
+</html>
