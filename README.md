@@ -2,10 +2,12 @@
 
 ## Phòng chống tin giả
 
-Tìm nguyên văn giữa các cụm “tin giả” do nhân vật Kẻ Khoác Lác tung ra. Chơi một mình, hoặc cả lớp
-qua máy chiếu — các nhóm tự bịa để lừa nhau (+2 chọn đúng, +1 mỗi nhóm bị lừa).
+Kiểm chứng 30 bản tin theo bộ câu hỏi trắc nghiệm Bài 4 (Chương 3), chia năm vòng: đúng/sai,
+chọn một phương án đúng, chọn phương án sai, chọn nhiều phương án đúng, điền khuyết. Mỗi câu
+công bố đáp án và giải thích ngay; cuối game có bảng kết quả và danh sách câu cần xem lại.
 
 - **Vào chơi:** https://haianhhadang-collab.github.io/minigame-tthcm/phong-chong-tin-gia/
+- Bản cũ (66 câu nguyên văn, chơi cả lớp): https://haianhhadang-collab.github.io/minigame-tthcm/phong-chong-tin-gia/ban-66-cau/
 
 ![Mã QR vào Phòng chống tin giả](phong-chong-tin-gia/qr-vao-game.png)
 
