@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Hải trình Gió Mùa — poster</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700;1,800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=block" rel="stylesheet">
+<style>
+@page{size:297mm 420mm;margin:0}
+:root{--bien:#0B2236;--bien2:#173F5E;--cat:#F4ECDD;--giay:#FFFBF3;--nghe:#E1A445;--ngoc:#1F8A84;--chu:#13283B;--chu2:#4F6072;
+  --c1:#3A78C2;--c2:#8A55B8;--c3:#1F8A84;--c4:#CF8D24;--c5:#C2503F}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1123px;height:1587px;background:var(--bien)}
+body{font-family:"Be Vietnam Pro",system-ui,sans-serif;color:var(--cat);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{width:1123px;height:1587px;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.sea{flex:none;padding:62px 84px 84px;position:relative;
+  background:radial-gradient(120% 70% at 85% 0%,#22557C 0%,rgba(34,85,124,0) 60%),linear-gradient(180deg,var(--bien2) 0%,var(--bien) 70%)}
+.sea::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.07;
+  background:repeating-linear-gradient(170deg,transparent 0 46px,#fff 46px 47px)}
+.kicker{font-weight:700;font-size:17px;letter-spacing:.32em;color:var(--nghe);text-transform:uppercase}
+h1{font-family:"Playfair Display",serif;font-weight:800;line-height:1.02;margin-top:26px}
+h1 .a{display:block;font-size:132px;color:var(--cat);letter-spacing:-.01em}
+h1 .b{display:block;font-size:132px;font-style:italic;color:var(--nghe);margin-top:4px}
+.lede{font-size:25px;line-height:1.45;max-width:955px;margin-top:22px;color:#DCE6EE}
+.lede b{color:var(--cat);font-weight:600}
+.quote{display:flex;gap:26px;align-items:center;margin-top:28px;padding:20px 28px;border-radius:22px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14)}
+.quote .ic{flex:none;width:80px;height:80px;border-radius:50%;background:var(--ngoc);display:grid;place-items:center}
+.quote p{font-size:20px;line-height:1.5;color:#DCE6EE}
+.quote p b{color:var(--nghe);font-weight:700}
+/* lộ trình: nhãn so le trên/dưới để không dính nhau */
+.route{position:relative;height:150px;margin:22px 6px 0}
+.route svg{position:absolute;inset:0}
+.port{position:absolute;top:75px;transform:translate(-50%,-50%);width:30px;height:30px;border-radius:50%;
+  background:var(--nghe);box-shadow:0 0 0 5px var(--bien),0 0 0 7px var(--nghe)}
+.lab{position:absolute;transform:translateX(-50%);text-align:center;white-space:nowrap;font-size:17px;font-weight:600;color:var(--cat)}
+.lab i{display:block;font-style:normal;font-size:13px;font-weight:700;color:var(--nghe);letter-spacing:.08em}
+
+.types{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:18px}
+.t{background:var(--giay);border-radius:18px;padding:16px 10px 16px;text-align:center;border-top:9px solid;color:var(--chu)}
+.t b{display:block;font-family:"Playfair Display",serif;font-size:44px;line-height:1}
+.t span{display:block;margin-top:8px;font-size:18px;font-weight:700;line-height:1.25}
+.t:nth-child(1){border-color:var(--c1)}.t:nth-child(1) b{color:var(--c1)}
+.t:nth-child(2){border-color:var(--c2)}.t:nth-child(2) b{color:var(--c2)}
+.t:nth-child(3){border-color:var(--c3)}.t:nth-child(3) b{color:var(--c3)}
+.t:nth-child(4){border-color:var(--c4)}.t:nth-child(4) b{color:var(--c4)}
+.t:nth-child(5){border-color:var(--c5)}.t:nth-child(5) b{color:var(--c5)}
+.wave{display:block;width:100%;height:38px;margin-top:44px}
+.shore{flex:1;background:var(--cat);color:var(--chu);padding:22px 84px 36px;display:grid;grid-template-columns:370px 1fr;gap:50px;align-items:center}
+.qr{background:#fff;border-radius:24px;padding:28px;box-shadow:0 10px 30px rgba(11,34,54,.18);border:3px solid var(--bien)}
+.qr svg{display:block;width:100%;height:auto}
+.qr .tag{margin-top:16px;text-align:center;font-weight:700;font-size:17px;letter-spacing:.18em;color:var(--bien2);text-transform:uppercase}
+h2{font-family:"Playfair Display",serif;font-weight:800;font-size:54px;line-height:1.3;color:var(--bien)}
+ul{list-style:none;margin-top:20px}
+li{position:relative;padding-left:30px;font-size:20px;line-height:1.42;margin-top:8px;color:var(--chu)}
+li::before{content:"";position:absolute;left:4px;top:.55em;width:11px;height:11px;border-radius:50%;background:var(--ngoc)}
+li b{font-weight:700}
+.url{margin-top:20px;font-weight:700;font-size:20px;color:var(--ngoc);line-height:1.35;word-break:break-all}
+p,li{text-wrap:pretty}
+.src{margin-top:16px;font-size:14.5px;line-height:1.45;color:var(--chu2)}
+</style>
+</head>
+<body><div class="page">
+<section class="sea">
+  <div class="kicker">Minigame bài giảng · Islam in Southeast Asia</div>
+  <h1><span class="a">Hải trình</span><span class="b">Gió Mùa</span></h1>
+  <p class="lede">Lên thuyền qua <b>tám thương cảng</b>, giải <b>40 câu hỏi</b> về Islam ở Đông Nam Á: từ bia mộ Leran đến mái tajug Demak, từ Pasai đến Panduranga.</p>
+  <div class="quote">
+    <div class="ic"><svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M3 8h10a3 3 0 1 0-3-3"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h7"/></svg></div>
+    <p><b>"Ta là Gió Mùa."</b> Thương nhân phải chờ ta hàng tháng ở cảng, và trong lúc chờ, Hồi giáo bén rễ. Trả lời xong mỗi câu, ta đọc nguyên văn bài giảng cho bạn đối chiếu.</p>
+  </div>
+  <div class="route" id="route">
+    <svg viewBox="0 0 943 150" preserveAspectRatio="none"><path d="M0 75 C 140 55, 250 95, 380 75 S 620 55, 740 75 S 890 92, 943 75" fill="none" stroke="rgba(244,236,221,.45)" stroke-width="3" stroke-dasharray="10 9"/></svg>
+  </div>
+  <div class="types">
+    <div class="t"><b>8</b><span>Đọc hiểu</span></div>
+    <div class="t"><b>8</b><span>Phân tích<br>cấu trúc</span></div>
+    <div class="t"><b>8</b><span>Tóm lược<br>đoạn</span></div>
+    <div class="t"><b>8</b><span>Trắc<br>nghiệm</span></div>
+    <div class="t"><b>8</b><span>Điền<br>chỗ trống</span></div>
+  </div>
+  <svg class="wave" viewBox="0 0 1123 38" preserveAspectRatio="none" style="position:absolute;left:0;bottom:-1px;margin:0"><path d="M0 38 V20 Q 35 0 70 20 T 140 20 T 210 20 T 280 20 T 350 20 T 420 20 T 490 20 T 560 20 T 630 20 T 700 20 T 770 20 T 840 20 T 910 20 T 980 20 T 1050 20 T 1123 20 V38 Z" fill="#F4ECDD"/></svg>
+</section>
+<section class="shore">
+  <div class="qr">
+    <svg viewBox="0 0 41 41" shape-rendering="crispEdges"><path d="M0,0h1v1h-1zM1,0h1v1h-1zM2,0h1v1h-1zM3,0h1v1h-1zM4,0h1v1h-1zM5,0h1v1h-1zM6,0h1v1h-1zM8,0h1v1h-1zM9,0h1v1h-1zM10,0h1v1h-1zM11,0h1v1h-1zM14,0h1v1h-1zM15,0h1v1h-1zM18,0h1v1h-1zM25,0h1v1h-1zM28,0h1v1h-1zM29,0h1v1h-1zM30,0h1v1h-1zM31,0h1v1h-1zM34,0h1v1h-1zM35,0h1v1h-1zM36,0h1v1h-1zM37,0h1v1h-1zM38,0h1v1h-1zM39,0h1v1h-1zM40,0h1v1h-1zM0,1h1v1h-1zM6,1h1v1h-1zM9,1h1v1h-1zM10,1h1v1h-1zM13,1h1v1h-1zM16,1h1v1h-1zM17,1h1v1h-1zM21,1h1v1h-1zM22,1h1v1h-1zM23,1h1v1h-1zM24,1h1v1h-1zM25,1h1v1h-1zM26,1h1v1h-1zM27,1h1v1h-1zM28,1h1v1h-1zM29,1h1v1h-1zM32,1h1v1h-1zM34,1h1v1h-1zM40,1h1v1h-1zM0,2h1v1h-1zM2,2h1v1h-1zM3,2h1v1h-1zM4,2h1v1h-1zM6,2h1v1h-1zM10,2h1v1h-1zM12,2h1v1h-1zM13,2h1v1h-1zM14,2h1v1h-1zM15,2h1v1h-1zM19,2h1v1h-1zM20,2h1v1h-1zM24,2h1v1h-1zM26,2h1v1h-1zM30,2h1v1h-1zM32,2h1v1h-1zM34,2h1v1h-1zM36,2h1v1h-1zM37,2h1v1h-1zM38,2h1v1h-1zM40,2h1v1h-1zM0,3h1v1h-1zM2,3h1v1h-1zM3,3h1v1h-1zM4,3h1v1h-1zM6,3h1v1h-1zM11,3h1v1h-1zM13,3h1v1h-1zM14,3h1v1h-1zM15,3h1v1h-1zM16,3h1v1h-1zM21,3h1v1h-1zM23,3h1v1h-1zM24,3h1v1h-1zM27,3h1v1h-1zM28,3h1v1h-1zM29,3h1v1h-1zM34,3h1v1h-1zM36,3h1v1h-1zM37,3h1v1h-1zM38,3h1v1h-1zM40,3h1v1h-1zM0,4h1v1h-1zM2,4h1v1h-1zM3,4h1v1h-1zM4,4h1v1h-1zM6,4h1v1h-1zM8,4h1v1h-1zM9,4h1v1h-1zM12,4h1v1h-1zM17,4h1v1h-1zM19,4h1v1h-1zM20,4h1v1h-1zM21,4h1v1h-1zM22,4h1v1h-1zM23,4h1v1h-1zM24,4h1v1h-1zM25,4h1v1h-1zM28,4h1v1h-1zM29,4h1v1h-1zM30,4h1v1h-1zM31,4h1v1h-1zM34,4h1v1h-1zM36,4h1v1h-1zM37,4h1v1h-1zM38,4h1v1h-1zM40,4h1v1h-1zM0,5h1v1h-1zM6,5h1v1h-1zM8,5h1v1h-1zM11,5h1v1h-1zM12,5h1v1h-1zM13,5h1v1h-1zM15,5h1v1h-1zM18,5h1v1h-1zM20,5h1v1h-1zM21,5h1v1h-1zM23,5h1v1h-1zM24,5h1v1h-1zM27,5h1v1h-1zM30,5h1v1h-1zM34,5h1v1h-1zM40,5h1v1h-1zM0,6h1v1h-1zM1,6h1v1h-1zM2,6h1v1h-1zM3,6h1v1h-1zM4,6h1v1h-1zM5,6h1v1h-1zM6,6h1v1h-1zM8,6h1v1h-1zM10,6h1v1h-1zM12,6h1v1h-1zM14,6h1v1h-1zM16,6h1v1h-1zM18,6h1v1h-1zM20,6h1v1h-1zM22,6h1v1h-1zM24,6h1v1h-1zM26,6h1v1h-1zM28,6h1v1h-1zM30,6h1v1h-1zM32,6h1v1h-1zM34,6h1v1h-1zM35,6h1v1h-1zM36,6h1v1h-1zM37,6h1v1h-1zM38,6h1v1h-1zM39,6h1v1h-1zM40,6h1v1h-1zM9,7h1v1h-1zM12,7h1v1h-1zM14,7h1v1h-1zM15,7h1v1h-1zM18,7h1v1h-1zM19,7h1v1h-1zM20,7h1v1h-1zM24,7h1v1h-1zM27,7h1v1h-1zM30,7h1v1h-1zM31,7h1v1h-1zM1,8h1v1h-1zM2,8h1v1h-1zM3,8h1v1h-1zM4,8h1v1h-1zM5,8h1v1h-1zM6,8h1v1h-1zM7,8h1v1h-1zM11,8h1v1h-1zM12,8h1v1h-1zM13,8h1v1h-1zM15,8h1v1h-1zM16,8h1v1h-1zM19,8h1v1h-1zM22,8h1v1h-1zM23,8h1v1h-1zM24,8h1v1h-1zM25,8h1v1h-1zM26,8h1v1h-1zM29,8h1v1h-1zM35,8h1v1h-1zM36,8h1v1h-1zM40,8h1v1h-1zM3,9h1v1h-1zM5,9h1v1h-1zM10,9h1v1h-1zM11,9h1v1h-1zM12,9h1v1h-1zM13,9h1v1h-1zM14,9h1v1h-1zM16,9h1v1h-1zM17,9h1v1h-1zM20,9h1v1h-1zM21,9h1v1h-1zM28,9h1v1h-1zM29,9h1v1h-1zM30,9h1v1h-1zM31,9h1v1h-1zM32,9h1v1h-1zM33,9h1v1h-1zM34,9h1v1h-1zM35,9h1v1h-1zM36,9h1v1h-1zM38,9h1v1h-1zM39,9h1v1h-1zM40,9h1v1h-1zM0,10h1v1h-1zM2,10h1v1h-1zM4,10h1v1h-1zM6,10h1v1h-1zM7,10h1v1h-1zM10,10h1v1h-1zM11,10h1v1h-1zM16,10h1v1h-1zM23,10h1v1h-1zM24,10h1v1h-1zM26,10h1v1h-1zM27,10h1v1h-1zM29,10h1v1h-1zM32,10h1v1h-1zM34,10h1v1h-1zM35,10h1v1h-1zM36,10h1v1h-1zM0,11h1v1h-1zM1,11h1v1h-1zM3,11h1v1h-1zM4,11h1v1h-1zM7,11h1v1h-1zM8,11h1v1h-1zM9,11h1v1h-1zM10,11h1v1h-1zM14,11h1v1h-1zM21,11h1v1h-1zM22,11h1v1h-1zM26,11h1v1h-1zM28,11h1v1h-1zM30,11h1v1h-1zM31,11h1v1h-1zM32,11h1v1h-1zM34,11h1v1h-1zM37,11h1v1h-1zM1,12h1v1h-1zM3,12h1v1h-1zM5,12h1v1h-1zM6,12h1v1h-1zM8,12h1v1h-1zM10,12h1v1h-1zM11,12h1v1h-1zM13,12h1v1h-1zM14,12h1v1h-1zM15,12h1v1h-1zM16,12h1v1h-1zM17,12h1v1h-1zM18,12h1v1h-1zM23,12h1v1h-1zM25,12h1v1h-1zM26,12h1v1h-1zM29,12h1v1h-1zM31,12h1v1h-1zM37,12h1v1h-1zM38,12h1v1h-1zM39,12h1v1h-1zM1,13h1v1h-1zM2,13h1v1h-1zM3,13h1v1h-1zM4,13h1v1h-1zM5,13h1v1h-1zM11,13h1v1h-1zM15,13h1v1h-1zM16,13h1v1h-1zM17,13h1v1h-1zM18,13h1v1h-1zM21,13h1v1h-1zM22,13h1v1h-1zM24,13h1v1h-1zM25,13h1v1h-1zM29,13h1v1h-1zM30,13h1v1h-1zM31,13h1v1h-1zM32,13h1v1h-1zM33,13h1v1h-1zM34,13h1v1h-1zM35,13h1v1h-1zM36,13h1v1h-1zM37,13h1v1h-1zM39,13h1v1h-1zM40,13h1v1h-1zM5,14h1v1h-1zM6,14h1v1h-1zM8,14h1v1h-1zM9,14h1v1h-1zM15,14h1v1h-1zM16,14h1v1h-1zM18,14h1v1h-1zM20,14h1v1h-1zM22,14h1v1h-1zM26,14h1v1h-1zM27,14h1v1h-1zM28,14h1v1h-1zM32,14h1v1h-1zM33,14h1v1h-1zM35,14h1v1h-1zM37,14h1v1h-1zM38,14h1v1h-1zM4,15h1v1h-1zM7,15h1v1h-1zM11,15h1v1h-1zM14,15h1v1h-1zM15,15h1v1h-1zM16,15h1v1h-1zM20,15h1v1h-1zM21,15h1v1h-1zM22,15h1v1h-1zM24,15h1v1h-1zM26,15h1v1h-1zM27,15h1v1h-1zM32,15h1v1h-1zM34,15h1v1h-1zM35,15h1v1h-1zM40,15h1v1h-1zM4,16h1v1h-1zM6,16h1v1h-1zM9,16h1v1h-1zM10,16h1v1h-1zM12,16h1v1h-1zM16,16h1v1h-1zM20,16h1v1h-1zM21,16h1v1h-1zM22,16h1v1h-1zM24,16h1v1h-1zM25,16h1v1h-1zM27,16h1v1h-1zM29,16h1v1h-1zM31,16h1v1h-1zM33,16h1v1h-1zM35,16h1v1h-1zM38,16h1v1h-1zM40,16h1v1h-1zM1,17h1v1h-1zM4,17h1v1h-1zM5,17h1v1h-1zM7,17h1v1h-1zM8,17h1v1h-1zM9,17h1v1h-1zM11,17h1v1h-1zM12,17h1v1h-1zM15,17h1v1h-1zM16,17h1v1h-1zM18,17h1v1h-1zM20,17h1v1h-1zM21,17h1v1h-1zM22,17h1v1h-1zM23,17h1v1h-1zM25,17h1v1h-1zM28,17h1v1h-1zM31,17h1v1h-1zM32,17h1v1h-1zM34,17h1v1h-1zM35,17h1v1h-1zM36,17h1v1h-1zM37,17h1v1h-1zM38,17h1v1h-1zM39,17h1v1h-1zM40,17h1v1h-1zM2,18h1v1h-1zM5,18h1v1h-1zM6,18h1v1h-1zM7,18h1v1h-1zM8,18h1v1h-1zM9,18h1v1h-1zM15,18h1v1h-1zM16,18h1v1h-1zM17,18h1v1h-1zM19,18h1v1h-1zM25,18h1v1h-1zM26,18h1v1h-1zM27,18h1v1h-1zM30,18h1v1h-1zM32,18h1v1h-1zM34,18h1v1h-1zM36,18h1v1h-1zM37,18h1v1h-1zM5,19h1v1h-1zM7,19h1v1h-1zM8,19h1v1h-1zM9,19h1v1h-1zM10,19h1v1h-1zM13,19h1v1h-1zM15,19h1v1h-1zM16,19h1v1h-1zM19,19h1v1h-1zM20,19h1v1h-1zM22,19h1v1h-1zM23,19h1v1h-1zM24,19h1v1h-1zM25,19h1v1h-1zM27,19h1v1h-1zM32,19h1v1h-1zM33,19h1v1h-1zM36,19h1v1h-1zM37,19h1v1h-1zM39,19h1v1h-1zM40,19h1v1h-1zM0,20h1v1h-1zM1,20h1v1h-1zM6,20h1v1h-1zM8,20h1v1h-1zM11,20h1v1h-1zM12,20h1v1h-1zM13,20h1v1h-1zM15,20h1v1h-1zM18,20h1v1h-1zM20,20h1v1h-1zM21,20h1v1h-1zM24,20h1v1h-1zM26,20h1v1h-1zM29,20h1v1h-1zM31,20h1v1h-1zM38,20h1v1h-1zM40,20h1v1h-1zM4,21h1v1h-1zM5,21h1v1h-1zM8,21h1v1h-1zM9,21h1v1h-1zM11,21h1v1h-1zM12,21h1v1h-1zM13,21h1v1h-1zM17,21h1v1h-1zM18,21h1v1h-1zM21,21h1v1h-1zM23,21h1v1h-1zM25,21h1v1h-1zM28,21h1v1h-1zM30,21h1v1h-1zM31,21h1v1h-1zM32,21h1v1h-1zM33,21h1v1h-1zM34,21h1v1h-1zM35,21h1v1h-1zM36,21h1v1h-1zM37,21h1v1h-1zM38,21h1v1h-1zM39,21h1v1h-1zM40,21h1v1h-1zM0,22h1v1h-1zM2,22h1v1h-1zM3,22h1v1h-1zM4,22h1v1h-1zM5,22h1v1h-1zM6,22h1v1h-1zM10,22h1v1h-1zM11,22h1v1h-1zM12,22h1v1h-1zM14,22h1v1h-1zM18,22h1v1h-1zM21,22h1v1h-1zM22,22h1v1h-1zM27,22h1v1h-1zM30,22h1v1h-1zM32,22h1v1h-1zM36,22h1v1h-1zM37,22h1v1h-1zM1,23h1v1h-1zM2,23h1v1h-1zM3,23h1v1h-1zM4,23h1v1h-1zM11,23h1v1h-1zM16,23h1v1h-1zM17,23h1v1h-1zM19,23h1v1h-1zM21,23h1v1h-1zM22,23h1v1h-1zM24,23h1v1h-1zM27,23h1v1h-1zM28,23h1v1h-1zM34,23h1v1h-1zM35,23h1v1h-1zM36,23h1v1h-1zM39,23h1v1h-1zM40,23h1v1h-1zM2,24h1v1h-1zM5,24h1v1h-1zM6,24h1v1h-1zM7,24h1v1h-1zM8,24h1v1h-1zM9,24h1v1h-1zM11,24h1v1h-1zM13,24h1v1h-1zM14,24h1v1h-1zM16,24h1v1h-1zM17,24h1v1h-1zM19,24h1v1h-1zM22,24h1v1h-1zM23,24h1v1h-1zM24,24h1v1h-1zM25,24h1v1h-1zM26,24h1v1h-1zM27,24h1v1h-1zM29,24h1v1h-1zM38,24h1v1h-1zM0,25h1v1h-1zM1,25h1v1h-1zM2,25h1v1h-1zM3,25h1v1h-1zM7,25h1v1h-1zM11,25h1v1h-1zM13,25h1v1h-1zM15,25h1v1h-1zM16,25h1v1h-1zM17,25h1v1h-1zM18,25h1v1h-1zM19,25h1v1h-1zM20,25h1v1h-1zM22,25h1v1h-1zM23,25h1v1h-1zM28,25h1v1h-1zM30,25h1v1h-1zM31,25h1v1h-1zM33,25h1v1h-1zM34,25h1v1h-1zM35,25h1v1h-1zM36,25h1v1h-1zM37,25h1v1h-1zM39,25h1v1h-1zM40,25h1v1h-1zM2,26h1v1h-1zM4,26h1v1h-1zM5,26h1v1h-1zM6,26h1v1h-1zM8,26h1v1h-1zM12,26h1v1h-1zM13,26h1v1h-1zM15,26h1v1h-1zM16,26h1v1h-1zM17,26h1v1h-1zM21,26h1v1h-1zM22,26h1v1h-1zM24,26h1v1h-1zM25,26h1v1h-1zM27,26h1v1h-1zM28,26h1v1h-1zM29,26h1v1h-1zM32,26h1v1h-1zM34,26h1v1h-1zM0,27h1v1h-1zM2,27h1v1h-1zM4,27h1v1h-1zM7,27h1v1h-1zM10,27h1v1h-1zM11,27h1v1h-1zM12,27h1v1h-1zM13,27h1v1h-1zM18,27h1v1h-1zM20,27h1v1h-1zM22,27h1v1h-1zM27,27h1v1h-1zM31,27h1v1h-1zM32,27h1v1h-1zM33,27h1v1h-1zM34,27h1v1h-1zM35,27h1v1h-1zM37,27h1v1h-1zM39,27h1v1h-1zM2,28h1v1h-1zM3,28h1v1h-1zM4,28h1v1h-1zM6,28h1v1h-1zM14,28h1v1h-1zM15,28h1v1h-1zM17,28h1v1h-1zM18,28h1v1h-1zM22,28h1v1h-1zM24,28h1v1h-1zM25,28h1v1h-1zM27,28h1v1h-1zM29,28h1v1h-1zM31,28h1v1h-1zM37,28h1v1h-1zM38,28h1v1h-1zM40,28h1v1h-1zM0,29h1v1h-1zM2,29h1v1h-1zM4,29h1v1h-1zM7,29h1v1h-1zM8,29h1v1h-1zM11,29h1v1h-1zM14,29h1v1h-1zM16,29h1v1h-1zM17,29h1v1h-1zM18,29h1v1h-1zM20,29h1v1h-1zM21,29h1v1h-1zM22,29h1v1h-1zM25,29h1v1h-1zM28,29h1v1h-1zM30,29h1v1h-1zM31,29h1v1h-1zM33,29h1v1h-1zM34,29h1v1h-1zM35,29h1v1h-1zM36,29h1v1h-1zM37,29h1v1h-1zM38,29h1v1h-1zM39,29h1v1h-1zM40,29h1v1h-1zM0,30h1v1h-1zM4,30h1v1h-1zM5,30h1v1h-1zM6,30h1v1h-1zM7,30h1v1h-1zM10,30h1v1h-1zM14,30h1v1h-1zM16,30h1v1h-1zM19,30h1v1h-1zM23,30h1v1h-1zM24,30h1v1h-1zM25,30h1v1h-1zM26,30h1v1h-1zM27,30h1v1h-1zM28,30h1v1h-1zM32,30h1v1h-1zM33,30h1v1h-1zM34,30h1v1h-1zM35,30h1v1h-1zM37,30h1v1h-1zM39,30h1v1h-1zM0,31h1v1h-1zM2,31h1v1h-1zM9,31h1v1h-1zM11,31h1v1h-1zM15,31h1v1h-1zM17,31h1v1h-1zM19,31h1v1h-1zM23,31h1v1h-1zM26,31h1v1h-1zM27,31h1v1h-1zM28,31h1v1h-1zM30,31h1v1h-1zM31,31h1v1h-1zM32,31h1v1h-1zM33,31h1v1h-1zM34,31h1v1h-1zM36,31h1v1h-1zM37,31h1v1h-1zM40,31h1v1h-1zM0,32h1v1h-1zM4,32h1v1h-1zM5,32h1v1h-1zM6,32h1v1h-1zM12,32h1v1h-1zM14,32h1v1h-1zM15,32h1v1h-1zM16,32h1v1h-1zM21,32h1v1h-1zM22,32h1v1h-1zM23,32h1v1h-1zM25,32h1v1h-1zM26,32h1v1h-1zM29,32h1v1h-1zM32,32h1v1h-1zM33,32h1v1h-1zM34,32h1v1h-1zM35,32h1v1h-1zM36,32h1v1h-1zM38,32h1v1h-1zM40,32h1v1h-1zM8,33h1v1h-1zM12,33h1v1h-1zM13,33h1v1h-1zM14,33h1v1h-1zM15,33h1v1h-1zM18,33h1v1h-1zM19,33h1v1h-1zM20,33h1v1h-1zM23,33h1v1h-1zM28,33h1v1h-1zM29,33h1v1h-1zM32,33h1v1h-1zM36,33h1v1h-1zM38,33h1v1h-1zM39,33h1v1h-1zM40,33h1v1h-1zM0,34h1v1h-1zM1,34h1v1h-1zM2,34h1v1h-1zM3,34h1v1h-1zM4,34h1v1h-1zM5,34h1v1h-1zM6,34h1v1h-1zM8,34h1v1h-1zM9,34h1v1h-1zM12,34h1v1h-1zM13,34h1v1h-1zM14,34h1v1h-1zM16,34h1v1h-1zM17,34h1v1h-1zM21,34h1v1h-1zM22,34h1v1h-1zM27,34h1v1h-1zM31,34h1v1h-1zM32,34h1v1h-1zM34,34h1v1h-1zM36,34h1v1h-1zM37,34h1v1h-1zM0,35h1v1h-1zM6,35h1v1h-1zM8,35h1v1h-1zM9,35h1v1h-1zM14,35h1v1h-1zM15,35h1v1h-1zM16,35h1v1h-1zM17,35h1v1h-1zM20,35h1v1h-1zM22,35h1v1h-1zM24,35h1v1h-1zM26,35h1v1h-1zM27,35h1v1h-1zM28,35h1v1h-1zM31,35h1v1h-1zM32,35h1v1h-1zM36,35h1v1h-1zM37,35h1v1h-1zM0,36h1v1h-1zM2,36h1v1h-1zM3,36h1v1h-1zM4,36h1v1h-1zM6,36h1v1h-1zM8,36h1v1h-1zM9,36h1v1h-1zM10,36h1v1h-1zM11,36h1v1h-1zM12,36h1v1h-1zM21,36h1v1h-1zM22,36h1v1h-1zM23,36h1v1h-1zM24,36h1v1h-1zM27,36h1v1h-1zM28,36h1v1h-1zM29,36h1v1h-1zM30,36h1v1h-1zM32,36h1v1h-1zM33,36h1v1h-1zM34,36h1v1h-1zM35,36h1v1h-1zM36,36h1v1h-1zM38,36h1v1h-1zM39,36h1v1h-1zM0,37h1v1h-1zM2,37h1v1h-1zM3,37h1v1h-1zM4,37h1v1h-1zM6,37h1v1h-1zM8,37h1v1h-1zM9,37h1v1h-1zM10,37h1v1h-1zM12,37h1v1h-1zM13,37h1v1h-1zM15,37h1v1h-1zM16,37h1v1h-1zM20,37h1v1h-1zM21,37h1v1h-1zM22,37h1v1h-1zM23,37h1v1h-1zM26,37h1v1h-1zM28,37h1v1h-1zM29,37h1v1h-1zM30,37h1v1h-1zM31,37h1v1h-1zM33,37h1v1h-1zM35,37h1v1h-1zM37,37h1v1h-1zM38,37h1v1h-1zM39,37h1v1h-1zM0,38h1v1h-1zM2,38h1v1h-1zM3,38h1v1h-1zM4,38h1v1h-1zM6,38h1v1h-1zM8,38h1v1h-1zM9,38h1v1h-1zM11,38h1v1h-1zM12,38h1v1h-1zM16,38h1v1h-1zM17,38h1v1h-1zM19,38h1v1h-1zM21,38h1v1h-1zM22,38h1v1h-1zM24,38h1v1h-1zM27,38h1v1h-1zM28,38h1v1h-1zM30,38h1v1h-1zM33,38h1v1h-1zM34,38h1v1h-1zM35,38h1v1h-1zM36,38h1v1h-1zM37,38h1v1h-1zM0,39h1v1h-1zM6,39h1v1h-1zM8,39h1v1h-1zM11,39h1v1h-1zM14,39h1v1h-1zM15,39h1v1h-1zM16,39h1v1h-1zM17,39h1v1h-1zM20,39h1v1h-1zM21,39h1v1h-1zM22,39h1v1h-1zM23,39h1v1h-1zM26,39h1v1h-1zM27,39h1v1h-1zM32,39h1v1h-1zM34,39h1v1h-1zM36,39h1v1h-1zM37,39h1v1h-1zM39,39h1v1h-1zM0,40h1v1h-1zM1,40h1v1h-1zM2,40h1v1h-1zM3,40h1v1h-1zM4,40h1v1h-1zM5,40h1v1h-1zM6,40h1v1h-1zM9,40h1v1h-1zM12,40h1v1h-1zM14,40h1v1h-1zM17,40h1v1h-1zM18,40h1v1h-1zM22,40h1v1h-1zM23,40h1v1h-1zM24,40h1v1h-1zM25,40h1v1h-1zM26,40h1v1h-1zM29,40h1v1h-1zM31,40h1v1h-1zM33,40h1v1h-1zM35,40h1v1h-1zM36,40h1v1h-1zM38,40h1v1h-1z" fill="#0B2236"/></svg>
+    <div class="tag">Quét để vào game</div>
+  </div>
+  <div>
+    <h2>Quét mã để<br>giương buồm</h2>
+    <ul>
+      <li>Chơi <b>cá nhân</b>: 3 mức sóng gió, mạng, vật phẩm, bảng vàng</li>
+      <li><b>Thi đội</b> trên máy chiếu: cướp câu, Gió thuận, Bão biển</li>
+      <li>Điện thoại hay máy tính đều chơi được, không cần cài đặt</li>
+    </ul>
+    <div class="url">haianhhadang-collab.github.io/<br>minigame-tthcm/islam-dong-nam-a/</div>
+    <p class="src">Câu hỏi và trích dẫn lấy từ bài giảng "Islam in Southeast Asia: Historiography, Trajectories of Conversion, and Cultural Vernacularization".</p>
+  </div>
+</section>
+</div>
+<script>
+const ports=["Pasai","Melaka Strait","Leran – Melaka","Aceh","Minangkabau","Yogyakarta","Panduranga","Demak"];
+const r=document.getElementById('route'),W=943,pad=46;
+ports.forEach((p,i)=>{
+  const x=pad+i*(W-2*pad)/(ports.length-1);
+  // đặt chấm trên đường cong: tính y bằng cách lấy điểm trên path
+  const path=r.querySelector('path');
+  let lo=0,hi=path.getTotalLength(),pt;
+  for(let k=0;k<30;k++){const m=(lo+hi)/2;pt=path.getPointAtLength(m);if(pt.x<x)lo=m;else hi=m;}
+  const d=document.createElement('div');d.className='port';d.style.left=x+'px';d.style.top=pt.y+'px';r.appendChild(d);
+  const l=document.createElement('div');l.className='lab '+(i%2?'dn':'up');l.style.left=x+'px';
+  l.style.top=(i%2? pt.y+26 : pt.y-70)+'px';l.innerHTML='<i>CẢNG '+(i+1)+'</i>'+p;r.appendChild(l);
+});
+</script>
+</body></html>
