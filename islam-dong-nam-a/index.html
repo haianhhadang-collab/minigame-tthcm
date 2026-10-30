@@ -1451,7 +1451,7 @@ function hostReveal(){
   // tường thuật
   if(!H.ans.size) say("Silence on the sea: nobody answered that one.", true);
   else if(!rightN) say("Not one ship found this harbour. Read the lecture line closely.", true);
-  else if(rightN === H.ans.size) say(`A clean sweep! All ${plural(rightN, "answer")} were right.`, true);
+  else if(rightN === H.ans.size) say(rightN === 1 ? "Spot on! The only answer was right." : `A clean sweep! All ${rightN} answers were right.`, true);
   else say(`${rightN} of ${H.ans.size} found the right harbour, ${Math.round(100 * rightN / H.ans.size)} percent.`, true);
   if(fastest) say(`Fastest correct answer: ${fastest.p.name}, ${sec(fastest.t)}.`, true);
   now.filter(p => p.ok && p.streak >= 3).sort((a,b) => b.streak - a.streak).slice(0, 2)
