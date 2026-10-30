@@ -20,14 +20,18 @@ công bố đáp án và giải thích ngay; cuối game có bảng kết quả 
 
 ![Mã QR vào Ai chưa chính xác?](ai-chua-chinh-xac/qr-vao-game.png)
 
-## Hải trình Gió Mùa — Islam ở Đông Nam Á
+## Hải trình Gió Mùa (Monsoon Voyage) — Islam ở Đông Nam Á
 
 40 câu về bài giảng *Islam in Southeast Asia* qua tám thương cảng, năm dạng câu (mỗi dạng 8 câu): đọc hiểu,
-phân tích cấu trúc, tóm lược đoạn, trắc nghiệm, điền vào chỗ trống. Chơi cá nhân (3 mức, mạng, vật phẩm, bảng vàng)
-hoặc thi đội trên một máy chiếu (cướp câu, Gió thuận, Bão biển). Mỗi câu có lời giải trích nguyên văn bài giảng.
+phân tích cấu trúc, tóm lược đoạn, trắc nghiệm, điền vào chỗ trống. Giao diện và lời bình của Gió Mùa bằng tiếng Anh.
+Ba chế độ: chơi cá nhân (3 mức, mạng, vật phẩm, bảng vàng); thi đội trên một máy chiếu (cướp câu, Gió thuận, Bão biển);
+và **Live stream**: giảng viên mở phòng trên máy chiếu, sinh viên quét QR trả lời bằng điện thoại, máy chiếu tường thuật
+trực tiếp (đọc thành tiếng được), có bảng xếp hạng và tải kết quả CSV. Mỗi câu có lời giải trích nguyên văn bài giảng.
 
 - **Vào chơi:** https://haianhhadang-collab.github.io/minigame-tthcm/islam-dong-nam-a/
 - Poster in A3: [PNG](islam-dong-nam-a/poster.png) · [PDF](islam-dong-nam-a/poster.pdf)
+- Chế độ Live stream nối máy chiếu với điện thoại qua broker MQTT công cộng (EMQX, dự phòng HiveMQ), không cần
+  tài khoản hay máy chủ riêng. Tin nhắn chỉ có tên sinh viên tự đặt và lựa chọn; mọi máy cần có mạng.
 
 ![Mã QR vào Hải trình Gió Mùa](islam-dong-nam-a/qr-vao-game.png)
 
