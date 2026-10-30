@@ -27,6 +27,9 @@ phân tích cấu trúc, tóm lược đoạn, trắc nghiệm, điền vào ch�
 Ba chế độ: chơi cá nhân (3 mức, mạng, vật phẩm, bảng vàng); thi đội trên một máy chiếu (cướp câu, Gió thuận, Bão biển);
 và **Live stream**: giảng viên mở phòng trên máy chiếu, sinh viên quét QR trả lời bằng điện thoại, máy chiếu tường thuật
 trực tiếp (đọc thành tiếng được), có bảng xếp hạng và tải kết quả CSV. Mỗi câu có lời giải trích nguyên văn bài giảng.
+Hết hải trình, giảng viên có thể mở **vòng thưởng Listening Challenge**: ba người dẫn đầu chọn thi hoặc không; ai thi thì
+nghe bài hội thoại 5 phút (`islam-dong-nam-a/nghe/`) bằng tai nghe trên điện thoại và làm 10 câu rút ngẫu nhiên riêng cho
+từng người (3 dễ, 2 vừa, 3 khó, 2 nâng cao, từ ngân hàng 24 câu). Mỗi câu đúng cộng 3% điểm hải trình, tối đa +30%.
 
 - **Vào chơi:** https://haianhhadang-collab.github.io/minigame-tthcm/islam-dong-nam-a/
 - Poster in A3: [PNG](islam-dong-nam-a/poster.png) · [PDF](islam-dong-nam-a/poster.pdf)

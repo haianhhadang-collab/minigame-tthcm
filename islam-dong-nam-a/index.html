@@ -204,6 +204,25 @@ body:has(#man-player:not(.an)) .wrap{max-width:640px}
 #p-noi .dap-an button.chon-roi{border-color:var(--nghe);background:color-mix(in srgb,var(--nghe) 18%,var(--cat))}
 #p-noi details{margin:10px 0}
 #p-noi details .doan{max-height:none}
+/* vòng thưởng Listening */
+.bo-the{border:2px dashed var(--nghe);border-radius:14px;padding:14px 16px;margin:12px 0 4px;background:color-mix(in srgb,var(--nghe) 8%,var(--giay))}
+.bo-the h2{margin-top:0}
+.bo-luoi{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.bo-o{background:var(--giay);border:1.5px solid var(--vien);border-radius:12px;padding:10px 12px;display:grid;gap:2px}
+.bo-o b{font-size:19px}.bo-o em{font-style:normal;font-weight:700;color:var(--ngoc)}
+.bo-o strong{font-size:22px;color:var(--xanh)}
+.bo-o.no{opacity:.55}.bo-o.done{border-color:var(--ngoc)}
+.b-cau{border-top:1px solid var(--vien);padding:12px 0}
+.b-cau p{margin:0 0 8px;font-weight:600;line-height:1.45}
+.b-cau .muc{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--chu2);margin-left:6px}
+.b-chon{display:grid;gap:6px}
+.b-chon button{text-align:left;border:2px solid var(--vien);background:var(--cat);border-radius:10px;padding:9px 12px;font-size:16px;line-height:1.4}
+.b-chon button[aria-pressed="true"]{border-color:var(--nghe);background:color-mix(in srgb,var(--nghe) 20%,var(--cat));font-weight:600}
+.b-chon button:disabled{cursor:default}
+#p-noi audio{width:100%;margin:8px 0}
+.b-dh{display:inline-block;background:var(--giay);border:1.5px solid var(--vien);border-radius:10px;padding:.2em .7em;font-weight:700}
+.b-xem{text-align:left;margin-top:12px}
+.b-xem div{border-top:1px solid var(--vien);padding:8px 0;font-size:15px}
 </style>
 </head>
 <body>
@@ -708,6 +727,65 @@ window.ISLAM_SEA = {
     explanation: `"Across the Malay-Indonesian world, communities adapted the bedug—a large hanging drum carved from a hollowed log—to announce the five daily prayer calls, demonstrating the integration of indigenous signaling practices into Islamic ritual life."`,
     baoRight: `Boom! Boom! The bedug beats to welcome you to the final port!`,
     baoWrong: `The answer: bedug (a hanging drum). Tajug is the tiered roof, saka guru are the four main pillars, and minbar is the pulpit.` }
+  ]
+};
+
+// Vòng thưởng LISTENING (chỉ ở chế độ Live stream, dành cho hạng 1–3).
+// Bài nghe: Listening_Islam_SEA/01_Listening_Islam_SEA.mp3 (nén 64 kbps mono vào nghe/), hội thoại ở bảo tàng hàng hải.
+// Ngân hàng 24 câu chấm tự động, soạn lại từ phiếu 02_Listening_Questions và đáp án 03_Teacher_Transcript_and_Answers.
+// Mỗi người rút ngẫu nhiên theo cơ cấu của phiếu: 3 dễ (e), 2 vừa (m), 3 khó (c), 2 nâng cao (a).
+// type mc: options[0] là đáp án đúng; type text: accept = các đáp án chấp nhận (so sau khi bỏ dấu câu, khoảng trắng, "CE").
+window.ISLAM_LISTEN = {
+  audio: `nghe/listening-islam-sea.mp3`,
+  minutes: 15,
+  pick: { e:3, m:2, c:3, a:2 },
+  pool: [
+  { id:`E1`, lv:`e`, type:`mc`, q:`Where does the conversation take place?`,
+    options:[`At a maritime museum`, `At a village boarding school`, `On a steamship travelling to Mecca`, `Inside the Great Mosque of Demak`] },
+  { id:`E2`, lv:`e`, type:`mc`, q:`What are Alex and Ben making?`,
+    options:[`A history podcast`, `A legal textbook`, `A map for a shipping company`, `A museum guidebook`] },
+  { id:`E3`, lv:`e`, type:`mc`, q:`Why did some foreign traders wait in port for months?`,
+    options:[`They depended on the monsoon winds.`, `They were building stone mosques.`, `They were waiting for new laws.`, `Their ships were being repaired.`] },
+  { id:`E4`, lv:`e`, type:`mc`, q:`Who is Maya?`,
+    options:[`The museum guide`, `A history teacher at Alex's school`, `The host of the podcast`, `A ship captain from Aceh`] },
+  { id:`E5`, lv:`e`, type:`mc`, q:`What is the first display the group looks at?`,
+    options:[`A model of the port of Melaka`, `A photograph from West Sumatra`, `A model mosque with a wooden roof`, `A map of the Suez Canal`] },
+  { id:`E6`, lv:`e`, type:`mc`, q:`Why does Alex suggest going inside?`,
+    options:[`It is starting to rain.`, `The boat engine is too loud.`, `The museum is about to close.`, `Ben wants to see the law books.`] },
+
+  { id:`M1`, lv:`m`, type:`text`, q:`Complete the date. Write ONE NUMBER. The Portuguese captured Melaka in _____ CE.`, accept:[`1511`] },
+  { id:`M2`, lv:`m`, type:`text`, q:`Complete the date. Write ONE NUMBER. The Suez Canal opened in _____.`, accept:[`1869`] },
+  { id:`M3`, lv:`m`, type:`text`, q:`Write ONE NUMBER. The label on the gravestone from Leran gives the date as _____.`, accept:[`1082`] },
+  { id:`M4`, lv:`m`, type:`text`, q:`Write ONE WORD. Scholars adapted the Arabic alphabet to local languages, creating scripts such as Jawi and _____.`, accept:[`pegon`] },
+  { id:`M5`, lv:`m`, type:`text`, q:`Write ONE WORD. The word that means "local custom or customary law" is _____.`, accept:[`adat`] },
+  { id:`M6`, lv:`m`, type:`mc`, q:`How did locally adapted scripts help Islamic learning spread?`,
+    options:[`Religious texts could be translated, and learning spread beyond royal courts to village boarding schools.`, `People no longer needed Arabic for prayer, so mosques used only local languages.`, `Only rulers could read the new scripts, so learning stayed inside the royal courts.`, `The scripts were used mainly for trade contracts, which merchants carried to Mecca.`] },
+  { id:`M7`, lv:`m`, type:`mc`, q:`According to Maya, where did merchants and scholars go after the capture of Melaka?`,
+    options:[`To other ports, including Aceh and Demak`, `To Leran and other towns in East Java`, `To Mecca and Medina`, `To Cambodia and the Mekong Delta`] },
+
+  { id:`C1`, lv:`c`, type:`mc`, q:`Why did the capture of Melaka produce a result that went against the Portuguese aim?`,
+    options:[`The Portuguese wanted to control the spice trade and stop Islam, but the people they scattered carried trade links and religious knowledge to other centres, so Islam spread further.`, `The Portuguese wanted to spread Islam, but merchants refused to leave Melaka, so the religion stayed in one port.`, `The Portuguese wanted new laws for Melaka, but scholars burned the law books, so trade collapsed.`, `The Portuguese wanted to close the port, but the monsoon winds forced them to keep it open.`] },
+  { id:`C2`, lv:`c`, type:`mc`, q:`How did the Minangkabau arrangement for ancestral land help reconcile local inheritance practices with Islamic law?`,
+    options:[`Ancestral land stayed a shared trust of the matrilineal clan, treated differently from an individual estate.`, `Ancestral land was divided equally among sons, so adat was replaced by Islamic law.`, `Ancestral land was given to the mosques, so no one could inherit it.`, `Ancestral land belonged to the ruler, who decided each case under royal custom.`] },
+  { id:`C3`, lv:`c`, type:`mc`, q:`What can you infer from the layered wooden roofs of early mosques?`,
+    options:[`Local people actively shaped Islamic architecture, using their own timber building traditions.`, `Early Muslim communities could not afford to build stone domes.`, `Mosque designs were copied directly from buildings in the Middle East.`, `Islamic law required mosques in the region to be built of wood.`] },
+  { id:`C4`, lv:`c`, type:`mc`, q:`What did Melaka's laws combine, and what was the effect?`,
+    options:[`Royal customs and Islamic legal principles; they created a reliable trading environment that attracted merchants.`, `Portuguese and Islamic law; they ended the spice trade in the city.`, `Matrilineal custom and Sunni Shafi'i law; they decided who could inherit land.`, `Chinese and Arab trading rules; they forced merchants to leave after the monsoon.`] },
+  { id:`C5`, lv:`c`, type:`mc`, q:`After the engine noise, Ben asks a question. What does Maya correct?`,
+    options:[`The capture did not stop the spread of Islam; it scattered people who carried it to other centres.`, `The Portuguese captured Melaka in 1869, not in 1511.`, `The capture stopped the spice trade but not the spread of Islam in Melaka itself.`, `Merchants moved to Mecca, not to other ports in the region.`] },
+  { id:`C6`, lv:`c`, type:`mc`, q:`Which chain of events does Ben describe for his podcast?`,
+    options:[`Monsoon winds meant waiting; waiting created relationships; relationships helped religious practices spread.`, `Traders arrived; rulers converted at once; the whole population followed.`, `Scholars wrote laws; laws attracted traders; traders built stone mosques.`, `Steamships made travel easier; pilgrims went to Mecca; journals replaced schools.`] },
+
+  { id:`A1`, lv:`a`, type:`mc`, q:`Alex asks whether the Leran gravestone proves the whole kingdom was Muslim. What does the evidence actually show?`,
+    options:[`It is evidence of one Muslim burial; one person cannot show that the court or the whole population had converted.`, `It proves that the royal court of Java had converted by the date on the label.`, `It proves there were no Muslims in Java, because the stone was imported.`, `It shows that Islam reached Java only after the Portuguese captured Melaka.`] },
+  { id:`A2`, lv:`a`, type:`mc`, q:`Which statement best summarizes the speakers' main argument about how Islam spread in Southeast Asia?`,
+    options:[`It spread gradually over centuries through a network with many centres, and Southeast Asians actively shaped it alongside overseas connections.`, `It arrived in one wave from Arabia, and local people simply accepted a finished culture.`, `It spread mainly because the Portuguese forced merchants to move to new ports.`, `It spread only through royal courts, while villages kept their older beliefs unchanged.`] },
+  { id:`A3`, lv:`a`, type:`mc`, q:`How does Maya distinguish Cham Bani from Cham Islam?`,
+    options:[`Cham Bani developed locally adapted practices with religious specialists and ancestral traditions; Cham Islam communities generally followed Sunni Shafi'i practice.`, `Cham Bani follow Sunni Shafi'i practice; Cham Islam communities keep ancestral traditions.`, `There is no real difference; both groups follow exactly the same practices.`, `Cham Bani live in Cambodia and the Mekong Delta; Cham Islam live only in central Vietnam.`] },
+  { id:`A4`, lv:`a`, type:`mc`, q:`Why were the Suez Canal and commercial steamships important, according to Maya?`,
+    options:[`Easier travel let more Southeast Asian Muslims make the Hajj and meet reformist ideas; returning pilgrims developed schools and journals.`, `They let the Portuguese reach Melaka faster and capture it.`, `They ended the monsoon trade, so traders no longer married into local families.`, `They brought stone from the Middle East to build domed mosques.`] },
+  { id:`A5`, lv:`a`, type:`mc`, q:`Why does Ben say that "a single explanation is not enough"?`,
+    options:[`Trade brought contacts, writing widened access and schools helped ideas take root; each factor played a part.`, `The museum labels gave different dates for the same events.`, `Maya kept changing her answer after the engine noise.`, `The Portuguese and Muslim sources disagree about 1511.`] }
   ]
 };
 
@@ -1270,6 +1348,7 @@ function stateMsg(){
     H.players.forEach(p => { s.res[p.pid] = [p.last || 0, p.score, p.rank || 0, p.ok ? 1 : 0, p.streak, p.chose ?? -1]; });
   }
   if(H.phase === "end") s.top = ranked().slice(0,3).map(p => [p.name, p.score]);
+  if(H.bo) s.bo = {c:H.bo.closed ? 1 : 0, rem:Math.max(0, Math.round(H.bo.endsAt - performance.now())), st:H.bo.st, r:H.bo.r};
   return s;
 }
 
@@ -1293,7 +1372,7 @@ async function hostCreate(){
   H.client = c; H.b = b;
   watchConn(c, $("h-ket-noi")); setConn($("h-ket-noi"), "on", "Connected");
   c.on("message", hostMsg);
-  c.subscribe([tp(H.code, "j"), tp(H.code, "a")], {qos:1});
+  c.subscribe([tp(H.code, "j"), tp(H.code, "a"), tp(H.code, "b")], {qos:1});
   H.link = `${location.origin}${location.pathname}?room=${H.code}&b=${b}`;
   hostLobby(); publishState();
   say(`Room ${H.code} is open. Scan the code and come aboard!`, true);
@@ -1329,6 +1408,7 @@ function hostMsg(topic, buf){
   if(!m || typeof m.pid !== "string" || !/^[A-Z0-9]{8}$/.test(m.pid)) return;
   if(topic === tp(H.code, "j")) hostJoin(m);
   else if(topic === tp(H.code, "a")) hostAnswer(m);
+  else if(topic === tp(H.code, "b")) hostBonusMsg(m);
 }
 function hostJoin(m){
   let p = H.players.get(m.pid);
@@ -1336,7 +1416,7 @@ function hostJoin(m){
     const want = String(m.name || "").replace(/\s+/g, " ").trim().slice(0, 24) || "Deckhand";
     const taken = new Set([...H.players.values()].map(x => x.name.toLowerCase()));
     let name = want, k = 2; while(taken.has(name.toLowerCase())) name = `${want} ${k++}`;
-    p = {pid:m.pid, name, score:0, streak:0, best:0, right:0, last:0, rank:H.players.size + 1, ok:false, chose:-1};
+    p = {pid:m.pid, name, score:0, streak:0, best:0, right:0, last:0, rank:H.players.size + 1, ok:false, chose:-1, base:0, bonus:0};
     H.players.set(m.pid, p);
     H.joinBuf.push(name); clearTimeout(H.joinT);
     H.joinT = setTimeout(() => { if(!H) return; say(`⛵ ${listNames(H.joinBuf)} came aboard.`); H.joinBuf = []; }, 1200);
@@ -1344,6 +1424,7 @@ function hostJoin(m){
     if(H.phase !== "lobby") updAnswered();
   }
   pub("p/" + m.pid, {ok:1, name:p.name});
+  if(H.bo && H.bo.sets[m.pid]) pub("p/" + m.pid, {bq:H.bo.sets[m.pid]}); // điện thoại tải lại giữa vòng thưởng
 }
 function hostAnswer(m){
   const p = H.players.get(m.pid);
@@ -1478,9 +1559,18 @@ function renderHostBxh(){
 function hostEnd(){
   if(!H) return;
   clearInterval(H.tick); H.phase = "end";
+  H.players.forEach(p => { p.base = p.score; p.bonus = 0; });
   publishState(); updAnswered();
+  renderHostEnd();
   const r = ranked();
-  $("h-so-cau").textContent = "Voyage complete";
+  Voice.cut();
+  say(r[0] ? `The voyage is over. ${r[0].name} makes port first with ${r[0].score} points!` : "The voyage is over.", true);
+  Am.win(); confetti();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+function renderHostEnd(){
+  const r = ranked(), bonus = H.bo && H.bo.closed;
+  $("h-so-cau").textContent = bonus ? "Final results with bonus" : "Voyage complete";
   const podium = [[r[1], 150, "🥈"], [r[0], 190, "🏆"], [r[2], 120, "🥉"]].map(([p, h, m]) =>
     p ? `<div style="min-height:${h}px"><em>${m}</em><b>${esc(p.name)}</b>${p.score} pts</div>` : "").join("");
   const byType = Object.entries(TYPES).map(([k, t]) => {
@@ -1491,20 +1581,112 @@ function hostEnd(){
   $("h-trai").innerHTML = `<div class="the">
     <div class="danh-hieu">${r[0] ? `🏆 ${esc(r[0].name)} makes port first!` : "Voyage complete"}</div>
     <div class="buc-vinh">${podium}</div>
+    <div id="h-bo"></div>
     ${byType ? `<h2>Whole class by question type</h2><p class="mo">Share of answers that were correct.</p><div class="theo-dang">${byType}</div>` : ""}
     <h2>Final ranking</h2>
-    <table class="bxh"><tr><th>#</th><th>Sailor</th><th>Correct</th><th>Best streak</th><th>Points</th></tr>${r.map((p, i) =>
-      `<tr><td>${i+1}</td><td>${esc(p.name)}</td><td>${p.right}/${H.log.length}</td><td>${p.best}</td><td>${p.score}</td></tr>`).join("")}</table>
+    <table class="bxh"><tr><th>#</th><th>Sailor</th><th>Correct</th><th>Best streak</th>${bonus ? "<th>Voyage</th><th>Bonus</th>" : ""}<th>Points</th></tr>${r.map((p, i) =>
+      `<tr><td>${i+1}</td><td>${esc(p.name)}</td><td>${p.right}/${H.log.length}</td><td>${p.best}</td>${bonus ? `<td>${p.base}</td><td>${p.bonus ? "+" + p.bonus : ""}</td>` : ""}<td>${p.score}</td></tr>`).join("")}</table>
     <div class="hang-nut"><button class="nut-chinh" id="h-csv">Download results (CSV)</button><button class="nut-phu" id="h-ve">Close room</button></div></div>`;
+  renderBonusPanel();
   renderHostBxh();
-  Voice.cut();
-  say(r[0] ? `The voyage is over. ${r[0].name} makes port first with ${r[0].score} points!` : "The voyage is over.", true);
-  Am.win(); confetti();
-  window.scrollTo({top:0, behavior:"smooth"});
 }
+
+/* ---------- vòng thưởng Listening: hạng 1–3 chọn thi, thưởng tới 30% điểm hải trình ---------- */
+const L = window.ISLAM_LISTEN, LMAP = new Map(L.pool.map(x => [x.id, x]));
+const LV_TEN = {e:"Easy", m:"Moderate", c:"Challenging", a:"Advanced"};
+const normL = s => String(s).toLowerCase().replace(/\bce\b/g, "").replace(/[^a-z0-9]/g, "");
+function gradeL(item, v){
+  if(v == null || v === "") return false;
+  return item.type === "mc" ? v === 0 : item.accept.some(a => normL(a) === normL(v));
+}
+const BO_TEXT = {offer:"Deciding…", yes:"Listening", no:"Stayed in port", done:"Handed in"};
+function bonusSet(){ // mỗi người một bộ: rút ngẫu nhiên theo mức, xáo đáp án
+  const qs = Object.entries(L.pick).flatMap(([lv, n]) => shuffle(L.pool.filter(x => x.lv === lv)).slice(0, n).map(x => x.id));
+  const ord = {}; qs.forEach(id => { if(LMAP.get(id).type === "mc") ord[id] = shuffle([0,1,2,3]); });
+  return {qs, ord};
+}
+function renderBonusPanel(){
+  const el = $("h-bo"); if(!el) return;
+  const B = H.bo, top = ranked().slice(0, 3);
+  if(!B){
+    el.innerHTML = top.length ? `<div class="bo-the"><h2>🎧 Special round · Listening Challenge</h2>
+      <p>The top three may take a 5-minute listening test on their phones (headphones on): a museum conversation about Islam in Southeast Asia,
+      then ${Object.values(L.pick).reduce((a, b) => a + b, 0)} questions drawn at random for each sailor. Each correct answer adds 3% of their voyage score, up to +30%.</p>
+      <p class="mo">Invited: ${top.map(p => `<b>${esc(p.name)}</b> (${p.score})`).join(" · ")} · Time limit ${L.minutes} minutes</p>
+      <div class="hang-nut"><button class="nut-chinh" id="h-bo-mo">Offer the bonus round 🎧</button></div></div>` : "";
+    return;
+  }
+  const left = Math.max(0, B.endsAt - performance.now()), mm = Math.floor(left / 60000), ss = Math.floor(left / 1000) % 60;
+  el.innerHTML = `<div class="bo-the"><h2>🎧 Listening Challenge ${B.closed ? "· results" : `· <span id="h-bo-dh">${mm}:${String(ss).padStart(2, "0")}</span> left`}</h2>
+    <div class="bo-luoi">${B.el.map(pid => { const p = H.players.get(pid), st = B.st[pid], res = B.r[pid];
+      const n = Object.values(B.ans[pid] || {}).filter(v => v !== "" && v != null).length, tot = B.sets[pid] ? B.sets[pid].qs.length : 0;
+      return `<div class="bo-o ${st}"><b>${esc(p.name)}</b><span class="mo">Voyage ${p.base} pts</span>
+        ${res ? `<em>${res[0]}/${res[1]} correct</em><strong>${res[2] ? "+" + res[2] : "+0"} bonus</strong>`
+              : `<em>${BO_TEXT[st]}</em>${st === "yes" || st === "done" ? `<span>${n}/${tot} answered</span>` : ""}`}</div>`; }).join("")}</div>
+    ${B.closed ? "" : `<div class="hang-nut"><button class="nut-phu" id="h-bo-dong">Close the bonus round now</button></div>`}</div>`;
+}
+function bonusOpen(){
+  if(!H || H.phase !== "end" || H.bo) return;
+  const el = ranked().slice(0, 3).map(p => p.pid);
+  if(!el.length) return;
+  H.bo = {el, st:{}, sets:{}, ans:{}, r:{}, closed:false, endsAt:performance.now() + L.minutes * 60000};
+  el.forEach(pid => H.bo.st[pid] = "offer");
+  publishState(); renderBonusPanel();
+  say(`Special round! ${listNames(el.map(pid => H.players.get(pid).name))} may take the Listening Challenge for a bonus of up to 30 percent.`, true);
+  clearInterval(H.boTick); H.boBeat = 0;
+  H.boTick = setInterval(() => {
+    if(!H || !H.bo || H.bo.closed) return;
+    const left = H.bo.endsAt - performance.now();
+    const t = $("h-bo-dh"); if(t) t.textContent = `${Math.floor(Math.max(0, left) / 60000)}:${String(Math.floor(Math.max(0, left) / 1000) % 60).padStart(2, "0")}`;
+    if(left <= 0){ say("Time! The bonus round is closed."); bonusClose(); }
+    else if(++H.boBeat % 10 === 0) publishState();
+  }, 1000);
+}
+function hostBonusMsg(m){
+  const B = H.bo, pid = m.pid;
+  if(!B || B.closed || !B.el.includes(pid)) return;
+  const p = H.players.get(pid);
+  if(m.act === "yes" && (B.st[pid] === "offer" || B.st[pid] === "yes")){
+    if(B.st[pid] === "offer"){ B.st[pid] = "yes"; B.sets[pid] = bonusSet(); B.ans[pid] = {}; say(`🎧 ${p.name} accepts the challenge. Headphones on!`, true); }
+    pub("p/" + pid, {bq:B.sets[pid]});
+  } else if(m.act === "no" && B.st[pid] === "offer"){
+    B.st[pid] = "no"; say(`${p.name} stays in port and keeps ${p.base} points.`);
+  } else if(m.act === "ans" && B.st[pid] === "yes" && m.a && typeof m.a === "object"){
+    const set = B.sets[pid], a = {};
+    set.qs.forEach(id => { const v = m.a[id]; if(LMAP.get(id).type === "mc"){ if([0,1,2,3].includes(v)) a[id] = v; } else if(typeof v === "string") a[id] = v.slice(0, 40); });
+    B.ans[pid] = a;
+    if(m.done){ B.st[pid] = "done"; say(`${p.name} hands in the answers.`); }
+    pub("p/" + pid, {bgot:m.done ? 2 : 1});
+  } else return;
+  publishState(); renderBonusPanel();
+  if(B.el.every(id => B.st[id] === "no" || B.st[id] === "done")) setTimeout(() => H && H.bo === B && !B.closed && bonusClose(), 1500);
+}
+function bonusClose(){
+  const B = H && H.bo; if(!B || B.closed) return;
+  B.closed = true; clearInterval(H.boTick);
+  const oldTop = ranked()[0];
+  B.el.forEach(pid => {
+    const p = H.players.get(pid);
+    if(B.st[pid] === "offer") B.st[pid] = "no";
+    if(B.st[pid] !== "yes" && B.st[pid] !== "done") return;
+    const set = B.sets[pid], a = B.ans[pid] || {};
+    const ok = set.qs.filter(id => gradeL(LMAP.get(id), a[id])).length;
+    p.bonus = Math.round(p.base * 0.3 * ok / set.qs.length); p.score = p.base + p.bonus;
+    B.r[pid] = [ok, set.qs.length, p.bonus];
+  });
+  const now = ranked(); now.forEach((p, i) => { p.prev = p.rank; p.rank = i + 1; });
+  publishState(); renderHostEnd();
+  B.el.filter(pid => B.r[pid]).forEach(pid => { const p = H.players.get(pid), r = B.r[pid];
+    say(`${p.name}: ${r[0]} of ${r[1]} correct, plus ${r[2]} bonus points.`, true); });
+  if(now[0] && oldTop && now[0] !== oldTop){ say(`⚓ With the bonus, ${now[0].name} overtakes ${oldTop.name} and wins the voyage!`, true); Am.win(); confetti(); }
+  else if(now[0]) say(`${now[0].name} holds on to first place with ${now[0].score} points.`, true);
+}
+
 function hostCsv(){
-  const rows = [["Rank", "Name", "Points", "Correct", "Questions", "Best streak"]]
-    .concat(ranked().map((p, i) => [i+1, p.name, p.score, p.right, H.log.length, p.best]));
+  const bo = H.bo && H.bo.closed;
+  const rows = [["Rank", "Name", "Points", "Correct", "Questions", "Best streak"].concat(bo ? ["Voyage points", "Listening correct", "Listening bonus"] : [])]
+    .concat(ranked().map((p, i) => [i+1, p.name, p.score, p.right, H.log.length, p.best]
+      .concat(bo ? [p.base, H.bo.r[p.pid] ? `${H.bo.r[p.pid][0]}/${H.bo.r[p.pid][1]}` : "", p.bonus || 0] : [])));
   const csv = "﻿" + rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\r\n");
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([csv], {type:"text/csv"})); a.download = `monsoon-voyage-${H.code}.csv`;
@@ -1512,8 +1694,9 @@ function hostCsv(){
 }
 function hostClose(silent){
   if(!H) return;
-  if(!silent && (H.phase === "q" || H.phase === "r") && !confirm("Close the room? The voyage will end for everyone.")) return;
-  clearInterval(H.tick); clearTimeout(H.joinT); clearTimeout(H.pubT);
+  const busy = H.phase === "q" || H.phase === "r" || (H.bo && !H.bo.closed);
+  if(!silent && busy && !confirm("Close the room? The game will end for everyone.")) return;
+  clearInterval(H.tick); clearInterval(H.boTick); clearTimeout(H.joinT); clearTimeout(H.pubT);
   const c = H.client, code = H.code;
   if(c){ // báo các máy rồi xoá trạng thái lưu trên broker
     c.publish(tp(code, "s"), JSON.stringify({v:1, ph:"closed"}), {qos:1});
@@ -1529,6 +1712,8 @@ $("h-trai").addEventListener("click", e => {
   else if(b.id === "h-mo") hostReveal();
   else if(b.id === "h-het"){ if(confirm("End the voyage now and show the final results?")) hostEnd(); }
   else if(b.id === "h-csv") hostCsv();
+  else if(b.id === "h-bo-mo") bonusOpen();
+  else if(b.id === "h-bo-dong"){ if(confirm("Close the bonus round now? Answers given so far will be marked.")) bonusClose(); }
   else if(b.id === "h-dong" || b.id === "h-ve") hostClose();
 });
 document.addEventListener("keydown", e => {
@@ -1536,7 +1721,7 @@ document.addEventListener("keydown", e => {
   e.preventDefault();
   if(H.phase === "lobby") hostNext(); else if(H.phase === "q") hostReveal(); else if(H.phase === "r") hostNext();
 });
-window.addEventListener("beforeunload", e => { if(H && (H.phase === "q" || H.phase === "r")){ e.preventDefault(); e.returnValue = ""; } });
+window.addEventListener("beforeunload", e => { if(H && (H.phase === "q" || H.phase === "r" || (H.bo && !H.bo.closed))){ e.preventDefault(); e.returnValue = ""; } });
 
 /* ---------- phía điện thoại ---------- */
 let P = null;
@@ -1605,8 +1790,14 @@ function playerMsg(topic, buf){
   else if(topic === tp(P.code, "p/" + P.pid)){
     if(m.ok){ const first = !P.joined; P.joined = true; P.name = m.name; clearInterval(P.joinRetry); if(first && P.s) playerState(P.s, true); }
     if(m.got != null && m.got === P.seq){ P.got = true; clearInterval(P.retry); if($("p-trang")) $("p-trang").textContent = "✓ The projector got your answer. Eyes up!"; }
+    if(m.bq && Array.isArray(m.bq.qs) && !P.bSet){
+      P.bSet = m.bq; P.bAns = store.get(bKey(), {}); clearInterval(P.bRetry);
+      if(P.s) playerState(P.s, true);
+    }
+    if(m.bgot && $("b-trang")) $("b-trang").textContent = m.bgot === 2 ? "✓ Handed in. Watch the projector for your bonus." : "✓ Saved on the projector.";
   }
 }
+const bKey = () => `hgm-bon-${P.code}-${P.pid}`;
 function playerState(s, force){
   P.s = s;
   if(s.ph === "closed"){
@@ -1619,7 +1810,11 @@ function playerState(s, force){
     P.deadline = performance.now() + s.rem; P.dur = s.dur;
   }
   if($("p-n")) $("p-n").textContent = s.n;
-  const key = `${s.ph}:${s.seq}:${P.joined ? 1 : 0}`;
+  let key = `${s.ph}:${s.seq}:${P.joined ? 1 : 0}`;
+  if(s.ph === "end" && s.bo){ // vòng thưởng: chỉ vẽ lại khi trạng thái của chính mình đổi, để không mất âm thanh đang phát
+    P.bDeadline = performance.now() + s.bo.rem;
+    key += `:bo${s.bo.c}:${s.bo.st[P.pid] || "-"}:${P.bSet ? 1 : 0}:${P.bWant ? 1 : 0}:${P.bDone ? 1 : 0}`;
+  }
   if(key === P.view && !force) return;
   P.view = key;
   if(!P.joined){
@@ -1692,14 +1887,87 @@ function pResult(s){
 }
 function pEnd(s){
   clearInterval(P.tick);
+  const bo = s.bo, st = bo && bo.st[P.pid];
+  if(bo && st && !bo.c){
+    if(st === "offer" && !P.bWant) return pBonusOffer(s);
+    if(st === "offer" || (st === "yes" && !P.bSet)){
+      $("p-noi").innerHTML = `<div class="the p-giua"><p class="p-lon">🎧</p><h2>Getting your questions…</h2></div>`; return; }
+    if(st === "yes" && !P.bDone) return pBonusTest();
+    if(st === "done" || P.bDone){
+      $("p-noi").innerHTML = `<div class="the p-giua"><p class="p-lon">📨</p><h2>Answers handed in</h2>
+        <p class="mo" id="b-trang">Your bonus appears when the lecturer closes the round.</p></div>`; return; }
+  }
   const r = s.res && s.res[P.pid], top = s.top || [];
-  const rank = r ? r[2] : 0, score = r ? r[1] : 0;
+  const rank = r ? r[2] : 0, score = r ? r[1] : 0, br = bo && bo.r && bo.r[P.pid];
   $("p-noi").innerHTML = `<div class="the p-giua"><p class="p-lon">${rank === 1 ? "🏆" : rank && rank <= 3 ? "🎖" : "⚓"}</p>
-    <h2>Voyage complete</h2>
+    <h2>${bo && bo.c ? "Final results" : "Voyage complete"}</h2>
+    ${br ? `<p style="font-size:20px">🎧 Listening: <b>${br[0]}/${br[1]}</b> correct · <b>+${br[2]}</b> bonus</p>` : ""}
     ${r ? `<p style="font-size:22px"><b>#${rank}</b> of ${s.n} · <b>${score}</b> points</p>` : ""}
+    ${bo && !bo.c ? `<p class="mo">${st === "no" ? "You kept your voyage points." : "The top three are taking the Listening Challenge. Watch the projector!"}</p>` : ""}
     <table class="bxh" style="max-width:420px;margin:12px auto">${top.map((t, i) => `<tr><td>${["🏆","🥈","🥉"][i]}</td><td>${esc(t[0])}</td><td>${t[1]}</td></tr>`).join("")}</table>
+    ${br && P.bSet ? pBonusReview() : ""}
     <p class="mo">Thanks for sailing with the Monsoon.</p></div>`;
-  if(rank && rank <= 3){ Am.win(); if(rank === 1) confetti(); }
+  if(!(bo && !bo.c) && rank && rank <= 3){ Am.win(); if(rank === 1) confetti(); }
+}
+
+/* ---------- vòng thưởng trên điện thoại ---------- */
+function pBonusOffer(s){
+  const r = s.res && s.res[P.pid], base = r ? r[1] : 0, n = Object.values(L.pick).reduce((a, b) => a + b, 0);
+  $("p-noi").innerHTML = `<div class="the p-giua"><p class="p-lon">🎧</p>
+    <h2>You finished #${r ? r[2] : "?"}! Take the Listening Challenge?</h2>
+    <p>Listen to a 5-minute conversation at a maritime museum, then answer ${n} questions picked just for you.
+      Each correct answer adds 3% of your voyage score: up to <b>+${Math.round(base * .3)}</b> points.</p>
+    <p class="mo">Headphones on. You have ${L.minutes} minutes. There is no penalty: your voyage points stay safe.</p>
+    <div class="hang-nut" style="justify-content:center"><button class="nut-chinh" id="b-co">Take the challenge 🎧</button><button class="nut-phu" id="b-khong">No thanks</button></div></div>`;
+  $("b-co").onclick = () => { P.bWant = true; sendBonus({act:"yes"}); clearInterval(P.bRetry);
+    P.bRetry = setInterval(() => P.bSet ? clearInterval(P.bRetry) : sendBonus({act:"yes"}), 3000); playerState(P.s, true); };
+  $("b-khong").onclick = () => { if(confirm("Skip the bonus round? You keep your voyage points.")) sendBonus({act:"no"}); };
+}
+function sendBonus(o){ P.client.publish(tp(P.code, "b"), JSON.stringify(Object.assign({pid:P.pid}, o)), {qos:1}); }
+function pBonusTest(){
+  const set = P.bSet, A = P.bAns;
+  $("p-noi").innerHTML = `<div class="the">
+    <h2 style="margin-bottom:.2em">🎧 Listening Challenge</h2>
+    <p class="mo" style="margin:.2em 0">Read the questions first, then listen twice. Answers are saved as you go.</p>
+    <span class="b-dh" id="b-dh">${L.minutes}:00</span> <span class="mo" id="b-luot"></span>
+    <audio id="b-audio" controls preload="auto" src="${L.audio}"></audio>
+    ${set.qs.map((id, i) => { const q = LMAP.get(id);
+      return `<div class="b-cau" data-id="${id}"><p>${i+1}. ${esc(q.q)}<span class="muc">${LV_TEN[q.lv]}</span></p>${q.type === "mc"
+        ? `<div class="b-chon">${set.ord[id].map((oi, pos) => `<button data-oi="${oi}" aria-pressed="${A[id] === oi}"><b>${LETTERS[pos]}.</b> ${esc(q.options[oi])}</button>`).join("")}</div>`
+        : `<input type="text" maxlength="40" autocomplete="off" value="${esc(A[id] || "")}" placeholder="Type your answer">`}</div>`; }).join("")}
+    <button class="nut-chinh" id="b-nop">Hand in my answers</button><p class="p-trang" id="b-trang"></p></div>`;
+  const box = $("p-noi");
+  box.querySelectorAll(".b-chon").forEach(g => g.addEventListener("click", e => {
+    const b = e.target.closest("button"); if(!b) return;
+    const id = g.parentElement.dataset.id;
+    g.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+    A[id] = +b.dataset.oi; Am.click(); saveBonus();
+  }));
+  box.querySelectorAll(".b-cau input").forEach(inp => inp.addEventListener("input", () => { A[inp.parentElement.dataset.id] = inp.value; saveBonus(); }));
+  let plays = 0; const au = $("b-audio");
+  au.addEventListener("play", () => { if(au.currentTime < 1){ plays++; $("b-luot").textContent = `Listening ${plays}${plays > 2 ? " (the test suggests two)" : ""}`; } });
+  $("b-nop").onclick = () => {
+    const blank = set.qs.filter(id => A[id] == null || A[id] === "").length;
+    if(!confirm(blank ? `${plural(blank, "question")} still blank. Hand in anyway?` : "Hand in your answers? You cannot change them afterwards.")) return;
+    P.bDone = true; au.pause(); clearTimeout(P.bSave); sendBonus({act:"ans", a:A, done:1}); playerState(P.s, true);
+  };
+  clearInterval(P.bTick);
+  P.bTick = setInterval(() => {
+    const el = $("b-dh"); if(!el){ clearInterval(P.bTick); return; }
+    const left = Math.max(0, P.bDeadline - performance.now());
+    el.textContent = `${Math.floor(left / 60000)}:${String(Math.floor(left / 1000) % 60).padStart(2, "0")}`;
+    el.style.color = left < 60000 ? "var(--do)" : "";
+  }, 500);
+}
+function saveBonus(){
+  store.set(bKey(), P.bAns);
+  if($("b-trang")) $("b-trang").textContent = "Saving…";
+  clearTimeout(P.bSave); P.bSave = setTimeout(() => sendBonus({act:"ans", a:P.bAns}), 700);
+}
+function pBonusReview(){
+  return `<div class="b-xem"><h3>Your listening answers</h3>${P.bSet.qs.map((id, i) => { const q = LMAP.get(id), v = P.bAns[id], ok = gradeL(q, v);
+    const mine = v == null || v === "" ? "(blank)" : q.type === "mc" ? q.options[v] : v;
+    return `<div>${ok ? "✓" : "✗"} <b>${i+1}.</b> ${esc(q.q)}<br><span class="mo">You: ${esc(mine)}${ok ? "" : ` · Answer: ${esc(q.type === "mc" ? q.options[0] : q.accept[0])}`}</span></div>`; }).join("")}</div>`;
 }
 $("nut-vao-phong").addEventListener("click", () => playerOpen($("ma-vao").value.trim().toUpperCase(), null));
 $("ma-vao").addEventListener("keydown", e => { if(e.key === "Enter") $("nut-vao-phong").click(); });
