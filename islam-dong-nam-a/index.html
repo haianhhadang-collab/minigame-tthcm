@@ -1,0 +1,1104 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hải trình Gió Mùa</title>
+<meta name="description" content="Minigame 40 câu về bài giảng Islam in Southeast Asia: đọc hiểu, phân tích cấu trúc, tóm lược đoạn, trắc nghiệm, điền vào chỗ trống">
+<style>
+/* Hải trình Gió Mùa — dữ liệu câu hỏi nhúng ở window.ISLAM_SEA bên dưới (options[0] là đáp án đúng, game tự xáo). */
+:root{
+  --bien:#0F2D44; --bien2:#1B4766; --cat:#F4ECDD; --giay:#FFFBF3; --chu:#16283A; --chu2:#526273;
+  --vien:#DCCFB8; --ngoc:#1D7C77; --nghe:#C98B2B; --xanh:#2E7D4F; --xanh-nen:#E2F1E6; --do:#B23A2E; --do-nen:#F8E2DE;
+  --serif:"Palatino Linotype",Palatino,"Book Antiqua",Georgia,Cambria,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --cat:#0E1A25; --giay:#16242F; --chu:#E8EEF3; --chu2:#A5B4C2; --vien:#2C3F4E; --bien:#0A1F30; --bien2:#21587C;
+  --xanh-nen:#173528; --do-nen:#3A1E1B; --ngoc:#3BA7A0; --nghe:#E0A649; --xanh:#58B27D; --do:#E0675A;
+}}
+:root[data-theme="dark"]{
+  --cat:#0E1A25; --giay:#16242F; --chu:#E8EEF3; --chu2:#A5B4C2; --vien:#2C3F4E; --bien:#0A1F30; --bien2:#21587C;
+  --xanh-nen:#173528; --do-nen:#3A1E1B; --ngoc:#3BA7A0; --nghe:#E0A649; --xanh:#58B27D; --do:#E0675A;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--cat);color:var(--chu);font-family:var(--sans);line-height:1.5;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit;cursor:pointer}
+.an{display:none!important}
+.wrap{max-width:1080px;margin:0 auto;padding:16px 16px 110px}
+
+/* đầu trang */
+.dau{background:linear-gradient(160deg,var(--bien),var(--bien2));color:#F7F1E4;border-radius:18px;padding:26px 22px 22px;position:relative;overflow:hidden}
+.dau:after{content:"";position:absolute;left:0;right:0;bottom:0;height:34px;opacity:.25;
+  background:radial-gradient(circle at 10px -6px,transparent 12px,#F7F1E4 13px,transparent 14px) 0 0/40px 34px repeat-x}
+.dau .nho{letter-spacing:.14em;text-transform:uppercase;font-size:13px;opacity:.8}
+.dau h1{font-family:var(--serif);font-size:clamp(34px,6vw,58px);line-height:1.05;margin:.15em 0 .1em}
+.dau p{margin:.3em 0;max-width:46em;opacity:.92}
+.loi-gio{display:flex;gap:14px;align-items:flex-start;background:var(--giay);border:1.5px solid var(--vien);border-radius:14px;padding:14px 16px;margin:16px 0}
+.mat-gio{flex:none;width:58px;height:58px;border-radius:50%;background:var(--ngoc);display:grid;place-items:center;color:#fff}
+.mat-gio svg{width:40px;height:40px}
+.loi-gio b{color:var(--ngoc)}
+.loi-gio p{margin:.2em 0}
+
+.luoi{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:760px){.luoi{grid-template-columns:1fr}}
+.the{background:var(--giay);border:1.5px solid var(--vien);border-radius:14px;padding:16px}
+.the h2{margin:0 0 .5em;font-family:var(--serif);font-size:24px;color:var(--bien2)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .the h2{color:var(--nghe)}}
+:root[data-theme="dark"] .the h2{color:var(--nghe)}
+.nhan{display:block;font-weight:700;margin:.8em 0 .35em;font-size:15px;color:var(--chu2)}
+.chon{display:flex;flex-wrap:wrap;gap:8px}
+.chon button{border:1.5px solid var(--vien);background:transparent;border-radius:999px;padding:.4em .95em;font-size:15px}
+.chon button[aria-pressed="true"]{background:var(--bien2);border-color:var(--bien2);color:#fff}
+select,input[type=text]{font:inherit;color:inherit;background:var(--cat);border:1.5px solid var(--vien);border-radius:8px;padding:.45em .6em;width:100%}
+.doi-ds{display:grid;gap:6px}
+.nut-chinh{display:block;width:100%;margin-top:16px;padding:.75em 1em;border:0;border-radius:12px;background:var(--nghe);color:#1A1205;font-size:19px;font-weight:800;letter-spacing:.01em}
+.nut-chinh:hover{filter:brightness(1.05)}
+.nut-phu{border:1.5px solid var(--vien);background:var(--giay);border-radius:10px;padding:.45em .9em;font-weight:600}
+.dang{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-top:10px}
+.dang div{border-left:5px solid var(--c);background:var(--giay);border-radius:8px;padding:8px 10px;font-size:15px;border-top:1px solid var(--vien);border-right:1px solid var(--vien);border-bottom:1px solid var(--vien)}
+.dang b{display:block}
+.bxh{width:100%;border-collapse:collapse;font-size:15px}
+.bxh td,.bxh th{padding:5px 6px;border-bottom:1px solid var(--vien);text-align:left}
+.bxh td:last-child,.bxh th:last-child{text-align:right}
+.mo{color:var(--chu2);font-size:14px}
+
+/* màu từng dạng câu */
+[data-type="doc"]{--c:#2B6CB0}[data-type="cau-truc"]{--c:#8A4FB0}[data-type="tom-luoc"]{--c:#1D7C77}
+[data-type="trac-nghiem"]{--c:#C98B2B}[data-type="dien"]{--c:#C0533F}
+
+/* hải trình */
+.hai-trinh{position:relative;display:flex;justify-content:space-between;margin:6px 4px 14px;padding-top:34px}
+.hai-trinh:before{content:"";position:absolute;left:14px;right:14px;top:45px;border-top:3px dashed var(--vien)}
+.cang{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:12.5%;font-size:12px;color:var(--chu2);text-align:center;line-height:1.15}
+.cang i{width:22px;height:22px;border-radius:50%;background:var(--giay);border:3px solid var(--vien);margin-bottom:4px}
+.cang.qua i{background:var(--ngoc);border-color:var(--ngoc)}
+.cang.nay i{background:var(--nghe);border-color:var(--nghe);box-shadow:0 0 0 5px color-mix(in srgb,var(--nghe) 30%,transparent)}
+.cang.nay{color:var(--chu);font-weight:700}
+.tau{position:absolute;top:0;font-size:24px;line-height:1;transition:left .8s cubic-bezier(.5,0,.3,1);transform:translateX(-50%)}
+@media (max-width:600px){.cang span{display:none}.cang.nay span{display:block;position:absolute;top:28px;white-space:nowrap}.hai-trinh{margin-bottom:28px}}
+
+/* thanh trạng thái */
+.thanh{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.thanh .o{background:var(--giay);border:1.5px solid var(--vien);border-radius:10px;padding:.3em .7em;font-weight:700}
+.mang{color:var(--do);letter-spacing:2px}
+.dong-ho{height:10px;border-radius:99px;background:var(--vien);overflow:hidden;margin-bottom:12px}
+.dong-ho div{height:100%;background:var(--ngoc);width:100%;transition:width .25s linear}
+.dong-ho.gap div{background:var(--do)}
+.dong-ho.bang div{background:#5AA9E6}
+.vat-pham{display:flex;gap:8px;flex-wrap:wrap}
+.vat-pham button{border:1.5px solid var(--vien);background:var(--giay);border-radius:10px;padding:.3em .7em;font-size:15px}
+.vat-pham button:disabled{opacity:.4;cursor:default}
+
+.doi-bang{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.doi-bang div{background:var(--giay);border:2px solid var(--vien);border-radius:10px;padding:.3em .8em;font-weight:700}
+.doi-bang div.luot{border-color:var(--nghe);background:color-mix(in srgb,var(--nghe) 18%,var(--giay))}
+.doi-bang small{font-weight:400;color:var(--chu2)}
+
+/* câu hỏi */
+.cau{background:var(--giay);border:1.5px solid var(--vien);border-top:6px solid var(--c);border-radius:14px;padding:18px 20px}
+.huy-hieu{display:inline-block;background:var(--c);color:#fff;border-radius:999px;padding:.15em .75em;font-size:14px;font-weight:700;letter-spacing:.02em}
+.chu-de{color:var(--chu2);font-size:15px;margin-left:.5em}
+.doan{font-family:var(--serif);font-size:clamp(17px,1.75vw,21px);line-height:1.6;background:color-mix(in srgb,var(--c) 7%,var(--cat));border-left:4px solid var(--c);border-radius:8px;padding:12px 16px;margin:12px 0;max-height:46vh;overflow:auto}
+.doan p{margin:.45em 0}
+.doan .nhan-doan{font-family:var(--sans);font-size:.78em;font-weight:700;color:var(--c)}
+.hoi{font-family:var(--serif);font-size:clamp(21px,3.1vw,30px);line-height:1.35;margin:.5em 0 .7em;font-weight:700}
+.trong{display:inline-block;min-width:5.5em;border-bottom:3px solid var(--c);text-align:center;color:var(--c);padding:0 .2em}
+.dap-an{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:760px){.dap-an{grid-template-columns:1fr}}
+.dap-an button{display:flex;gap:10px;align-items:flex-start;text-align:left;border:2px solid var(--vien);background:var(--cat);border-radius:12px;padding:12px 14px;font-size:clamp(16px,1.6vw,19px);line-height:1.4}
+.dap-an button:not(:disabled):hover{border-color:var(--c)}
+.dap-an button b{flex:none;display:grid;place-items:center;width:1.7em;height:1.7em;border-radius:50%;background:var(--c);color:#fff;font-size:.9em}
+.dap-an button:disabled{cursor:default;opacity:1}
+.dap-an button.dung{border-color:var(--xanh);background:var(--xanh-nen)}
+.dap-an button.dung b{background:var(--xanh)}
+.dap-an button.sai{border-color:var(--do);background:var(--do-nen)}
+.dap-an button.sai b{background:var(--do)}
+.dap-an button.loai{opacity:.3;text-decoration:line-through}
+.dap-an button.mo-nhat{opacity:.55}
+
+.phan-hoi{margin-top:14px;border-radius:12px;padding:14px 16px;border:2px solid var(--vien)}
+.phan-hoi.ok{border-color:var(--xanh);background:var(--xanh-nen)}
+.phan-hoi.no{border-color:var(--do);background:var(--do-nen)}
+.phan-hoi h3{margin:0 0 .3em;font-size:22px}
+.phan-hoi .gio{display:flex;gap:10px;align-items:flex-start;margin:.4em 0}
+.phan-hoi .gio .mat-gio{width:40px;height:40px}.phan-hoi .gio .mat-gio svg{width:28px;height:28px}
+.trich{font-family:var(--serif);font-size:clamp(16px,1.6vw,19px);background:var(--giay);border-radius:8px;padding:10px 14px;margin-top:8px;border:1px solid var(--vien)}
+.trich b{font-family:var(--sans);font-size:14px;color:var(--chu2);display:block;margin-bottom:2px;letter-spacing:.04em;text-transform:uppercase}
+.cuop{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.hang-nut{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.hang-nut .nut-chinh{width:auto;margin:0;padding:.55em 1.4em}
+.phim{font-size:13px;color:var(--chu2)}
+.su-kien{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.su-kien button{border:1.5px dashed var(--nghe);background:transparent;border-radius:10px;padding:.3em .8em;font-weight:700;color:var(--chu)}
+.su-kien button:disabled{opacity:.35;cursor:default}
+.thong-bao{position:fixed;left:50%;top:18px;transform:translateX(-50%);background:var(--bien);color:#fff;padding:.6em 1.2em;border-radius:12px;font-weight:700;z-index:30;box-shadow:0 8px 24px rgba(0,0,0,.25);max-width:calc(100% - 32px);text-align:center}
+
+/* tổng kết */
+.danh-hieu{font-family:var(--serif);font-size:clamp(28px,5vw,46px);margin:.1em 0;color:var(--bien2)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .danh-hieu{color:var(--nghe)}}
+:root[data-theme="dark"] .danh-hieu{color:var(--nghe)}
+.so-lon{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0}
+.so-lon div{background:var(--cat);border:1.5px solid var(--vien);border-radius:12px;padding:8px 14px;min-width:120px}
+.so-lon b{display:block;font-size:28px}
+.theo-dang{display:grid;gap:6px;margin:10px 0}
+.theo-dang .h{display:grid;grid-template-columns:11em 1fr 4em;gap:10px;align-items:center;font-size:15px}
+.theo-dang .h i{display:block;height:12px;border-radius:99px;background:var(--vien);overflow:hidden}
+.theo-dang .h i span{display:block;height:100%;background:var(--c)}
+.xem-lai details{border:1.5px solid var(--vien);border-left:5px solid var(--c);border-radius:10px;padding:10px 12px;margin:8px 0;background:var(--cat)}
+.xem-lai summary{cursor:pointer;font-weight:700}
+.xem-lai p{margin:.4em 0}
+
+.nut-goc{position:fixed;right:14px;bottom:14px;display:flex;gap:8px;z-index:20}
+.nut-goc button{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--vien);background:var(--giay);font-size:20px;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.nut-goc button[aria-pressed="false"]{opacity:.45}
+canvas#phao{position:fixed;inset:0;pointer-events:none;z-index:40}
+</style>
+</head>
+<body>
+<canvas id="phao"></canvas>
+<div class="wrap">
+
+<!-- ====== TRANG ĐẦU ====== -->
+<section id="man-dau">
+  <header class="dau">
+    <div class="nho">Islam in Southeast Asia · Minigame bài giảng</div>
+    <h1>Hải trình Gió Mùa</h1>
+    <p>40 câu hỏi · 8 thương cảng · 5 dạng câu: đọc hiểu, phân tích cấu trúc, tóm lược đoạn, trắc nghiệm, điền vào chỗ trống.</p>
+  </header>
+
+  <div class="loi-gio">
+    <div class="mat-gio" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M5 14h18a5 5 0 1 0-5-5"/><path d="M5 21h26a5 5 0 1 1-5 5"/><path d="M5 28h12"/></svg></div>
+    <div>
+      <p><b>Ta là Gió Mùa.</b> Bài giảng nói ta "governed Indian Ocean navigation, compelling foreign merchants to reside in regional port cities for months at a time" — tức là thương nhân phải ngồi chờ ta, và trong lúc chờ thì Hồi giáo bén rễ.</p>
+      <p>Hôm nay ta chở bạn qua tám thương cảng. Mỗi cảng năm câu hỏi, đáp xong ta đọc nguyên văn bài giảng để bạn đối chiếu. Đọc kỹ đoạn trích — ta thổi nhanh lắm.</p>
+    </div>
+  </div>
+
+  <div class="luoi">
+    <div class="the">
+      <h2>Lên thuyền</h2>
+      <span class="nhan">Chế độ</span>
+      <div class="chon" id="chon-che-do">
+        <button data-v="solo" aria-pressed="true">Cá nhân</button>
+        <button data-v="doi" aria-pressed="false">Thi đội (chung một máy)</button>
+      </div>
+
+      <span class="nhan">Độ dài hải trình</span>
+      <div class="chon" id="chon-do-dai">
+        <button data-v="all" aria-pressed="true">Trọn 40 câu</button>
+        <button data-v="short" aria-pressed="false">Ngắn · 16 câu</button>
+        <button data-v="one" aria-pressed="false">Một cảng · 5 câu</button>
+      </div>
+      <div id="khung-cang" class="an" style="margin-top:8px"><select id="chon-cang"></select></div>
+
+      <div id="khung-solo">
+        <span class="nhan">Tên thuyền trưởng</span>
+        <input type="text" id="ten" maxlength="24" placeholder="Ví dụ: Lan Anh – K23">
+        <span class="nhan">Sóng gió</span>
+        <div class="chon" id="chon-kho">
+          <button data-v="de" aria-pressed="false">Lặng sóng</button>
+          <button data-v="vua" aria-pressed="true">Gió thường</button>
+          <button data-v="kho" aria-pressed="false">Bão lớn</button>
+        </div>
+        <p class="mo" id="mo-kho"></p>
+      </div>
+
+      <div id="khung-doi" class="an">
+        <span class="nhan">Số đội</span>
+        <div class="chon" id="chon-so-doi">
+          <button data-v="2" aria-pressed="false">2</button><button data-v="3" aria-pressed="false">3</button>
+          <button data-v="4" aria-pressed="true">4</button><button data-v="5" aria-pressed="false">5</button><button data-v="6" aria-pressed="false">6</button>
+        </div>
+        <span class="nhan">Tên đội</span>
+        <div class="doi-ds" id="ten-doi"></div>
+        <p class="mo">Các đội lần lượt nhận câu. Trả lời sai hoặc hết giờ, đội khác được <b>cướp câu</b> lấy nửa điểm. Người điều khiển có hai sự kiện dùng một lần: <b>Gió thuận</b> (câu kế nhân đôi) và <b>Bão biển</b> (đội dẫn đầu mất 150).</p>
+      </div>
+
+      <button class="nut-chinh" id="nut-bat-dau">Giương buồm ⛵</button>
+    </div>
+
+    <div class="the">
+      <h2>Năm dạng câu hỏi</h2>
+      <div class="dang" id="dang"></div>
+      <h2 style="margin-top:18px">Luật tính điểm</h2>
+      <p style="margin:.2em 0">Đúng: 100 điểm + tối đa 100 điểm theo tốc độ. Đúng liền từ câu thứ ba trở đi: +50 mỗi câu. Sai: 0 điểm, chế độ cá nhân mất một mạng.</p>
+      <p style="margin:.2em 0">Vật phẩm cá nhân: <b>½</b> loại 2 đáp án sai · <b>❄</b> đóng băng đồng hồ 15 giây · <b>⤼</b> bỏ qua một câu không mất mạng.</p>
+      <p class="phim">Phím tắt: A B C D (hoặc 1–4) để chọn, Enter để sang câu.</p>
+      <h2 style="margin-top:18px">Bảng vàng thuyền trưởng</h2>
+      <div id="bxh-dau"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== MÀN CHƠI ====== -->
+<section id="man-choi" class="an">
+  <div class="hai-trinh" id="hai-trinh"></div>
+  <div class="thanh">
+    <div class="o" id="tt-cau">Câu 1/40</div>
+    <div class="o" id="tt-diem">0 điểm</div>
+    <div class="o mang" id="tt-mang"></div>
+    <div class="o" id="tt-chuoi">Chuỗi 0</div>
+    <div class="vat-pham" id="vat-pham">
+      <button id="vp-nua" title="Loại 2 đáp án sai">½ <span></span></button>
+      <button id="vp-bang" title="Đóng băng đồng hồ 15 giây">❄ <span></span></button>
+      <button id="vp-qua" title="Bỏ qua câu này">⤼ <span></span></button>
+    </div>
+  </div>
+  <div class="doi-bang an" id="doi-bang"></div>
+  <div class="su-kien an" id="su-kien">
+    <button id="sk-gio">🌬 Gió thuận ×2</button>
+    <button id="sk-bao">🌪 Bão biển −150 đội dẫn đầu</button>
+  </div>
+  <div class="dong-ho" id="dong-ho"><div></div></div>
+
+  <article class="cau" id="the-cau">
+    <div><span class="huy-hieu" id="c-dang"></span><span class="chu-de" id="c-chu-de"></span></div>
+    <div class="doan" id="c-doan"></div>
+    <div class="hoi" id="c-hoi"></div>
+    <div class="dap-an" id="c-dap-an"></div>
+    <div class="phan-hoi an" id="c-phan-hoi"></div>
+  </article>
+</section>
+
+<!-- ====== TỔNG KẾT ====== -->
+<section id="man-cuoi" class="an">
+  <div class="the">
+    <div class="mo" id="k-phu"></div>
+    <div class="danh-hieu" id="k-danh-hieu"></div>
+    <div class="loi-gio" style="margin:8px 0"><div class="mat-gio" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M5 14h18a5 5 0 1 0-5-5"/><path d="M5 21h26a5 5 0 1 1-5 5"/><path d="M5 28h12"/></svg></div><div id="k-loi"></div></div>
+    <div class="so-lon" id="k-so"></div>
+    <h2>Theo dạng câu</h2>
+    <div class="theo-dang" id="k-dang"></div>
+    <div id="k-doi"></div>
+    <h2 id="k-xem-tieu">Xem lại câu cần ôn</h2>
+    <div class="xem-lai" id="k-xem"></div>
+    <div class="hang-nut">
+      <button class="nut-chinh" id="nut-lai">Ra khơi lần nữa</button>
+      <button class="nut-phu" id="nut-ve">Về bến</button>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="nut-goc">
+  <button id="nut-nhac" aria-pressed="true" title="Nhạc nền">♫</button>
+  <button id="nut-am" aria-pressed="true" title="Hiệu ứng âm thanh">🔔</button>
+</div>
+
+<script>
+// Ngân hàng câu hỏi — bài giảng "Islam in Southeast Asia: Historiography, Trajectories of Conversion,
+// and Cultural Vernacularization". options[0] luôn là đáp án đúng; game tự xáo vị trí khi chơi.
+// type: doc = đọc hiểu, cau-truc = phân tích cấu trúc, tom-luoc = tóm lược đoạn,
+//       trac-nghiem = trắc nghiệm, dien = điền vào chỗ trống ("_____" là chỗ trống).
+// explanation = trích nguyên văn bài giảng.
+window.ISLAM_SEA = {
+  title: `Islam in Southeast Asia`,
+  stations: [
+    { id: 1, name: `Pasai`, theme: `Historiography & Theories of Origin` },
+    { id: 2, name: `Melaka Strait`, theme: `Mechanisms of Transmission` },
+    { id: 3, name: `Leran – Melaka`, theme: `Merchant Enclaves & the Age of Commerce` },
+    { id: 4, name: `Aceh`, theme: `Colonial Hegemony & Militant Mobilization` },
+    { id: 5, name: `Minangkabau`, theme: `Adat and Sharia` },
+    { id: 6, name: `Yogyakarta`, theme: `The Javanese Conundrum` },
+    { id: 7, name: `Panduranga`, theme: `Cham Bani & Cham Islam` },
+    { id: 8, name: `Demak`, theme: `Vernacular Architecture & Synthesis` }
+  ],
+  questions: [
+  // ───────────── TRẠM 1 · Historiography & Theories of Origin
+  { id: 1, station: 1, type: `doc`, topic: `Colonial historiography`,
+    passage: `The academic study of Islam in Southeast Asia has developed from colonial-era administrative classifications into a sophisticated examination of trans-oceanic intellectual networks and localized vernacularization. Early colonial historiography, articulated by scholars such as Christiaan Snouck Hurgronje, J.P. Moquette, and Richard Winstedt, characterized Southeast Asian Islam as an incomplete, peripheral development. In this colonial paradigm, the religious traditions of the Malay-Indonesian archipelago were interpreted as a thin Islamic glaze layered over persistent animistic and Hindu-Buddhist foundations. The region was cast as a passive recipient of external cultural waves, detached from the intellectual heartlands of the Middle East.`,
+    question: `According to the passage, how did early colonial historians interpret the religious traditions of the Malay-Indonesian archipelago?`,
+    options: [`As a thin Islamic glaze layered over persistent animistic and Hindu-Buddhist foundations`, `As a fully Islamized society that had abandoned its earlier beliefs`, `As an intellectual heartland that shaped Middle Eastern theology`, `As a Shi'ite tradition imported directly from Persia`],
+    explanation: `"In this colonial paradigm, the religious traditions of the Malay-Indonesian archipelago were interpreted as a thin Islamic glaze layered over persistent animistic and Hindu-Buddhist foundations."`,
+    baoRight: `Chuẩn! Mấy ông sử gia thực dân nhìn cả quần đảo như nhìn chiếc bánh phủ đường — mà ta, Gió Mùa, đã thổi qua đó cả nghìn năm, biết rõ bên trong không mỏng thế đâu.`,
+    baoWrong: `Lệch hướng rồi! Giới thực dân coi Hồi giáo ở đây chỉ là "lớp men mỏng" phủ trên nền vật linh và Ấn–Phật.` },
+
+  { id: 2, station: 1, type: `cau-truc`, topic: `Paragraph relationship`,
+    passage: `[¶1] … Early colonial historiography … characterized Southeast Asian Islam as an incomplete, peripheral development. … The region was cast as a passive recipient of external cultural waves, detached from the intellectual heartlands of the Middle East.\n\n[¶2] Mid-twentieth-century scholarship fundamentally deconstructed this colonial perspective. Historians and sociologists, including Anthony Reid, A.H. Johns, and Syed Muhammad Naquib al-Attas, demonstrated that Southeast Asians were active agents who selectively appropriated, translated, and institutionalized Islamic theology (kalam), jurisprudence (fiqh), and esoteric mysticism (tasawwuf). The historical expansion of Islam across the region is now understood not as a singular, abrupt event of mass conversion, but as a multi-centric, centuries-long process …`,
+    question: `How is paragraph 2 related to paragraph 1?`,
+    options: [`¶1 presents the colonial view; ¶2 refutes it and replaces it with a revised view (claim → rebuttal)`, `¶2 gives further examples that support the claim made in ¶1`, `¶1 describes a cause and ¶2 describes its economic effects`, `Both paragraphs narrate successive chronological phases of conversion`],
+    explanation: `The opening sentence of ¶2 signals the rebuttal: "Mid-twentieth-century scholarship fundamentally deconstructed this colonial perspective." The "passive recipient" of ¶1 becomes "active agents" in ¶2.`,
+    baoRight: `Đọc ra cấu trúc "luận điểm – phản bác" rồi đấy! Câu đầu đoạn 2 chính là cú đổi chiều gió.`,
+    baoWrong: `Để ý chữ "deconstructed" ngay câu mở đoạn 2: đoạn 1 nêu quan điểm thực dân, đoạn 2 đánh đổ nó.` },
+
+  { id: 3, station: 1, type: `tom-luoc`, topic: `Multi-centric network paradigm`,
+    passage: `Rather than treating these geographic hypotheses as irreconcilable positions, modern scholarship synthesizes them within an accommodationist and multi-centric network paradigm. Early commercial interactions from the 7th to the 12th centuries brought diverse Muslim traders—Arab, Persian, and Indian—into Southeast Asian transit ports. However, the systematic formation of indigenous Islamic polities from the late 13th century onward required continuous intellectual mediation. This was achieved through trans-oceanic scholarly networks connecting Southeast Asian scholars residing in Mecca and Medina (the Jawi intellectual community) with regional royal courts, transforming local religious practice from scattered foreign mercantile outposts into established domestic institutions.`,
+    question: `Which option best summarizes the paragraph?`,
+    options: [`Modern scholars combine the origin theories into one network model: traders first brought Islam to the ports, but lasting Islamic polities needed continuous scholarly mediation linking Mecca and Medina with royal courts.`, `Modern scholars have proven the Arabian theory correct and rejected the Indian, Persian and Chinese theories.`, `Islam arrived in a single wave of Indian merchants in the 13th century and spread without any scholarly mediation.`, `The Jawi community in Mecca opposed royal courts and kept Islam confined to foreign trading outposts.`],
+    explanation: `"Rather than treating these geographic hypotheses as irreconcilable positions, modern scholarship synthesizes them within an accommodationist and multi-centric network paradigm … the systematic formation of indigenous Islamic polities from the late 13th century onward required continuous intellectual mediation."`,
+    baoRight: `Tóm gọn như buồm căng gió! Thương nhân mở đường, học giả mạng lưới Jawi dựng nhà.`,
+    baoWrong: `Đoạn này không chọn phe nào cả — nó gộp các giả thuyết lại thành mô hình mạng lưới đa trung tâm.` },
+
+  { id: 4, station: 1, type: `trac-nghiem`, topic: `Theories of origin`,
+    question: `Which piece of evidence is cited as a rebuttal to the Indian (Gujarat/Cambay) theory?`,
+    options: [`Cambay itself was not incorporated into an Islamic sultanate until 1298, after Pasai had already established its Muslim dynasty`, `Persian loanwords are found in Malay administrative and maritime vocabularies`, `Admiral Zheng He led diplomatic expeditions along the northern coast of Java`, `Sayyid and Sharif lineages (the Ba 'Alawi) originated from Hadramawt`],
+    explanation: `"Epigraphic over-reliance: Cambay tombstones were widely exported commercial commodities rather than conclusive proof of missionary provenance; Cambay itself was not incorporated into an Islamic sultanate until 1298, after Pasai had already established its Muslim dynasty."`,
+    baoRight: `Bia mộ Cambay là hàng xuất khẩu, chứ không phải giấy khai sinh của Hồi giáo! Ta từng chở cả thuyền bia mộ, nặng muốn gãy buồm.`,
+    baoWrong: `Ba phương án kia là bằng chứng cho thuyết Ba Tư, Trung Hoa và Ả Rập. Lời phản bác thuyết Ấn Độ là: Cambay thành vương quốc Hồi giáo năm 1298, sau Pasai.` },
+
+  { id: 5, station: 1, type: `dien`, topic: `Persian theory`,
+    question: `The Persian theory points to the memorialization of _____ (the 10th of Muharram / Ashura) in West Sumatra and Bengkulu.`,
+    options: [`Tabuik or Tabut`, `the slametan`, `the Hikayat Prang Sabi`, `the bedug`],
+    explanation: `"Persian linguistic loanwords within Malay administrative and maritime vocabularies; the memorialization of Tabuik or Tabut (the 10th of Muharram / Ashura) in West Sumatra and Bengkulu; esoteric mystical concepts present in early classical literature."`,
+    baoRight: `Tabuik! Lễ rước ở Tây Sumatra mà ta vẫn thổi tung cờ mỗi tháng Muharram.`,
+    baoWrong: `Đáp án là Tabuik (Tabut) — lễ tưởng niệm Ashura, dấu vết văn hoá Ba Tư.` },
+
+  // ───────────── TRẠM 2 · Mechanisms of Transmission
+  { id: 6, station: 2, type: `doc`, topic: `Sufi masters`,
+    passage: `Complementing commercial settlement, the widespread diffusion of Islam between the 13th and 17th centuries was accelerated by the arrival of itinerant Sufi masters (makhdumin). As A.H. Johns observed, the expansion of Sufi orders (tariqa) throughout the Indian Ocean following the 1258 Mongol destruction of Baghdad provided a cosmological language that aligned with indigenous Austronesian and Indic worldviews. Rather than demanding an abrupt renunciation of established spiritual systems, Sufi teachers integrated local reverence for ancestral spirits into Islamic frameworks of saint veneration (ziyara) and chains of spiritual lineage (silsila).`,
+    question: `According to A.H. Johns, what provided a cosmological language that aligned with indigenous Austronesian and Indic worldviews?`,
+    options: [`The expansion of Sufi orders (tariqa) through the Indian Ocean after the 1258 Mongol destruction of Baghdad`, `The opening of the Suez Canal and the steamship Hajj`, `The codification of the Undang-Undang Melaka`, `The Portuguese capture of Melaka in 1511`],
+    explanation: `"As A.H. Johns observed, the expansion of Sufi orders (tariqa) throughout the Indian Ocean following the 1258 Mongol destruction of Baghdad provided a cosmological language that aligned with indigenous Austronesian and Indic worldviews."`,
+    baoRight: `Đúng! Các thầy Sufi đi đến đâu cũng nói được "ngôn ngữ vũ trụ" của dân bản địa — còn ta thì chỉ biết hú.`,
+    baoWrong: `Johns nói đến các dòng Sufi (tariqa) lan rộng sau khi Baghdad bị Mông Cổ phá năm 1258.` },
+
+  { id: 7, station: 2, type: `cau-truc`, topic: `Cause-and-effect chain`,
+    passage: `Maritime trade served as the structural catalyst for religious encounters. The monsoon winds governed Indian Ocean navigation, compelling foreign merchants to reside in regional port cities for months at a time. During these intervals, commercial alliances were established with local elites, frequently consolidated through marriages between Muslim merchants and the daughters of indigenous aristocracy. These domestic alliances integrated Islamic practices into elite merchant lineages, creating influential Muslim commercial enclaves within dominant port cities.`,
+    question: `How is this paragraph organized?`,
+    options: [`As a cause-and-effect chain: monsoon → months-long residence → alliances and marriages → Muslim commercial enclaves`, `As a comparison of two competing theories of origin`, `As a definition followed by counter-examples`, `As a chronological list of sultanates from Pasai to Banten`],
+    explanation: `Each sentence produces the next: the monsoon is "compelling foreign merchants to reside … for months"; "During these intervals, commercial alliances were established …"; "These domestic alliances … creating influential Muslim commercial enclaves within dominant port cities."`,
+    baoRight: `Chuỗi nhân quả hoàn hảo — và mắt xích đầu tiên là ta đấy! Không có Gió Mùa thì chẳng ai ở lại đủ lâu để cưới vợ.`,
+    baoWrong: `Đây là chuỗi nhân – quả: gió mùa → ở lại nhiều tháng → liên minh, hôn nhân → cộng đồng thương nhân Hồi giáo.` },
+
+  { id: 8, station: 2, type: `tom-luoc`, topic: `Jawi and Pegon scripts`,
+    passage: `This political transformation was anchored by an intellectual and orthographic revolution: the creation of the Jawi and Pegon scripts. By modifying the Arabic alphabet to express the phonology of Malay, Javanese, Sundanese, and Madurese, regional scholars translated foundational Quranic commentaries, legal treatises, and mystical texts into the vernacular. This localized literacy moved Islamic education beyond the immediate royal courts, embedding it within rural village institutions through networks of traditional boarding schools (pesantren, pondok, and dayah).`,
+    question: `Which option best summarizes the paragraph?`,
+    options: [`Arabic-based scripts adapted to local languages (Jawi, Pegon) let scholars translate Islamic texts into the vernacular, spreading Islamic education from the courts to village boarding schools.`, `Jawi replaced Malay as the spoken language of the archipelago's royal courts.`, `The Pegon script kept Islamic learning restricted to royal courts and away from villages.`, `Regional scholars translated Malay epics into Arabic for readers in the Middle East.`],
+    explanation: `"By modifying the Arabic alphabet to express the phonology of Malay, Javanese, Sundanese, and Madurese, regional scholars translated foundational Quranic commentaries, legal treatises, and mystical texts into the vernacular. This localized literacy moved Islamic education beyond the immediate royal courts …"`,
+    baoRight: `Chữ Jawi: chữ Ả Rập mặc sarong Mã Lai. Gọn và đúng!`,
+    baoWrong: `Ý chính: chữ Jawi/Pegon đưa kinh sách vào ngôn ngữ địa phương và kéo việc học ra khỏi cung đình, về tận các trường nội trú làng quê.` },
+
+  { id: 9, station: 2, type: `trac-nghiem`, topic: `Dynastic conversion`,
+    question: `According to the lecture, what did indigenous rulers gain when they adopted the title of Sultan?`,
+    options: [`Access to regional trade networks and alignment with the prestige of the global Islamic community (Ummah)`, `Military protection from the Portuguese crown`, `Exemption from all tribute to Ming China`, `The right to appoint the Caliph in Baghdad`],
+    explanation: `"When indigenous rulers adopted the title of Sultan alongside an Islamic regnal designation, they gained access to regional trade networks and aligned themselves with the prestige of the global Islamic community (Ummah)."`,
+    baoRight: `Một danh hiệu, hai món lợi: đường buôn và uy tín Ummah. Các vua tính toán còn kỹ hơn thương nhân!`,
+    baoWrong: `Danh hiệu Sultan mở cửa vào mạng lưới thương mại khu vực và gắn vua với uy tín của cộng đồng Hồi giáo toàn cầu (Ummah).` },
+
+  { id: 10, station: 2, type: `dien`, topic: `Sufi doctrines and kingship`,
+    question: `Doctrines such as the "Perfect Man" (al-Insan al-Kamil) and the cosmic grades of being (_____) mapped onto Southeast Asian conceptions of sacred kingship.`,
+    options: [`Martabat Tujuh`, `Pangaderreng`, `Serat Centhini`, `Undang-Undang Laut`],
+    explanation: `"Doctrines such as the "Perfect Man" (al-Insan al-Kamil) and the cosmic grades of being (Martabat Tujuh) mapped onto Southeast Asian conceptions of sacred kingship, providing rulers with divine legitimation that enhanced their political authority."`,
+    baoRight: `Martabat Tujuh — bảy bậc tồn tại. Ta mới thổi tới bậc hai đã hụt hơi.`,
+    baoWrong: `Đáp án: Martabat Tujuh (bảy bậc của tồn tại vũ trụ).` },
+
+  // ───────────── TRẠM 3 · Merchant Enclaves & the Age of Commerce
+  { id: 11, station: 3, type: `doc`, topic: `Epigraphic evidence`,
+    passage: `Material archaeological findings corroborate this early external presence without establishing the existence of indigenous Islamic statecraft. The tombstone of Fatima bint Maimun bin Hibat Allah at Leran, East Java, dated 1082 CE (475 AH), provides the oldest epigraphic evidence of a Muslim burial in Java, situated near the Hindu-Buddhist capital of the Airlangga realm. Similarly, in central Vietnam, two Arabic-inscribed funerary steles dating between 1025 and 1039 CE indicate an established foreign Muslim merchant enclave within the coastal kingdom of Champa. In the southern Philippines, the tomb of Tuhan Maqbalu at Bud Dato on Jolo Island, dated 1310 CE (710 AH), demonstrates that Muslim figures of rank were present in the Sulu archipelago decades before the formal institutionalization of the Sulu Sultanate. Throughout this early period, Islam remained primarily an expatriate phenomenon …`,
+    question: `What does the tombstone of Fatima bint Maimun at Leran (1082 CE) show?`,
+    options: [`It is the oldest epigraphic evidence of a Muslim burial in Java`, `It proves that the Airlangga court had converted to Islam`, `It marks the founding of the first Islamic kingdom in Java`, `It is the tomb of the first Sultan of Sulu`],
+    explanation: `"The tombstone of Fatima bint Maimun bin Hibat Allah at Leran, East Java, dated 1082 CE (475 AH), provides the oldest epigraphic evidence of a Muslim burial in Java, situated near the Hindu-Buddhist capital of the Airlangga realm." — and such findings do so "without establishing the existence of indigenous Islamic statecraft."`,
+    baoRight: `Đúng! Một bia mộ chứng minh có người Hồi giáo, chứ không chứng minh có vương quốc Hồi giáo.`,
+    baoWrong: `Bia Leran là chứng tích mộ táng Hồi giáo cổ nhất ở Java — không chứng minh triều đình Airlangga đã cải đạo.` },
+
+  { id: 12, station: 3, type: `cau-truc`, topic: `Rhetorical pattern`,
+    passage: `When the Portuguese captured Melaka in 1511, they sought to monopolize the regional spice trade and halt the spread of Islam. Instead, this intervention fractured the centralized trading system, dispersing Muslim merchants, scholars, and royal lineages across the archipelago. This displacement accelerated the Islamization of secondary centers, including Aceh, Banten, Demak, Johor-Riau, and Brunei.`,
+    question: `Which rhetorical pattern organizes this passage?`,
+    options: [`Intended goal vs. unintended outcome: the Portuguese aimed to halt Islam, but "instead" dispersed Muslims and accelerated Islamization`, `Definition followed by classification of spice types`, `Comparison of two similar sultanates`, `A chronological list of Portuguese military victories`],
+    explanation: `The signal word is "Instead": "they sought to monopolize the regional spice trade and halt the spread of Islam. Instead, this intervention fractured the centralized trading system … This displacement accelerated the Islamization of secondary centers …"`,
+    baoRight: `Bồ Đào Nha muốn dập lửa, ai ngờ lại thổi tung tàn lửa khắp quần đảo — như ta những ngày nóng nảy.`,
+    baoWrong: `Từ "Instead" báo hiệu cấu trúc "ý định ↔ kết quả ngược": muốn chặn Hồi giáo, lại làm Hồi giáo lan nhanh hơn.` },
+
+  { id: 13, station: 3, type: `tom-luoc`, topic: `Melaka's law codes`,
+    passage: `The rise of the Sultanate of Melaka represented an institutional turning point for the Malay world. Melaka integrated its strategic commercial position with an explicit Islamic legal identity, codified in the Undang-Undang Melaka (Digest of Laws) and the Undang-Undang Laut Melaka (Maritime Code). These codes synthesized customary royal prerogatives with Shafi'i legal mandates, establishing a reliable commercial environment that attracted merchants from across Asia.`,
+    question: `Which option best summarizes the paragraph?`,
+    options: [`Melaka joined its strategic trading position with an Islamic legal identity; its law codes blended royal custom with Shafi'i law and created a reliable environment that drew merchants from across Asia.`, `Melaka abolished all royal customs and imposed Ottoman law on its merchants.`, `Melaka's maritime code banned non-Muslim merchants from its port.`, `Melaka declined because its law codes discouraged trade.`],
+    explanation: `"Melaka integrated its strategic commercial position with an explicit Islamic legal identity … These codes synthesized customary royal prerogatives with Shafi'i legal mandates, establishing a reliable commercial environment that attracted merchants from across Asia."`,
+    baoRight: `Luật rõ ràng thì thương nhân kéo đến. Ta cũng thích cảng nào có luật — ít nhất biết chỗ neo thuyền!`,
+    baoWrong: `Ý chính: Melaka kết hợp vị trí thương mại với bản sắc pháp lý Hồi giáo; bộ luật dung hoà tục lệ hoàng gia và luật Shafi'i.` },
+
+  { id: 14, station: 3, type: `trac-nghiem`, topic: `Port sultanates`,
+    question: `Which polity is described as "the earliest verified indigenous Islamic state in Southeast Asia"?`,
+    options: [`Samudera Pasai`, `Melaka`, `Demak`, `Aceh Darussalam`],
+    explanation: `Samudera Pasai: "The earliest verified indigenous Islamic state in Southeast Asia; recorded by Marco Polo (1292) and Ibn Battuta (1345)."`,
+    baoRight: `Pasai! Marco Polo và Ibn Battuta đều ghé qua — ta đưa thuyền cho cả hai.`,
+    baoWrong: `Đáp án là Samudera Pasai (bắc Sumatra), được Marco Polo (1292) và Ibn Battuta (1345) ghi lại.` },
+
+  { id: 15, station: 3, type: `dien`, topic: `Anthony Reid`,
+    question: `The expansion of global maritime commerce between 1450 and 1680 was termed by Anthony Reid as Southeast Asia's "_____".`,
+    options: [`Age of Commerce`, `Mystic Synthesis`, `Veranda of Mecca`, `Cultivation System`],
+    explanation: `"The expansion of global maritime commerce between 1450 and 1680—termed by Anthony Reid as Southeast Asia's "Age of Commerce"—coincided with the rapid political adoption of Islam across archipelagic and peninsular polities."`,
+    baoRight: `"Kỷ nguyên Thương mại" — thời hoàng kim của ta, gió thổi đến đâu tiền chảy đến đó.`,
+    baoWrong: `Đáp án: "Age of Commerce" (Kỷ nguyên Thương mại), 1450–1680.` },
+
+  // ───────────── TRẠM 4 · Colonial Hegemony & Militant Mobilization
+  { id: 16, station: 4, type: `doc`, topic: `Suez Canal and the Hajj`,
+    passage: `The opening of the Suez Canal in 1869, alongside the introduction of commercial steamship navigation, lowered travel barriers and allowed tens of thousands of Southeast Asians to complete the Hajj pilgrimage each year. This increased mobility brought Southeast Asian Muslims into direct contact with Middle Eastern reformist and Salafi-modernist discourses. Returning pilgrims (haji) established extensive networks of rural boarding schools, publishing vernacular journals that challenged both local syncretic traditions and European colonial authority.`,
+    question: `According to the passage, what was one consequence of the Suez Canal and steamship navigation?`,
+    options: [`Tens of thousands of Southeast Asians could complete the Hajj each year and came into direct contact with Middle Eastern reformist discourses`, `Southeast Asian Muslims were cut off from the Middle East for several decades`, `Colonial governments were able to ban the Hajj completely`, `Returning pilgrims stopped publishing in vernacular languages`],
+    explanation: `"The opening of the Suez Canal in 1869, alongside the introduction of commercial steamship navigation, lowered travel barriers and allowed tens of thousands of Southeast Asians to complete the Hajj pilgrimage each year. This increased mobility brought Southeast Asian Muslims into direct contact with Middle Eastern reformist and Salafi-modernist discourses."`,
+    baoRight: `Tàu hơi nước đến, ta thất nghiệp. Nhưng câu trả lời của bạn thì có việc làm ngay: đúng!`,
+    baoWrong: `Kênh Suez và tàu hơi nước giúp hàng vạn người đi Hajj mỗi năm, tiếp xúc với tư tưởng cải cách Trung Đông.` },
+
+  { id: 17, station: 4, type: `cau-truc`, topic: `Function of a paragraph`,
+    passage: `By the late eighteenth and nineteenth centuries, European imperial powers—the Dutch East Indies administration, the British in Malaya and northern Borneo, and the Spanish in the Philippine archipelago—subjugated or co-opted the traditional coastal sultanates. However, rather than diminishing Islamic commitments, colonial structural changes inadvertently deepened orthodox practice and fostered anti-colonial mobilization.\n\n[The section then continues with: the Suez Canal and the Hajj → the Padri War → the Java War → the Aceh War → the Moro Wars.]`,
+    question: `What is the function of this opening paragraph within Phase III?`,
+    options: [`It states the section's thesis (colonial change deepened orthodoxy and anti-colonial mobilization), which the following case studies then illustrate`, `It concludes the whole lecture and summarizes all earlier sections`, `It presents a counter-argument that the following paragraphs reject`, `It provides statistics on colonial trade without making any claim`],
+    explanation: `The thesis sentence: "However, rather than diminishing Islamic commitments, colonial structural changes inadvertently deepened orthodox practice and fostered anti-colonial mobilization." The Hajj, Padri War, Java War, Aceh War and Moro Wars are the supporting cases.`,
+    baoRight: `Luận điểm trước, ví dụ sau — bố cục kiểu "câu chủ đề dẫn đường". Chuẩn!`,
+    baoWrong: `Đoạn mở đầu nêu luận điểm của cả phần; các cuộc chiến phía sau là dẫn chứng minh hoạ.` },
+
+  { id: 18, station: 4, type: `tom-luoc`, topic: `The Padri War`,
+    passage: `In West Sumatra, this ideological transition sparked the Padri War (1803–1837). Returning Minangkabau pilgrims, influenced by the Wahhabi capture of Mecca, sought to reform local customs, targeting cockfighting, gambling, and matrilineal inheritance practices. This internal dispute between reformist clerics (Kaum Padri) and traditional customary elites (Kaum Adat) turned into an anti-colonial struggle when Dutch forces intervened to support the aristocracy, ultimately leading to Dutch control over the Sumatran interior.`,
+    question: `Which option best summarizes the paragraph?`,
+    options: [`Returning pilgrims' campaign to reform local customs set reformist clerics against customary elites; when the Dutch backed the aristocracy, the conflict became anti-colonial and ended in Dutch control of the interior.`, `The Kaum Padri allied with the Dutch to defeat the Kaum Adat and abolish Islam in West Sumatra.`, `The Padri War was fought between Aceh and Portugal over the pepper trade.`, `The Kaum Adat campaigned to abolish matrilineal inheritance, and the Padri defended it.`],
+    explanation: `"This internal dispute between reformist clerics (Kaum Padri) and traditional customary elites (Kaum Adat) turned into an anti-colonial struggle when Dutch forces intervened to support the aristocracy, ultimately leading to Dutch control over the Sumatran interior."`,
+    baoRight: `Từ cãi nhau trong nhà thành chống ngoại xâm — tóm lược rất gọn.`,
+    baoWrong: `Phe Padri (giáo sĩ cải cách) muốn bỏ chọi gà, cờ bạc, thừa kế mẫu hệ; Hà Lan can thiệp giúp phe Adat và rốt cuộc chiếm nội địa Sumatra.` },
+
+  { id: 19, station: 4, type: `trac-nghiem`, topic: `The Aceh War`,
+    question: `During the Aceh War (1873–1904), what did the ulama use to mobilize resistance?`,
+    options: [`The religious poetry of the Hikayat Prang Sabi (Tale of the Holy War)`, `The Serat Centhini`, `The Undang-Undang Melaka`, `The Sejarah Melayu`],
+    explanation: `"Following the death of the Sultan, administrative and military leadership shifted to religious scholars (ulama), who mobilized resistance using the religious poetry of the Hikayat Prang Sabi (Tale of the Holy War)."`,
+    baoRight: `Thơ cũng là vũ khí! Hikayat Prang Sabi khiến cuộc chiến Aceh thành chiến dịch dài và tốn kém nhất của Hà Lan.`,
+    baoWrong: `Giới ulama dùng thơ Hikayat Prang Sabi (Truyện Thánh chiến) để động viên kháng chiến.` },
+
+  { id: 20, station: 4, type: `dien`, topic: `The Java War`,
+    question: `Diponegoro's capture and exile marked the end of autonomous Javanese statecraft and led to the direct imposition of the _____ (Cultuurstelsel), an extractive colonial economy.`,
+    options: [`Cultivation System`, `Age of Commerce`, `Maritime Code`, `Pangaderreng`],
+    explanation: `"Diponegoro's capture and exile marked the end of autonomous Javanese statecraft and led to the direct imposition of the Cultivation System (Cultuurstelsel), an extractive colonial economy that accelerated socio-religious polarization between orthodox, reformist santri and traditional rural populations."`,
+    baoRight: `Cultivation System — chế độ canh tác cưỡng bức. Đúng, dù chẳng vui vẻ gì.`,
+    baoWrong: `Đáp án: Cultivation System (Cultuurstelsel), nền kinh tế bóc lột sau Chiến tranh Java.` },
+
+  // ───────────── TRẠM 5 · Adat and Sharia
+  { id: 21, station: 5, type: `doc`, topic: `Minangkabau inheritance`,
+    passage: `This integration is clearly demonstrated among the Minangkabau of West Sumatra, who reconciled an adherence to orthodox Sunni Islam with a matrilineal kinship and inheritance system (adat perpatih). The apparent tension between Quranic patriarchal inheritance standards (fara'id) and matrilineal property transmission (harta pusaka) was resolved by categorizing ancestral land as an inalienable communal trust belonging to the matrilineal clan, rather than as individual property subject to estate division.`,
+    question: `How was the tension between fara'id and matrilineal property transmission resolved?`,
+    options: [`Ancestral land was classified as an inalienable communal trust of the matrilineal clan, not individual property subject to estate division`, `Matrilineal inheritance was abolished after the Padri War`, `All land was divided equally between sons and daughters`, `Dutch colonial courts decided each inheritance case`],
+    explanation: `"The apparent tension between Quranic patriarchal inheritance standards (fara'id) and matrilineal property transmission (harta pusaka) was resolved by categorizing ancestral land as an inalienable communal trust belonging to the matrilineal clan, rather than as individual property subject to estate division."`,
+    baoRight: `Mẹo pháp lý tuyệt vời: đất tổ không phải tài sản cá nhân nên khỏi chia! Người Minangkabau đúng là trạng.`,
+    baoWrong: `Lời giải: coi đất tổ tiên là tài sản chung bất khả chuyển nhượng của dòng họ mẹ, không phải của riêng ai để chia.` },
+
+  { id: 22, station: 5, type: `cau-truc`, topic: `Section organization`,
+    passage: `The expansion of Islam across Southeast Asia did not occur in a legal vacuum, nor did it replace pre-existing normative traditions. Instead, it generated a negotiated relationship between canonical Islamic jurisprudence (sharia) and customary local practices (adat). Rather than being locked in perpetual conflict, these legal spheres developed regional accommodations that preserved community cohesion while integrating Islamic norms.\n\n[Next paragraphs begin:] "This integration is clearly demonstrated among the Minangkabau of West Sumatra …" / "A parallel dual legal order emerged in the Sultanate of Aceh …" / "In South Sulawesi, the Bugis and Makassarese societies …"`,
+    question: `How is the section "The Interplay of Customary Law (Adat) and Canonical Jurisprudence (Sharia)" organized?`,
+    options: [`A general claim (adat and sharia were negotiated, not in conflict), supported by three regional case studies: Minangkabau, Aceh and South Sulawesi`, `A chronological history of a single law code from the 7th to the 19th century`, `A debate between Geertz and Woodward over the slametan`, `A list of statistics on Islamic court cases`],
+    explanation: `The general claim — "it generated a negotiated relationship between canonical Islamic jurisprudence (sharia) and customary local practices (adat)" — is followed by "This integration is clearly demonstrated among the Minangkabau…", "A parallel dual legal order emerged in the Sultanate of Aceh…", and "In South Sulawesi…".`,
+    baoRight: `Một luận điểm, ba ví dụ — cấu trúc vững như bốn cột saka guru!`,
+    baoWrong: `Phần này đi từ nhận định chung đến ba trường hợp minh hoạ: Minangkabau, Aceh, Nam Sulawesi.` },
+
+  { id: 23, station: 5, type: `tom-luoc`, topic: `Aceh's dual legal order`,
+    passage: `A parallel dual legal order emerged in the Sultanate of Aceh, where secular authority was distributed alongside religious scholarship. At the village level, headmen (Keuchik) administered customary law and resolved communal disputes, while Islamic judges (Teungku or Qadi) adjudicated criminal penalties, family law, and religious endowments (waqf). State codes like the Adat Meukuta Alam formalized royal administrative decrees (kanun) within an Islamic framework, reinforcing royal authority while preserving customary village autonomy.`,
+    question: `Which option best summarizes the paragraph?`,
+    options: [`Aceh had a dual legal order: village headmen applied customary law while Islamic judges handled criminal, family and waqf cases, and codes like the Adat Meukuta Alam set royal decrees within an Islamic framework.`, `In Aceh, Islamic judges abolished the village headmen and took over all disputes.`, `Aceh rejected Islamic law and governed only by customary decrees.`, `The Adat Meukuta Alam was a Dutch colonial code imposed on Aceh.`],
+    explanation: `"At the village level, headmen (Keuchik) administered customary law and resolved communal disputes, while Islamic judges (Teungku or Qadi) adjudicated criminal penalties, family law, and religious endowments (waqf). State codes like the Adat Meukuta Alam formalized royal administrative decrees (kanun) within an Islamic framework …"`,
+    baoRight: `Trưởng làng lo tục lệ, quan toà lo luật Hồi giáo — chia việc rõ ràng, khỏi giẫm chân nhau.`,
+    baoWrong: `Ý chính là "trật tự pháp lý kép": Keuchik xử theo tục lệ, Qadi xử hình sự, gia đình, waqf.` },
+
+  { id: 24, station: 5, type: `trac-nghiem`, topic: `Minangkabau maxim`,
+    question: `According to the lecture, what does the maxim "Adat basandi syarak, syarak basandi Kitabullah" establish?`,
+    options: [`That customary law was founded upon Islamic law, which in turn was rooted in the Quran`, `That Islamic law was founded upon customary law`, `That custom and Islam must be kept completely separate`, `That the Quran should be read only in the Minangkabau language`],
+    explanation: `"This established that customary law was founded upon Islamic law, which in turn was rooted in the Quran. Under this framework, matrilineal practices governed kinship and clan governance, while Islamic law regulated personal worship, contractual transactions, and public devotion."`,
+    baoRight: `Tục lệ dựa trên luật Hồi giáo, luật Hồi giáo dựa trên Kinh Qur'an — ba tầng như mái tajug!`,
+    baoWrong: `Châm ngôn này nghĩa là: adat dựa trên syarak (luật Hồi giáo), syarak dựa trên Kitabullah (Kinh Qur'an).` },
+
+  { id: 25, station: 5, type: `dien`, topic: `Bugis honor`,
+    question: `In South Sulawesi, the indigenous concept of personal and collective honor (_____) was repositioned within an Islamic moral framework.`,
+    options: [`siri'`, `daulat`, `bicara`, `adat perpatih`],
+    explanation: `"The indigenous concept of personal and collective honor (siri') was repositioned within an Islamic moral framework, validating Bugis social identity through Islamic principles of dignity and communal duty."`,
+    baoRight: `Siri' — danh dự của người Bugis. Bạn vừa giữ được siri' của mình đấy!`,
+    baoWrong: `Đáp án: siri' (danh dự cá nhân và cộng đồng). "Daulat" là uy lực thiêng của vua, "bicara" là án lệ.` },
+
+  // ───────────── TRẠM 6 · The Javanese Conundrum
+  { id: 26, station: 6, type: `doc`, topic: `Geertz's trichotomy`,
+    passage: `Clifford Geertz's ethnographic study, The Religion of Java (1960), framed Javanese society through a cultural and political trichotomy (aliran). Geertz divided the population into three social categories: the santri, who adhered strictly to orthodox Islamic rituals and legal codes; the abangan, a rural peasant class whose practices centered on communal feasts (slametan) and animistic spirit propitiation; and the priyayi, an aristocratic elite dedicated to courtly Hindu-Buddhist aesthetics and refined mysticism. Geertz concluded that Islam was an external, superficial layer in Java …`,
+    question: `In Geertz's trichotomy, who were the abangan?`,
+    options: [`A rural peasant class whose practices centered on communal feasts (slametan) and animistic spirit propitiation`, `Those who adhered strictly to orthodox Islamic rituals and legal codes`, `An aristocratic elite dedicated to courtly Hindu-Buddhist aesthetics`, `Returning pilgrims who founded rural boarding schools`],
+    explanation: `"… the abangan, a rural peasant class whose practices centered on communal feasts (slametan) and animistic spirit propitiation …"`,
+    baoRight: `Abangan — nông dân với tiệc slametan. Bạn phân loại còn nhanh hơn Geertz!`,
+    baoWrong: `Abangan là nông dân nông thôn với tiệc slametan; santri là người theo chính thống; priyayi là giới quý tộc.` },
+
+  { id: 27, station: 6, type: `cau-truc`, topic: `Section organization`,
+    passage: `[Geertz] Clifford Geertz's ethnographic study, The Religion of Java (1960), framed Javanese society through a cultural and political trichotomy …\n\n[Ricklefs] Merle C. Ricklefs challenged this static trichotomy through historical archival analysis …\n\n[Woodward] Mark R. Woodward provided an extensive critique of Geertz's ethnographic conclusions, arguing that Geertz misunderstood Javanese religious rituals because he lacked a grounding in classical Islamic jurisprudence and Sufi metaphysics …`,
+    question: `How is the section "The Javanese Conundrum" organized?`,
+    options: [`One influential model (Geertz) is presented first, then two scholars challenge it from different angles: historical archives (Ricklefs) and Islamic texts and Sufism (Woodward)`, `Three scholars are presented who all reach the same conclusion`, `A chronological narrative of the Java War from 1825 to 1830`, `Ricklefs' model is presented first and then defended by Geertz and Woodward`],
+    explanation: `"Merle C. Ricklefs challenged this static trichotomy through historical archival analysis" and "Mark R. Woodward provided an extensive critique of Geertz's ethnographic conclusions … because he lacked a grounding in classical Islamic jurisprudence and Sufi metaphysics."`,
+    baoRight: `Một mô hình bị hai mũi phản biện — đúng kiểu hội thảo học thuật nóng hơn nắng Java.`,
+    baoWrong: `Geertz đưa mô hình; Ricklefs (dựa vào lưu trữ lịch sử) và Woodward (dựa vào luật học, Sufi) lần lượt phản bác.` },
+
+  { id: 28, station: 6, type: `tom-luoc`, topic: `Ricklefs on polarization`,
+    passage: `Ricklefs showed that this synthesis was expressed in classical nineteenth-century Javanese literature, such as the Serat Centhini (c. 1814). The sharp polarization into opposing santri and abangan camps was not an ancient civilizational fault line, but a modern historical development. It was triggered by the economic disruptions of the Java War, the expansion of colonial administration, and the arrival of Middle Eastern reformist ideas that rejected localized customs as unlawful innovations (bid'ah).`,
+    question: `Which option best summarizes the paragraph?`,
+    options: [`The santri–abangan split was not an ancient divide but a modern development, triggered by the Java War, colonial expansion and reformist ideas; the earlier shared synthesis appears in texts such as the Serat Centhini.`, `The santri–abangan split has existed since the Hindu-Buddhist era of Majapahit.`, `The Serat Centhini proves that Javanese society was always deeply divided.`, `Middle Eastern reformists encouraged Javanese to keep all local customs.`],
+    explanation: `"The sharp polarization into opposing santri and abangan camps was not an ancient civilizational fault line, but a modern historical development. It was triggered by the economic disruptions of the Java War, the expansion of colonial administration, and the arrival of Middle Eastern reformist ideas …"`,
+    baoRight: `Chia rẽ là chuyện thế kỷ 19, không phải "nghìn năm có một". Tóm lược xuất sắc!`,
+    baoWrong: `Ricklefs: phân cực santri–abangan là hiện tượng hiện đại, do Chiến tranh Java, bộ máy thuộc địa và tư tưởng cải cách gây ra.` },
+
+  { id: 29, station: 6, type: `trac-nghiem`, topic: `The Mystic Synthesis`,
+    question: `Which of the following is NOT one of the three foundations of Ricklefs' "Mystic Synthesis"?`,
+    options: [`Rejection of all local spirits and customs as unlawful innovations (bid'ah)`, `An overarching self-identification as Muslim`, `Regular practice of the Five Pillars of Islam`, `Absorption of indigenous spiritual forces, such as Kanjeng Ratu Kidul, into a Sufi hierarchy`],
+    explanation: `The three foundations are: "An overarching self-identification as Muslim…", "The regular practice of the Five Pillars of Islam…", and "The cosmological absorption of indigenous spiritual forces … placed within a broad Sufi ontological hierarchy." Rejecting customs as bid'ah belongs to the later reformist ideas that dissolved the synthesis.`,
+    baoRight: `Bắt bài câu phủ định! Bài trừ "bid'ah" chính là thứ làm tan rã sự tổng hợp, chứ không phải nền móng của nó.`,
+    baoWrong: `Câu hỏi "NOT": bài trừ tục lệ như "bid'ah" là tư tưởng cải cách về sau — nó phá vỡ Mystic Synthesis.` },
+
+  { id: 30, station: 6, type: `dien`, topic: `Woodward on the slametan`,
+    question: `Woodward demonstrated that the slametan communal meal was directly rooted in normative Sufi doctrines of charity (_____), prophetic intercession (tawassul), and the mystical commemoration of the dead.`,
+    options: [`sadaqah`, `fiqh`, `kalam`, `waqf`],
+    explanation: `"Woodward demonstrated that practices Geertz identified as animistic survivals—specifically the slametan communal meal—were directly rooted in normative Sufi doctrines of charity (sadaqah), prophetic intercession (tawassul), and the mystical commemoration of the dead."`,
+    baoRight: `Sadaqah — bố thí. Bữa slametan hoá ra là việc thiện, không phải tàn dư vật linh!`,
+    baoWrong: `Đáp án: sadaqah (bố thí). Fiqh là luật học, kalam là thần học, waqf là tài sản hiến tặng.` },
+
+  // ───────────── TRẠM 7 · Cham Bani & Cham Islam
+  { id: 31, station: 7, type: `doc`, topic: `The Acar priesthood`,
+    passage: `Within this structural system, the Cham Bani preserved Islamic monotheistic terminology while domesticating its practice. The worship of Allah (Po Awluah) was integrated with ancestral reverence, overseen by an exclusive clerical order known as the Acar. During the sacred month of Ramawan, the Acar cloistered themselves within the village sanctuary (thang muki) to recite adapted Qur'anic passages and perform ritual fasts on behalf of the lay community (Gahéh), who maintained traditional matrilineal households and agrarian obligations.`,
+    question: `What do the Acar do during the month of Ramawan?`,
+    options: [`Cloister themselves in the village sanctuary (thang muki), recite adapted Qur'anic passages and fast on behalf of the lay community (Gahéh)`, `Lead every villager in the daily five prayers`, `Perform cremation rites in ancient brick temple towers`, `Travel to Mecca to complete the Hajj`],
+    explanation: `"During the sacred month of Ramawan, the Acar cloistered themselves within the village sanctuary (thang muki) to recite adapted Qur'anic passages and perform ritual fasts on behalf of the lay community (Gahéh) …"`,
+    baoRight: `Các Acar nhịn ăn thay cả làng — một kiểu "uỷ quyền tâm linh". Đúng rồi!`,
+    baoWrong: `Acar ở trong thánh đường làng (thang muki), tụng kinh và nhịn ăn thay giáo dân (Gahéh). Hoả táng ở tháp gạch là của tăng lữ Basseh (Chăm Ahier).` },
+
+  { id: 32, station: 7, type: `cau-truc`, topic: `Signal word`,
+    passage: `[Previous paragraph] Within this structural system, the Cham Bani preserved Islamic monotheistic terminology while domesticating its practice …\n\n[This paragraph] Conversely, Cham populations that fled westward to Cambodia and the Mekong Delta following the final annexation of Champa by Emperor Minh Mang in 1832 were incorporated into regional Malay maritime networks. These displaced groups, categorized as Cham Islam or Cham Baruw, largely abandoned the dualistic cosmological model of Panduranga and embraced standard Sunni Shafi'i orthopraxy …`,
+    question: `What does the word "Conversely" signal at the start of this paragraph?`,
+    options: [`A contrast between the localized Cham Bani and the Cham Islam who embraced standard Sunni Shafi'i orthopraxy`, `An example that supports the previous paragraph's claim`, `A direct consequence of King Po Rome's reforms`, `A simple continuation of the same group's history in time order`],
+    explanation: `"Conversely … These displaced groups, categorized as Cham Islam or Cham Baruw, largely abandoned the dualistic cosmological model of Panduranga and embraced standard Sunni Shafi'i orthopraxy" — the opposite of the Cham Bani, who "domesticat[ed] its practice".`,
+    baoRight: `"Conversely" = ngược lại. Hai cộng đồng Chăm, hai con đường — bạn đọc ra ngay.`,
+    baoWrong: `"Conversely" báo hiệu sự đối lập: Chăm Bani bản địa hoá, còn Chăm Islam theo chuẩn Sunni Shafi'i.` },
+
+  { id: 33, station: 7, type: `tom-luoc`, topic: `Po Rome's dualism`,
+    passage: `During the seventeenth century, King Po Rome (r. 1627–1651) addressed internal religious divisions by establishing a dualistic cosmological framework that integrated the kingdom's religious factions. Society was balanced between two complementary segments: the Ahier (associated with the past, the earth, masculinity, and the older Hindu-Brahmanic tradition) and the Awal or Bani (associated with the future, the heavens, femininity, and Islam).`,
+    question: `Which option best summarizes the paragraph?`,
+    options: [`King Po Rome eased religious divisions with a dualistic framework that balanced two complementary segments: Ahier (past, earth, masculine, Hindu-Brahmanic) and Awal/Bani (future, heavens, feminine, Islam).`, `King Po Rome converted the entire kingdom to orthodox Sunni Islam.`, `King Po Rome banned the Ahier and destroyed the brick temple towers.`, `Emperor Minh Mang created the Ahier–Awal system in 1832.`],
+    explanation: `"King Po Rome (r. 1627–1651) addressed internal religious divisions by establishing a dualistic cosmological framework that integrated the kingdom's religious factions. Society was balanced between two complementary segments: the Ahier … and the Awal or Bani …"`,
+    baoRight: `Po Rome — "vị vua của hai thế giới". Âm dương cân bằng, tóm lược cũng cân bằng!`,
+    baoWrong: `Po Rome không chọn một bên — ông lập khung lưỡng nguyên cân bằng Ahier và Awal/Bani.` },
+
+  { id: 34, station: 7, type: `trac-nghiem`, topic: `Cham communities`,
+    question: `Where are the Cham Islam (Cham Baruw) communities mainly found, according to the comparison table?`,
+    options: [`Chau Doc (Mekong Delta), Ho Chi Minh City, and regional Cambodian diaspora centers`, `Only in Ninh Thuan and Binh Thuan provinces`, `Around the old northern capital of Vijaya`, `In North Maluku, the Spice Islands`],
+    explanation: `Cham Islam (Sunni / Cham Baruw), Geographic Distribution: "Chau Doc (Mekong Delta), Ho Chi Minh City, and regional Cambodian diaspora centers."`,
+    baoRight: `Châu Đốc, TP.HCM, Campuchia — bạn rành bản đồ hơn cả ta!`,
+    baoWrong: `Chăm Islam tập trung ở Châu Đốc, TP.HCM và Campuchia; Ninh Thuận – Bình Thuận là nơi của Chăm Bani và Chăm Ahier.` },
+
+  { id: 35, station: 7, type: `dien`, topic: `The fall of Vijaya`,
+    question: `Following the capture of the northern capital of Vijaya by Dai Viet in _____, Cham political authority shifted southward to the principality of Panduranga.`,
+    options: [`1471`, `1511`, `1627`, `1832`],
+    explanation: `"Following the capture of the northern capital of Vijaya by Dai Viet in 1471, Cham political authority shifted southward to the principality of Panduranga (present-day Ninh Thuan and Binh Thuan provinces in Vietnam)."`,
+    baoRight: `1471 — năm Vijaya thất thủ. Nhớ mốc giỏi lắm!`,
+    baoWrong: `Đáp án: 1471. (1511: Bồ Đào Nha chiếm Melaka; 1627: Po Rome lên ngôi; 1832: Minh Mạng sáp nhập Champa.)` },
+
+  // ───────────── TRẠM 8 · Vernacular Architecture & Synthesis
+  { id: 36, station: 8, type: `doc`, topic: `The tajug roof`,
+    passage: `The defining feature of early archipelagic mosques—visible in the Great Mosque of Demak (1479 CE), the Masjid Menara Kudus, and the Masjid Kampung Laut in Kelantan—is the multi-tiered pyramidal roof (tajug). Constructed of timber shingles supported by four massive central columns (saka guru), these stepped roofs adapted the architectural forms of pre-Islamic Hindu-Javanese pavilions. Sufi scholars gave this layered design symbolic meaning, interpreting the three tiers as the progressive stages of the spiritual path: the foundational tier represented Sharia (the outward law); the middle tier symbolized Tariqa (the mystical path); and the upper tier embodied Haqiqa (inner spiritual truth) and Ma'rifa (gnosis).`,
+    question: `According to Sufi scholars, what do the three tiers of the tajug roof represent?`,
+    options: [`The progressive stages of the spiritual path: Sharia, Tariqa, and Haqiqa/Ma'rifa`, `The three social classes: santri, abangan and priyayi`, `The three kingdoms of Demak, Banten and Mataram`, `The past, the present and the future`],
+    explanation: `"Sufi scholars … interpreting the three tiers as the progressive stages of the spiritual path: the foundational tier represented Sharia (the outward law); the middle tier symbolized Tariqa (the mystical path); and the upper tier embodied Haqiqa (inner spiritual truth) and Ma'rifa (gnosis)."`,
+    baoRight: `Lên từng tầng mái như lên từng bậc tu tập. Bạn đã chạm tới tầng Ma'rifa rồi đấy!`,
+    baoWrong: `Ba tầng mái là ba chặng đường tâm linh: Sharia (luật bên ngoài), Tariqa (con đường huyền nhiệm), Haqiqa/Ma'rifa (chân lý, tri thức nội tâm).` },
+
+  { id: 37, station: 8, type: `cau-truc`, topic: `Function of the conclusion`,
+    passage: `The introduction and historical evolution of Islam in Southeast Asia cannot be understood through the lens of a single external origin or an abrupt rupture with pre-Islamic antiquity. The historical record demonstrates that Islamization was an ongoing, multi-centric process. … Rather than existing as a passive periphery of the Islamic world, Southeast Asian societies helped shape Islamic civilization through institutional and cultural adaptation. Through legal reconciliations with adat, the creation of distinct timber architectural traditions, and the development of rich mystical syntheses, the region established durable, localized expressions of faith. When nineteenth-century European colonialism disrupted traditional polities, Islam emerged as a shared language of anti-colonial resistance …`,
+    question: `What role does this final "Synthesis" section play in the lecture?`,
+    options: [`It restates the central thesis (a multi-centric process with active local agency) and recaps evidence from earlier sections: adat, timber architecture, mystical syntheses, anti-colonial resistance`, `It introduces a new theory of origin not discussed earlier`, `It lists the primary sources used in the lecture`, `It argues that the colonial historians were ultimately correct`],
+    explanation: `"The historical record demonstrates that Islamization was an ongoing, multi-centric process" and "Rather than existing as a passive periphery of the Islamic world, Southeast Asian societies helped shape Islamic civilization …" — echoing ¶1–2 and recapping the adat, architecture, mysticism and resistance sections.`,
+    baoRight: `Kết bài vòng về mở bài — "thụ động" bị thay bằng "chủ động". Cấu trúc khép tròn như hải trình của ta!`,
+    baoWrong: `Phần kết khẳng định lại luận điểm trung tâm và điểm lại các bằng chứng đã trình bày, không đưa thêm thuyết mới.` },
+
+  { id: 38, station: 8, type: `tom-luoc`, topic: `Physical syncretism`,
+    passage: `Similarly, the minaret of the Kudus Mosque exemplifies physical syncretism, built as an unplastered red-brick tower that mirrors the forms of an East Javanese Hindu-Buddhist candi or kulkul (drum tower). Across the Malay-Indonesian world, communities adapted the bedug—a large hanging drum carved from a hollowed log—to announce the five daily prayer calls, demonstrating the integration of indigenous signaling practices into Islamic ritual life. Furthermore, theological restrictions on anthropomorphic imagery encouraged regional woodcarvers to develop intricate vegetative and floral motifs (sulur-suluran), combining Arabic calligraphy in the Jawi script with local lotus, vine, and scroll patterns across pulpits (minbar), entry portals, and architectural supports.`,
+    question: `Which option best summarizes the paragraph?`,
+    options: [`The Kudus minaret, the bedug drum and floral woodcarving show how Islamic worship absorbed local Hindu-Buddhist and indigenous forms.`, `Javanese Muslims destroyed Hindu-Buddhist towers and replaced them with domed Ottoman minarets.`, `The bedug was banned because Islam forbids drums in worship.`, `Woodcarvers covered mosques with human and animal figures borrowed from Hindu temples.`],
+    explanation: `"… the minaret of the Kudus Mosque exemplifies physical syncretism … communities adapted the bedug … demonstrating the integration of indigenous signaling practices into Islamic ritual life … woodcarvers … develop[ed] intricate vegetative and floral motifs (sulur-suluran) …"`,
+    baoRight: `Tháp gạch kiểu candi, trống gỗ báo giờ cầu nguyện, hoa lá thay hình người — dung hợp trọn gói!`,
+    baoWrong: `Đoạn văn nêu ba ví dụ dung hợp: tháp Kudus, trống bedug và hoa văn sulur-suluran.` },
+
+  { id: 39, station: 8, type: `trac-nghiem`, topic: `Vernacular mosques`,
+    question: `Instead of domes, stone masonry and barrel vaults, what did early archipelagic Muslim builders use?`,
+    options: [`Indigenous Austronesian timber construction traditions adapted for Islamic communal worship`, `Imported Ottoman stone domes`, `Portuguese brick vaults`, `Chinese glazed-tile domes`],
+    explanation: `"Rather than adopting the domes, stone masonry, and barrel vaults typical of the central Islamic lands, early archipelagic Muslim builders adapted indigenous Austronesian timber construction traditions to serve Islamic communal worship."`,
+    baoRight: `Gỗ nhiệt đới, mái nhiều tầng — đứng vững qua bao mùa gió của ta.`,
+    baoWrong: `Thợ xây Hồi giáo thời đầu dùng truyền thống kiến trúc gỗ Nam Đảo, không dùng mái vòm đá.` },
+
+  { id: 40, station: 8, type: `dien`, topic: `The bedug`,
+    question: `Across the Malay-Indonesian world, communities adapted the _____—a large hanging drum carved from a hollowed log—to announce the five daily prayer calls.`,
+    options: [`bedug`, `tajug`, `saka guru`, `minbar`],
+    explanation: `"Across the Malay-Indonesian world, communities adapted the bedug—a large hanging drum carved from a hollowed log—to announce the five daily prayer calls, demonstrating the integration of indigenous signaling practices into Islamic ritual life."`,
+    baoRight: `Tùng! Tùng! Bedug gõ mừng bạn cập bến cuối cùng!`,
+    baoWrong: `Đáp án: bedug (trống treo). Tajug là mái nhiều tầng, saka guru là bốn cột chính, minbar là bục giảng.` }
+  ]
+};
+
+</script>
+<script>
+(function(){
+"use strict";
+const D = window.ISLAM_SEA;
+const $ = id => document.getElementById(id);
+const TYPES = {
+  "doc":        {ten:"Đọc hiểu",            mo:"Đọc đoạn trích, tìm chi tiết hoặc ý được nêu trong bài.", giay:90},
+  "cau-truc":   {ten:"Phân tích cấu trúc",  mo:"Nhận ra cách đoạn văn, phần bài được tổ chức và từ nối báo hiệu.", giay:90},
+  "tom-luoc":   {ten:"Tóm lược đoạn",       mo:"Chọn câu tóm tắt đúng và đủ ý chính của đoạn.", giay:90},
+  "trac-nghiem":{ten:"Trắc nghiệm",         mo:"Kiến thức trong bài giảng và các bảng so sánh.", giay:40},
+  "dien":       {ten:"Điền vào chỗ trống",  mo:"Chọn từ, cụm từ đúng nguyên văn bài giảng.", giay:40}
+};
+const KHO = {
+  de:  {ten:"Lặng sóng", heSo:1.5,  mang:5, vp:2},
+  vua: {ten:"Gió thường",heSo:1,    mang:3, vp:1},
+  kho: {ten:"Bão lớn",   heSo:0.65, mang:2, vp:1}
+};
+const LETTERS = "ABCD";
+
+/* ---------- lưu trữ an toàn ---------- */
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v==null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+
+/* ---------- âm thanh tự sinh (Web Audio) ---------- */
+const Am = (function(){
+  let ctx = null, master = null, musicGain = null, timer = null, step = 0;
+  let musicOn = store.get("hgm-nhac", true), sfxOn = store.get("hgm-am", true);
+  function ensure(){
+    if(!ctx){
+      const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return null;
+      ctx = new AC(); master = ctx.createGain(); master.gain.value = .9; master.connect(ctx.destination);
+      musicGain = ctx.createGain(); musicGain.gain.value = .11; musicGain.connect(master);
+    }
+    if(ctx.state === "suspended") ctx.resume();
+    return ctx;
+  }
+  const hz = m => 440 * Math.pow(2, (m - 69) / 12);
+  function tone(midi, t, dur, type, vol, dest, slideTo){
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type; o.frequency.setValueAtTime(hz(midi), t);
+    if(slideTo != null) o.frequency.exponentialRampToValueAtTime(hz(slideTo), t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(dest || master); o.start(t); o.stop(t + dur + .05);
+  }
+  function noise(t, dur, freq, q, vol, dest){
+    const n = Math.floor(ctx.sampleRate * dur), b = ctx.createBuffer(1, n, ctx.sampleRate), d = b.getChannelData(0);
+    for(let i=0;i<n;i++) d[i] = Math.random()*2-1;
+    const s = ctx.createBufferSource(); s.buffer = b;
+    const f = ctx.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = freq; f.Q.value = q;
+    const g = ctx.createGain(); g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    s.connect(f); f.connect(g); g.connect(dest || master); s.start(t);
+  }
+  // thang ngũ cung trên vòng hợp âm 4 ô nhịp (la thứ – fa – đô – son)
+  const PENTA = [0,2,4,7,9], ROOTS = [57, 53, 60, 55];
+  function beat(){
+    if(!ctx) return;
+    const t = ctx.currentTime + .02, bar = Math.floor(step / 8) % 4, pos = step % 8, root = ROOTS[bar];
+    if(pos === 0 || pos === 4) tone(root - 24, t, .5, "sine", .5, musicGain);
+    if(pos !== 3 && pos !== 7 && Math.random() < .8){
+      const n = root + 12 + PENTA[(step * 3 + bar + (Math.random()*3|0)) % 5];
+      tone(n, t, .22, "triangle", .32, musicGain);
+    }
+    if(pos % 2 === 0) noise(t, .09, pos % 4 === 0 ? 180 : 320, 2.5, pos % 4 === 0 ? .9 : .45, musicGain);
+    step++;
+  }
+  function startMusic(){ if(!musicOn || timer || !ensure()) return; timer = setInterval(beat, 260); }
+  function stopMusic(){ clearInterval(timer); timer = null; }
+  return {
+    unlock(){ ensure(); },
+    get musicOn(){ return musicOn; }, get sfxOn(){ return sfxOn; },
+    toggleMusic(){ musicOn = !musicOn; store.set("hgm-nhac", musicOn); musicOn ? startMusic() : stopMusic(); return musicOn; },
+    toggleSfx(){ sfxOn = !sfxOn; store.set("hgm-am", sfxOn); return sfxOn; },
+    startMusic, stopMusic,
+    right(){ if(!sfxOn || !ensure()) return; const t = ctx.currentTime;
+      [72,76,79,84].forEach((m,i) => tone(m, t + i*.09, .25, "triangle", .35));
+      noise(t + .3, .35, 7000, 1.2, .18); },
+    wrong(){ if(!sfxOn || !ensure()) return; const t = ctx.currentTime;
+      noise(t, .18, 400, 1.5, .5); tone(55, t + .05, .45, "sawtooth", .22, null, 43); },
+    win(){ if(!sfxOn || !ensure()) return; const t = ctx.currentTime;
+      [67,72,76,79,76,79,84].forEach((m,i) => { const d = i === 6 ? .7 : .16;
+        tone(m, t + i*.14, d, "square", .14); tone(m - 12, t + i*.14, d, "square", .08); }); },
+    lose(){ if(!sfxOn || !ensure()) return; const t = ctx.currentTime;
+      [67,66,65,64].forEach((m,i) => tone(m, t + i*.32, .3, "triangle", .3, null, m - .6));
+      tone(40, t + 1.3, 1.1, "sine", .4); },
+    tick(){ if(!sfxOn || !ensure()) return; tone(96, ctx.currentTime, .05, "square", .05); },
+    click(){ if(!sfxOn || !ensure()) return; tone(84, ctx.currentTime, .06, "triangle", .12); }
+  };
+})();
+window.addEventListener("pointerdown", function first(){ Am.unlock(); Am.startMusic(); window.removeEventListener("pointerdown", first); });
+
+/* ---------- tiện ích ---------- */
+function shuffle(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){ const j = Math.random()*(i+1)|0; [a[i],a[j]] = [a[j],a[i]]; } return a; }
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function toast(msg){ const el = document.createElement("div"); el.className = "thong-bao"; el.textContent = msg;
+  document.body.appendChild(el); setTimeout(() => el.remove(), 2400); }
+function show(id){ ["man-dau","man-choi","man-cuoi"].forEach(s => $(s).classList.toggle("an", s !== id)); window.scrollTo(0,0); }
+function pressGroup(el, onChange){
+  el.addEventListener("click", e => { const b = e.target.closest("button"); if(!b) return;
+    el.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); Am.click(); onChange && onChange(b.dataset.v); });
+}
+const val = el => el.querySelector('[aria-pressed="true"]').dataset.v;
+
+/* ---------- trang đầu ---------- */
+const cfg = { mode:"solo", len:"all", kho:"vua", soDoi:4 };
+$("dang").innerHTML = Object.entries(TYPES).map(([k,t]) =>
+  `<div data-type="${k}"><b>${t.ten}</b>${t.mo}</div>`).join("");
+$("chon-cang").innerHTML = D.stations.map(s => `<option value="${s.id}">Cảng ${s.id} · ${esc(s.name)} — ${esc(s.theme)}</option>`).join("");
+$("ten").value = store.get("hgm-ten", "");
+function moKho(){ const k = KHO[cfg.kho];
+  $("mo-kho").textContent = `${k.mang} mạng · mỗi vật phẩm ${k.vp} lần · thời gian ${Math.round(90*k.heSo)} giây cho câu có đoạn trích, ${Math.round(40*k.heSo)} giây cho câu ngắn.`; }
+function veTenDoi(){
+  const cu = [...$("ten-doi").querySelectorAll("input")].map(i => i.value);
+  const mac = ["Pasai","Melaka","Aceh","Demak","Banten","Ternate"];
+  $("ten-doi").innerHTML = Array.from({length:cfg.soDoi}, (_,i) =>
+    `<input type="text" maxlength="20" value="${esc(cu[i] || "Đội " + mac[i])}">`).join("");
+}
+pressGroup($("chon-che-do"), v => { cfg.mode = v; $("khung-solo").classList.toggle("an", v !== "solo"); $("khung-doi").classList.toggle("an", v !== "doi"); });
+pressGroup($("chon-do-dai"), v => { cfg.len = v; $("khung-cang").classList.toggle("an", v !== "one"); });
+pressGroup($("chon-kho"), v => { cfg.kho = v; moKho(); });
+pressGroup($("chon-so-doi"), v => { cfg.soDoi = +v; veTenDoi(); });
+moKho(); veTenDoi();
+
+function veBxh(){
+  const ds = store.get("hgm-bxh", []);
+  $("bxh-dau").innerHTML = ds.length ? `<table class="bxh"><tr><th>#</th><th>Thuyền trưởng</th><th>Hải trình</th><th>Điểm</th></tr>` +
+    ds.slice(0,10).map((r,i) => `<tr><td>${i+1}</td><td>${esc(r.ten)}</td><td>${esc(r.kieu)}</td><td>${r.diem}</td></tr>`).join("") + `</table>`
+    : `<p class="mo">Chưa có ai cập bến. Bảng vàng lưu ngay trên trình duyệt này.</p>`;
+}
+veBxh();
+
+/* ---------- trạng thái ván ---------- */
+let G = null;
+
+function buildQueue(){
+  const byStation = D.stations.map(s => shuffle(D.questions.filter(q => q.station === s.id)));
+  if(cfg.len === "one"){ const id = +$("chon-cang").value; return byStation[id-1]; }
+  if(cfg.len === "short") return byStation.flatMap(a => a.slice(0,2));
+  return byStation.flat();
+}
+
+$("nut-bat-dau").addEventListener("click", start);
+function start(){
+  Am.unlock(); Am.startMusic();
+  const queue = buildQueue();
+  G = { queue, i:0, score:0, streak:0, best:0, log:[], locked:false, timer:null, frozenUntil:0, doubleNext:false };
+  G.stationsInRun = [...new Set(queue.map(q => q.station))];
+  if(cfg.mode === "solo"){
+    const k = KHO[cfg.kho];
+    G.ten = ($("ten").value.trim() || "Thuyền trưởng vô danh"); store.set("hgm-ten", $("ten").value.trim());
+    G.lives = k.mang; G.items = {nua:k.vp, bang:k.vp, qua:k.vp}; G.heSo = k.heSo;
+  } else {
+    G.heSo = 1;
+    G.teams = [...$("ten-doi").querySelectorAll("input")].map((el,i) => ({ten: el.value.trim() || "Đội " + (i+1), diem:0, dung:0, cuop:0}));
+    G.turn = 0; G.evGio = true; G.evBao = true;
+  }
+  $("vat-pham").classList.toggle("an", cfg.mode !== "solo");
+  $("tt-mang").classList.toggle("an", cfg.mode !== "solo");
+  $("tt-diem").classList.toggle("an", cfg.mode !== "solo");
+  $("tt-chuoi").classList.toggle("an", cfg.mode !== "solo");
+  $("doi-bang").classList.toggle("an", cfg.mode !== "doi");
+  $("su-kien").classList.toggle("an", cfg.mode !== "doi");
+  $("sk-gio").disabled = false; $("sk-bao").disabled = false;
+  show("man-choi");
+  renderQuestion();
+}
+
+/* ---------- vẽ hải trình ---------- */
+function renderRoute(){
+  const q = G.queue[G.i];
+  const html = D.stations.map(s => {
+    const cls = s.id === q.station ? "nay" : (s.id < q.station ? "qua" : "");
+    return `<div class="cang ${cls}"><i></i><span>${esc(s.name)}</span></div>`;
+  }).join("");
+  $("hai-trinh").innerHTML = html + `<div class="tau" style="left:calc(${(q.station-1)*12.5 + 6.25}% )">⛵</div>`;
+}
+
+function renderStatus(){
+  $("tt-cau").textContent = `Câu ${G.i+1}/${G.queue.length}`;
+  if(cfg.mode === "solo"){
+    $("tt-diem").textContent = `${G.score} điểm`;
+    $("tt-mang").textContent = "♥".repeat(G.lives) + "♡".repeat(Math.max(0, KHO[cfg.kho].mang - G.lives));
+    $("tt-chuoi").textContent = `Chuỗi ${G.streak}`;
+    for(const k of ["nua","bang","qua"]){ const b = $("vp-"+k); b.querySelector("span").textContent = "×" + G.items[k]; b.disabled = G.items[k] <= 0 || G.locked; }
+  } else {
+    $("doi-bang").innerHTML = G.teams.map((t,i) => `<div class="${i === G.turn ? "luot" : ""}">${esc(t.ten)} <small>${t.diem} điểm</small></div>`).join("");
+    $("sk-gio").disabled = !G.evGio; $("sk-bao").disabled = !G.evBao;
+  }
+}
+
+/* ---------- câu hỏi ---------- */
+function renderPassage(p){
+  return p.split("\n\n").map(par => "<p>" + esc(par).replace(/^\[([^\]]+)\]/, '<span class="nhan-doan">[$1]</span>') + "</p>").join("");
+}
+function renderQuestion(){
+  const q = G.queue[G.i];
+  G.locked = false; G.order = shuffle([0,1,2,3]); G.removed = []; G.stealing = null; G.firstWrong = null;
+  const card = $("the-cau"); card.dataset.type = q.type;
+  const st = D.stations[q.station-1];
+  $("c-dang").textContent = TYPES[q.type].ten;
+  $("c-chu-de").textContent = `Cảng ${st.id} · ${st.name} — ${q.topic}`;
+  $("c-doan").classList.toggle("an", !q.passage);
+  $("c-doan").innerHTML = q.passage ? renderPassage(q.passage) : "";
+  $("c-doan").scrollTop = 0;
+  $("c-hoi").innerHTML = q.type === "dien"
+    ? esc(q.question).replace("_____", '<span class="trong" id="o-trong">?</span>')
+    : esc(q.question);
+  $("c-dap-an").innerHTML = G.order.map((oi, pos) =>
+    `<button data-oi="${oi}"><b>${LETTERS[pos]}</b><span>${esc(q.options[oi])}</span></button>`).join("");
+  $("c-phan-hoi").className = "phan-hoi an"; $("c-phan-hoi").innerHTML = "";
+  renderRoute(); renderStatus();
+  if(G.doubleNext){ toast("🌬 Gió thuận! Câu này nhân đôi điểm."); }
+  startTimer(TYPES[q.type].giay * G.heSo);
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+$("c-dap-an").addEventListener("click", e => { const b = e.target.closest("button"); if(b && !b.disabled) answer(+b.dataset.oi); });
+
+/* ---------- đồng hồ ---------- */
+function startTimer(sec){
+  clearInterval(G.timer);
+  G.total = sec * 1000; G.left = G.total; G.last = performance.now(); G.lastTick = 99;
+  const bar = $("dong-ho");
+  G.timer = setInterval(() => {
+    const now = performance.now(), dt = now - G.last; G.last = now;
+    if(now < G.frozenUntil){ bar.classList.add("bang"); return; }
+    bar.classList.remove("bang");
+    G.left -= dt;
+    const f = Math.max(0, G.left / G.total);
+    bar.firstElementChild.style.width = (f * 100) + "%";
+    bar.classList.toggle("gap", G.left < 10000);
+    const s = Math.ceil(G.left / 1000);
+    if(G.left < 5000 && s !== G.lastTick && s > 0){ G.lastTick = s; Am.tick(); }
+    if(G.left <= 0){ clearInterval(G.timer); timeout(); }
+  }, 100);
+  bar.firstElementChild.style.width = "100%"; bar.classList.remove("gap","bang");
+}
+function stopTimer(){ clearInterval(G.timer); }
+
+/* ---------- trả lời ---------- */
+function speedPoints(){ return Math.round(100 * Math.max(0, G.left) / G.total); }
+
+function answer(oi){
+  if(G.locked) return;
+  const q = G.queue[G.i];
+  const ok = oi === 0;
+  if(cfg.mode === "doi" && G.stealing != null){ finishSteal(oi); return; }
+  G.locked = true; stopTimer();
+  let gained = 0, note = "";
+  if(ok){
+    G.streak++; G.best = Math.max(G.best, G.streak);
+    gained = 100 + speedPoints();
+    if(G.streak >= 3){ gained += 50; note = ` (gồm +50 chuỗi ${G.streak})`; }
+    if(G.doubleNext){ gained *= 2; note += " ×2 gió thuận"; }
+    Am.right();
+  } else {
+    G.streak = 0; Am.wrong();
+  }
+  G.doubleNext = false;
+  if(cfg.mode === "solo"){
+    G.score += gained;
+    if(!ok) G.lives--;
+    G.log.push({q, ok, chosen:oi, gained});
+  } else {
+    const t = G.teams[G.turn];
+    if(ok){ t.diem += gained; t.dung++; }
+    G.log.push({q, ok, chosen:oi, gained, team:G.turn});
+  }
+  reveal(oi, ok, gained, note);
+}
+
+function timeout(){
+  if(G.locked) return;
+  const q = G.queue[G.i];
+  G.locked = true; G.streak = 0; G.doubleNext = false; Am.wrong();
+  if(cfg.mode === "solo"){ G.lives--; G.log.push({q, ok:false, chosen:null, gained:0}); }
+  else G.log.push({q, ok:false, chosen:null, gained:0, team:G.turn});
+  reveal(null, false, 0, "", true);
+}
+
+function markButtons(chosen, showCorrect){
+  const wrong = [].concat(chosen).filter(v => v != null);
+  $("c-dap-an").querySelectorAll("button").forEach(b => {
+    const oi = +b.dataset.oi; b.disabled = true; b.classList.remove("loai","sai","dung","mo-nhat");
+    if(oi === 0 && showCorrect) b.classList.add("dung");
+    else if(wrong.includes(oi)) b.classList.add("sai");
+    else if(showCorrect) b.classList.add("mo-nhat");
+  });
+  if(showCorrect && $("o-trong")) $("o-trong").textContent = G.queue[G.i].options[0];
+}
+
+function gioSvgSmall(){ return document.querySelector(".mat-gio").innerHTML; }
+
+function reveal(chosen, ok, gained, note, isTimeout){
+  G.lastChosen = chosen;
+  const canSteal = cfg.mode === "doi" && !ok && G.teams.length > 1;
+  markButtons(chosen, !canSteal);
+  const fb = $("c-phan-hoi");
+  if(canSteal){
+    G.firstWrong = chosen;
+    fb.className = "phan-hoi no";
+    fb.innerHTML = `<h3>${isTimeout ? "⏰ Hết giờ!" : "✗ Chưa đúng!"}</h3>
+      <p>${esc(G.teams[G.turn].ten)} trượt sóng. Đội nào muốn cướp câu (được 50 điểm nếu đúng)?</p>
+      <div class="cuop">${G.teams.map((t,i) => i === G.turn ? "" : `<button class="nut-phu" data-steal="${i}">${esc(t.ten)} cướp!</button>`).join("")}
+      <button class="nut-phu" data-steal="-1">Không ai cướp · xem đáp án</button></div>`;
+    fb.querySelectorAll("[data-steal]").forEach(b => b.addEventListener("click", () => startSteal(+b.dataset.steal)));
+    renderStatus();
+    return;
+  }
+  showExplanation(ok, gained, note, isTimeout);
+}
+
+function showExplanation(ok, gained, note, isTimeout, stealInfo){
+  const q = G.queue[G.i];
+  markButtons(G.lastChosen ?? null, true);
+  const fb = $("c-phan-hoi");
+  const last = G.i === G.queue.length - 1 || (cfg.mode === "solo" && G.lives <= 0);
+  const head = ok ? `✓ Chính xác! +${gained} điểm${note || ""}` : (isTimeout ? "⏰ Hết giờ!" : "✗ Chưa đúng!");
+  fb.className = "phan-hoi " + (ok ? "ok" : "no");
+  fb.innerHTML = `<h3>${head}</h3>${stealInfo ? `<p>${stealInfo}</p>` : ""}
+    <div class="gio"><div class="mat-gio">${gioSvgSmall()}</div><div><b>Gió Mùa:</b> ${esc(ok ? q.baoRight : q.baoWrong)}</div></div>
+    <div class="trich"><b>Trích bài giảng</b>${esc(q.explanation)}</div>
+    <div class="hang-nut"><button class="nut-chinh" id="nut-tiep">${last ? "Cập bến · xem kết quả" : "Câu tiếp ⟶"}</button>
+    <span class="phim">Enter</span></div>`;
+  $("nut-tiep").addEventListener("click", next);
+  G.locked = true; G.awaitNext = true;
+  renderStatus();
+  if(cfg.mode === "solo" && G.lives <= 0) toast("Hết mạng rồi! Thuyền phải cập bến sớm.");
+  setTimeout(() => fb.scrollIntoView({behavior:"smooth", block:"nearest"}), 60);
+}
+
+/* ---------- cướp câu (chế độ đội) ---------- */
+function startSteal(ti){
+  const q = G.queue[G.i];
+  if(ti < 0){ G.lastChosen = G.firstWrong; showExplanation(false, 0, "", G.firstWrong == null); return; }
+  G.stealing = ti; G.locked = false;
+  $("c-dap-an").querySelectorAll("button").forEach(b => {
+    const oi = +b.dataset.oi; b.disabled = oi === G.firstWrong; b.classList.remove("sai","dung","mo-nhat");
+    if(oi === G.firstWrong) b.classList.add("loai");
+  });
+  $("c-phan-hoi").className = "phan-hoi"; $("c-phan-hoi").innerHTML = `<h3>⚔ ${esc(G.teams[ti].ten)} đang cướp câu…</h3><p class="mo">Chọn đáp án.</p>`;
+  startTimer(20);
+}
+function finishSteal(oi){
+  stopTimer(); G.locked = true;
+  const t = G.teams[G.stealing], ok = oi === 0;
+  let info;
+  if(ok){ t.diem += 50; t.cuop++; Am.right(); info = `⚔ ${esc(t.ten)} cướp thành công, +50 điểm!`; }
+  else { Am.wrong(); info = `⚔ ${esc(t.ten)} cướp hụt.`; }
+  G.lastChosen = ok ? [G.firstWrong] : [G.firstWrong, oi];
+  showExplanation(false, 0, "", false, info);
+  if(ok){ const fb = $("c-phan-hoi"); fb.className = "phan-hoi ok"; fb.querySelector("h3").textContent = "✓ Đáp án đã được cướp!"; }
+}
+
+/* ---------- vật phẩm & sự kiện ---------- */
+$("vp-nua").addEventListener("click", () => {
+  if(G.locked || G.items.nua <= 0) return;
+  G.items.nua--; const wrongs = shuffle([1,2,3]).slice(0,2);
+  $("c-dap-an").querySelectorAll("button").forEach(b => { if(wrongs.includes(+b.dataset.oi)){ b.disabled = true; b.classList.add("loai"); } });
+  Am.click(); renderStatus();
+});
+$("vp-bang").addEventListener("click", () => {
+  if(G.locked || G.items.bang <= 0) return;
+  G.items.bang--; G.frozenUntil = performance.now() + 15000; toast("❄ Đồng hồ đóng băng 15 giây"); Am.click(); renderStatus();
+});
+$("vp-qua").addEventListener("click", () => {
+  if(G.locked || G.items.qua <= 0) return;
+  G.items.qua--; stopTimer(); G.locked = true;
+  G.log.push({q:G.queue[G.i], ok:false, skipped:true, chosen:null, gained:0});
+  G.lastChosen = null;
+  showExplanation(false, 0, "", false, "⤼ Bạn đã bỏ qua câu này — không mất mạng. Đọc đáp án để nhớ nhé.");
+});
+$("sk-gio").addEventListener("click", () => { if(!G.evGio) return; G.evGio = false; G.doubleNext = true; toast("🌬 Gió thuận! Câu kế tiếp nhân đôi điểm."); renderStatus(); });
+$("sk-bao").addEventListener("click", () => {
+  if(!G.evBao) return; G.evBao = false;
+  const max = Math.max(...G.teams.map(t => t.diem));
+  const top = G.teams.filter(t => t.diem === max);
+  top.forEach(t => t.diem = Math.max(0, t.diem - 150));
+  toast(`🌪 Bão biển quật ${top.map(t => t.ten).join(", ")}: −150 điểm!`); Am.wrong(); renderStatus();
+});
+
+/* ---------- sang câu / kết thúc ---------- */
+function next(){
+  G.awaitNext = false; G.lastChosen = undefined; G.frozenUntil = 0;
+  if(cfg.mode === "solo" && G.lives <= 0){ finish(); return; }
+  if(G.i >= G.queue.length - 1){ finish(); return; }
+  G.i++;
+  if(cfg.mode === "doi") G.turn = (G.turn + 1) % G.teams.length;
+  renderQuestion();
+}
+
+const DANH_HIEU = [
+  [.9, "Đại học giả mạng lưới Jawi", "Ta phải gọi bạn là 'ulama' mất thôi. Từ Pasai tới Demak, chẳng sóng nào làm bạn chao đảo."],
+  [.75,"Thuyền trưởng Kỷ nguyên Thương mại", "Anthony Reid mà thấy bạn chắc viết thêm một chương. Chỉ vài cơn sóng nhỏ thôi."],
+  [.55,"Thương nhân chờ gió ở Melaka", "Bạn đã ở cảng đủ lâu để hiểu chuyện, nhưng vài trang bài giảng vẫn còn chờ bạn đọc lại."],
+  [.35,"Thuỷ thủ mới lên tàu", "Không sao, thương nhân Ả Rập cũng mất vài thế kỷ mới thành cộng đồng. Ôn lại các câu bên dưới nhé."],
+  [0,  "Hành khách say sóng", "Ta thổi hơi mạnh, phải không? Đọc lại bài giảng rồi ra khơi lần nữa — ta chờ được, ta là gió mà."]
+];
+
+function finish(){
+  stopTimer();
+  const fb = $("c-phan-hoi");
+  const answered = G.log.length, right = G.log.filter(l => l.ok).length;
+  const ratio = G.queue.length ? right / G.queue.length : 0;
+  $("k-phu").textContent = cfg.mode === "solo"
+    ? `${G.ten} · ${KHO[cfg.kho].ten} · ${G.queue.length} câu${G.lives <= 0 ? " · cập bến sớm vì hết mạng" : ""}`
+    : `Thi đội · ${G.queue.length} câu`;
+
+  if(cfg.mode === "solo"){
+    const dh = DANH_HIEU.find(d => ratio >= d[0]);
+    $("k-danh-hieu").textContent = dh[1];
+    $("k-loi").innerHTML = `<p><b>Gió Mùa:</b> ${esc(dh[2])}</p>`;
+    $("k-so").innerHTML = `<div>Điểm<b>${G.score}</b></div><div>Đúng<b>${right}/${G.queue.length}</b></div><div>Chuỗi dài nhất<b>${G.best}</b></div><div>Đã trả lời<b>${answered}</b></div>`;
+    $("k-doi").innerHTML = "";
+    const kieu = (cfg.len === "all" ? "40 câu" : cfg.len === "short" ? "16 câu" : "Cảng " + G.queue[0].station) + " · " + KHO[cfg.kho].ten;
+    const ds = store.get("hgm-bxh", []); ds.push({ten:G.ten, diem:G.score, kieu}); ds.sort((a,b) => b.diem - a.diem); store.set("hgm-bxh", ds.slice(0,30)); veBxh();
+    ratio >= .55 && G.lives > 0 ? (Am.win(), confetti()) : Am.lose();
+  } else {
+    const ranked = G.teams.map((t,i) => ({...t, i})).sort((a,b) => b.diem - a.diem);
+    $("k-danh-hieu").textContent = `🏆 ${ranked[0].ten} cập bến đầu tiên!`;
+    $("k-loi").innerHTML = `<p><b>Gió Mùa:</b> Cả hạm đội đã đi hết hải trình. Đội về sau đừng buồn — Melaka thất thủ năm 1511 rồi Hồi giáo còn lan rộng hơn cơ mà.</p>`;
+    $("k-so").innerHTML = `<div>Câu đúng lượt đầu<b>${right}/${G.queue.length}</b></div>`;
+    $("k-doi").innerHTML = `<h2>Bảng xếp hạng đội</h2><table class="bxh"><tr><th>#</th><th>Đội</th><th>Đúng</th><th>Cướp</th><th>Điểm</th></tr>` +
+      ranked.map((t,i) => `<tr><td>${i+1}</td><td>${esc(t.ten)}</td><td>${t.dung}</td><td>${t.cuop}</td><td>${t.diem}</td></tr>`).join("") + `</table>`;
+    Am.win(); confetti();
+  }
+
+  // theo dạng câu
+  $("k-dang").innerHTML = Object.entries(TYPES).map(([k,t]) => {
+    const all = G.queue.filter(q => q.type === k); if(!all.length) return "";
+    const ok = G.log.filter(l => l.q.type === k && l.ok).length;
+    const p = Math.round(100 * ok / all.length);
+    return `<div class="h" data-type="${k}"><span>${t.ten}</span><i><span style="width:${p}%"></span></i><b>${ok}/${all.length}</b></div>`;
+  }).join("");
+
+  // xem lại
+  const miss = G.queue.filter(q => !G.log.some(l => l.q === q && l.ok));
+  $("k-xem-tieu").textContent = miss.length ? `Xem lại ${miss.length} câu cần ôn` : "Không có câu nào cần ôn — trọn vẹn!";
+  $("k-xem").innerHTML = miss.map(q => {
+    const l = G.log.find(x => x.q === q);
+    const chosen = l && l.chosen != null ? q.options[l.chosen] : (l && l.skipped ? "(bỏ qua)" : l ? "(hết giờ)" : "(chưa tới câu này)");
+    return `<details data-type="${q.type}"><summary>${TYPES[q.type].ten} · Cảng ${q.station} — ${esc(q.question)}</summary>
+      <p><b>Bạn chọn:</b> ${esc(chosen)}</p><p><b>Đáp án:</b> ${esc(q.options[0])}</p>
+      <div class="trich"><b>Trích bài giảng</b>${esc(q.explanation)}</div></details>`;
+  }).join("");
+  show("man-cuoi");
+}
+$("nut-lai").addEventListener("click", start);
+$("nut-ve").addEventListener("click", () => { show("man-dau"); });
+
+/* ---------- phím tắt ---------- */
+document.addEventListener("keydown", e => {
+  if($("man-choi").classList.contains("an") || e.target.matches("input,select,textarea")) return;
+  const k = e.key.toUpperCase();
+  let pos = "ABCD".indexOf(k); if(pos < 0) pos = "1234".indexOf(k);
+  if(pos >= 0 && k.length === 1){ const b = $("c-dap-an").children[pos]; if(b && !b.disabled) b.click(); return; }
+  if(e.key === "Enter" && G && G.awaitNext){ e.preventDefault(); next(); }
+});
+
+/* ---------- âm thanh: nút góc ---------- */
+$("nut-nhac").setAttribute("aria-pressed", Am.musicOn);
+$("nut-am").setAttribute("aria-pressed", Am.sfxOn);
+$("nut-nhac").addEventListener("click", () => $("nut-nhac").setAttribute("aria-pressed", Am.toggleMusic()));
+$("nut-am").addEventListener("click", () => $("nut-am").setAttribute("aria-pressed", Am.toggleSfx()));
+
+/* ---------- pháo giấy ---------- */
+function confetti(){
+  const c = $("phao"), x = c.getContext("2d"); c.width = innerWidth; c.height = innerHeight;
+  const cols = ["#C98B2B","#1D7C77","#2B6CB0","#C0533F","#8A4FB0","#F4ECDD"];
+  const ps = Array.from({length:160}, () => ({x:Math.random()*c.width, y:-20-Math.random()*c.height*.5, vx:(Math.random()-.5)*3, vy:2+Math.random()*3, r:4+Math.random()*5, a:Math.random()*6, c:cols[Math.random()*cols.length|0]}));
+  let t = 0;
+  (function f(){ x.clearRect(0,0,c.width,c.height);
+    ps.forEach(p => { p.x += p.vx; p.y += p.vy; p.a += .1; x.save(); x.translate(p.x,p.y); x.rotate(p.a); x.fillStyle = p.c; x.fillRect(-p.r/2,-p.r/4,p.r,p.r/2); x.restore(); });
+    if(++t < 220) requestAnimationFrame(f); else x.clearRect(0,0,c.width,c.height); })();
+}
+})();
+</script>
+</body>
+</html>
