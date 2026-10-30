@@ -1,0 +1,2126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voyage of the Bell</title>
+<meta name="description" content="A 60-question lecture minigame on Christianity in Southeast Asia: reading comprehension, text structure, paragraph summary, multiple choice, fill in the blank">
+<style>
+/* Voyage of the Bell (Kitô giáo ở Đông Nam Á) — dữ liệu câu hỏi nhúng ở window.CHRIST_SEA bên dưới (options[0] là đáp án đúng, game tự xáo). */
+:root{
+  --bien:#2E1A2B; --bien2:#5A2847; --cat:#F4ECDD; --giay:#FFFBF3; --chu:#16283A; --chu2:#526273;
+  --vien:#DCCFB8; --ngoc:#1D7C77; --nghe:#C98B2B; --xanh:#2E7D4F; --xanh-nen:#E2F1E6; --do:#B23A2E; --do-nen:#F8E2DE;
+  --serif:"Palatino Linotype",Palatino,"Book Antiqua",Georgia,Cambria,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --cat:#0E1A25; --giay:#16242F; --chu:#E8EEF3; --chu2:#A5B4C2; --vien:#2C3F4E; --bien:#1C0F1A; --bien2:#8C3F66;
+  --xanh-nen:#173528; --do-nen:#3A1E1B; --ngoc:#3BA7A0; --nghe:#E0A649; --xanh:#58B27D; --do:#E0675A;
+}}
+:root[data-theme="dark"]{
+  --cat:#0E1A25; --giay:#16242F; --chu:#E8EEF3; --chu2:#A5B4C2; --vien:#2C3F4E; --bien:#1C0F1A; --bien2:#8C3F66;
+  --xanh-nen:#173528; --do-nen:#3A1E1B; --ngoc:#3BA7A0; --nghe:#E0A649; --xanh:#58B27D; --do:#E0675A;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--cat);color:var(--chu);font-family:var(--sans);line-height:1.5;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit;cursor:pointer}
+.an{display:none!important}
+.wrap{max-width:1080px;margin:0 auto;padding:16px 16px 110px}
+
+/* đầu trang */
+.dau{background:linear-gradient(160deg,var(--bien),var(--bien2));color:#F7F1E4;border-radius:18px;padding:26px 22px 22px;position:relative;overflow:hidden}
+.dau:after{content:"";position:absolute;left:0;right:0;bottom:0;height:34px;opacity:.25;
+  background:radial-gradient(circle at 10px -6px,transparent 12px,#F7F1E4 13px,transparent 14px) 0 0/40px 34px repeat-x}
+.dau .nho{letter-spacing:.14em;text-transform:uppercase;font-size:13px;opacity:.8}
+.dau h1{font-family:var(--serif);font-size:clamp(34px,6vw,58px);line-height:1.05;margin:.15em 0 .1em}
+.dau p{margin:.3em 0;max-width:46em;opacity:.92}
+.loi-gio{display:flex;gap:14px;align-items:flex-start;background:var(--giay);border:1.5px solid var(--vien);border-radius:14px;padding:14px 16px;margin:16px 0}
+.mat-gio{flex:none;width:58px;height:58px;border-radius:50%;background:var(--ngoc);display:grid;place-items:center;color:#fff}
+.mat-gio svg{width:40px;height:40px}
+.loi-gio b{color:var(--ngoc)}
+.loi-gio p{margin:.2em 0}
+
+.luoi{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:760px){.luoi{grid-template-columns:1fr}}
+.the{background:var(--giay);border:1.5px solid var(--vien);border-radius:14px;padding:16px}
+.the h2{margin:0 0 .5em;font-family:var(--serif);font-size:24px;color:var(--bien2)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .the h2{color:var(--nghe)}}
+:root[data-theme="dark"] .the h2{color:var(--nghe)}
+.nhan{display:block;font-weight:700;margin:.8em 0 .35em;font-size:15px;color:var(--chu2)}
+.chon{display:flex;flex-wrap:wrap;gap:8px}
+.chon button{border:1.5px solid var(--vien);background:transparent;border-radius:999px;padding:.4em .95em;font-size:15px}
+.chon button[aria-pressed="true"]{background:var(--bien2);border-color:var(--bien2);color:#fff}
+select,input[type=text]{font:inherit;color:inherit;background:var(--cat);border:1.5px solid var(--vien);border-radius:8px;padding:.45em .6em;width:100%}
+.doi-ds{display:grid;gap:6px}
+.nut-chinh{display:block;width:100%;margin-top:16px;padding:.75em 1em;border:0;border-radius:12px;background:var(--nghe);color:#1A1205;font-size:19px;font-weight:800;letter-spacing:.01em}
+.nut-chinh:hover{filter:brightness(1.05)}
+.nut-phu{border:1.5px solid var(--vien);background:var(--giay);border-radius:10px;padding:.45em .9em;font-weight:600}
+.dang{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-top:10px}
+.dang div{border-left:5px solid var(--c);background:var(--giay);border-radius:8px;padding:8px 10px;font-size:15px;border-top:1px solid var(--vien);border-right:1px solid var(--vien);border-bottom:1px solid var(--vien)}
+.dang b{display:block}
+.bxh{width:100%;border-collapse:collapse;font-size:15px}
+.bxh td,.bxh th{padding:5px 6px;border-bottom:1px solid var(--vien);text-align:left}
+.bxh td:last-child,.bxh th:last-child{text-align:right}
+.mo{color:var(--chu2);font-size:14px}
+
+/* màu từng dạng câu */
+[data-type="doc"]{--c:#2B6CB0}[data-type="cau-truc"]{--c:#8A4FB0}[data-type="tom-luoc"]{--c:#1D7C77}
+[data-type="trac-nghiem"]{--c:#C98B2B}[data-type="dien"]{--c:#C0533F}
+
+/* hải trình */
+.hai-trinh{position:relative;display:flex;justify-content:space-between;margin:6px 4px 14px;padding-top:34px}
+.hai-trinh:before{content:"";position:absolute;left:14px;right:14px;top:45px;border-top:3px dashed var(--vien)}
+.cang{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:8.333%;font-size:12px;color:var(--chu2);text-align:center;line-height:1.15}
+.cang i{width:22px;height:22px;border-radius:50%;background:var(--giay);border:3px solid var(--vien);margin-bottom:4px}
+.cang.qua i{background:var(--ngoc);border-color:var(--ngoc)}
+.cang.nay i{background:var(--nghe);border-color:var(--nghe);box-shadow:0 0 0 5px color-mix(in srgb,var(--nghe) 30%,transparent)}
+.cang.nay{color:var(--chu);font-weight:700}
+.tau{position:absolute;top:0;font-size:24px;line-height:1;transition:left .8s cubic-bezier(.5,0,.3,1);transform:translateX(-50%)}
+@media (max-width:600px){.cang span{display:none}.cang.nay span{display:block;position:absolute;top:28px;white-space:nowrap}.hai-trinh{margin-bottom:28px}}
+
+/* thanh trạng thái */
+.thanh{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.thanh .o{background:var(--giay);border:1.5px solid var(--vien);border-radius:10px;padding:.3em .7em;font-weight:700}
+.mang{color:var(--do);letter-spacing:2px}
+.dong-ho{height:10px;border-radius:99px;background:var(--vien);overflow:hidden;margin-bottom:12px}
+.dong-ho div{height:100%;background:var(--ngoc);width:100%;transition:width .25s linear}
+.dong-ho.gap div{background:var(--do)}
+.dong-ho.bang div{background:#5AA9E6}
+.vat-pham{display:flex;gap:8px;flex-wrap:wrap}
+.vat-pham button{border:1.5px solid var(--vien);background:var(--giay);border-radius:10px;padding:.3em .7em;font-size:15px}
+.vat-pham button:disabled{opacity:.4;cursor:default}
+
+.doi-bang{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.doi-bang div{background:var(--giay);border:2px solid var(--vien);border-radius:10px;padding:.3em .8em;font-weight:700}
+.doi-bang div.luot{border-color:var(--nghe);background:color-mix(in srgb,var(--nghe) 18%,var(--giay))}
+.doi-bang small{font-weight:400;color:var(--chu2)}
+
+/* câu hỏi */
+.cau{background:var(--giay);border:1.5px solid var(--vien);border-top:6px solid var(--c);border-radius:14px;padding:18px 20px}
+.huy-hieu{display:inline-block;background:var(--c);color:#fff;border-radius:999px;padding:.15em .75em;font-size:14px;font-weight:700;letter-spacing:.02em}
+.chu-de{color:var(--chu2);font-size:15px;margin-left:.5em}
+.doan{font-family:var(--serif);font-size:clamp(17px,1.75vw,21px);line-height:1.6;background:color-mix(in srgb,var(--c) 7%,var(--cat));border-left:4px solid var(--c);border-radius:8px;padding:12px 16px;margin:12px 0;max-height:46vh;overflow:auto}
+.doan p{margin:.45em 0}
+.doan .nhan-doan{font-family:var(--sans);font-size:.78em;font-weight:700;color:var(--c)}
+.hoi{font-family:var(--serif);font-size:clamp(21px,3.1vw,30px);line-height:1.35;margin:.5em 0 .7em;font-weight:700}
+.trong{display:inline-block;min-width:5.5em;border-bottom:3px solid var(--c);text-align:center;color:var(--c);padding:0 .2em}
+.dap-an{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:760px){.dap-an{grid-template-columns:1fr}}
+.dap-an button{display:flex;gap:10px;align-items:flex-start;text-align:left;border:2px solid var(--vien);background:var(--cat);border-radius:12px;padding:12px 14px;font-size:clamp(16px,1.6vw,19px);line-height:1.4}
+.dap-an button:not(:disabled):hover{border-color:var(--c)}
+.dap-an button b{flex:none;display:grid;place-items:center;width:1.7em;height:1.7em;border-radius:50%;background:var(--c);color:#fff;font-size:.9em}
+.dap-an button:disabled{cursor:default;opacity:1}
+.dap-an button.dung{border-color:var(--xanh);background:var(--xanh-nen)}
+.dap-an button.dung b{background:var(--xanh)}
+.dap-an button.sai{border-color:var(--do);background:var(--do-nen)}
+.dap-an button.sai b{background:var(--do)}
+.dap-an button.loai{opacity:.3;text-decoration:line-through}
+.dap-an button.mo-nhat{opacity:.55}
+
+.phan-hoi{margin-top:14px;border-radius:12px;padding:14px 16px;border:2px solid var(--vien)}
+.phan-hoi.ok{border-color:var(--xanh);background:var(--xanh-nen)}
+.phan-hoi.no{border-color:var(--do);background:var(--do-nen)}
+.phan-hoi h3{margin:0 0 .3em;font-size:22px}
+.phan-hoi .gio{display:flex;gap:10px;align-items:flex-start;margin:.4em 0}
+.phan-hoi .gio .mat-gio{width:40px;height:40px}.phan-hoi .gio .mat-gio svg{width:28px;height:28px}
+.trich{font-family:var(--serif);font-size:clamp(16px,1.6vw,19px);background:var(--giay);border-radius:8px;padding:10px 14px;margin-top:8px;border:1px solid var(--vien)}
+.trich b{font-family:var(--sans);font-size:14px;color:var(--chu2);display:block;margin-bottom:2px;letter-spacing:.04em;text-transform:uppercase}
+.cuop{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.hang-nut{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.hang-nut .nut-chinh{width:auto;margin:0;padding:.55em 1.4em}
+.phim{font-size:13px;color:var(--chu2)}
+.su-kien{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.su-kien button{border:1.5px dashed var(--nghe);background:transparent;border-radius:10px;padding:.3em .8em;font-weight:700;color:var(--chu)}
+.su-kien button:disabled{opacity:.35;cursor:default}
+.thong-bao{position:fixed;left:50%;top:18px;transform:translateX(-50%);background:var(--bien);color:#fff;padding:.6em 1.2em;border-radius:12px;font-weight:700;z-index:30;box-shadow:0 8px 24px rgba(0,0,0,.25);max-width:calc(100% - 32px);text-align:center}
+
+/* tổng kết */
+.danh-hieu{font-family:var(--serif);font-size:clamp(28px,5vw,46px);margin:.1em 0;color:var(--bien2)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .danh-hieu{color:var(--nghe)}}
+:root[data-theme="dark"] .danh-hieu{color:var(--nghe)}
+.so-lon{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0}
+.so-lon div{background:var(--cat);border:1.5px solid var(--vien);border-radius:12px;padding:8px 14px;min-width:120px}
+.so-lon b{display:block;font-size:28px}
+.theo-dang{display:grid;gap:6px;margin:10px 0}
+.theo-dang .h{display:grid;grid-template-columns:11em 1fr 4em;gap:10px;align-items:center;font-size:15px}
+.theo-dang .h i{display:block;height:12px;border-radius:99px;background:var(--vien);overflow:hidden}
+.theo-dang .h i span{display:block;height:100%;background:var(--c)}
+.xem-lai details{border:1.5px solid var(--vien);border-left:5px solid var(--c);border-radius:10px;padding:10px 12px;margin:8px 0;background:var(--cat)}
+.xem-lai summary{cursor:pointer;font-weight:700}
+.xem-lai p{margin:.4em 0}
+
+.nut-goc{position:fixed;right:14px;bottom:14px;display:flex;gap:8px;z-index:20}
+.nut-goc button{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--vien);background:var(--giay);font-size:20px;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.nut-goc button[aria-pressed="false"]{opacity:.45}
+canvas#phao{position:fixed;inset:0;pointer-events:none;z-index:40}
+
+/* stream: máy chiếu làm chủ phòng, điện thoại trả lời */
+.vao-phong{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin-bottom:16px}
+.vao-phong .vao-hang{display:flex;gap:8px;margin-left:auto}
+.vao-phong input{width:8.5em;text-transform:uppercase;letter-spacing:.2em;font-weight:700}
+.ket-noi{display:inline-flex;gap:6px;align-items:center;font-size:14px;color:var(--chu2)}
+.ket-noi i{width:10px;height:10px;border-radius:50%;background:#9AA5AF}
+.ket-noi.on i{background:var(--xanh)}.ket-noi.off i{background:var(--do)}
+body:has(#man-host:not(.an)) .wrap{max-width:1560px}
+body:has(#man-player:not(.an)) .wrap{max-width:640px}
+.host-top{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin-bottom:12px}
+.host-top .o{background:var(--giay);border:1.5px solid var(--vien);border-radius:10px;padding:.3em .7em;font-weight:700}
+.host-top .ma{font-family:var(--serif);font-size:26px;font-weight:700;letter-spacing:.12em;color:var(--bien2)}
+.host-grid{display:grid;grid-template-columns:minmax(0,2.3fr) minmax(260px,1fr);gap:16px;align-items:start}
+@media (max-width:900px){.host-grid{grid-template-columns:1fr}}
+.h-phai{display:grid;gap:16px}
+.sanh{display:flex;flex-wrap:wrap;gap:20px;align-items:center}
+.qr-host{background:#fff;padding:14px;border-radius:14px;width:min(300px,100%);border:2px solid var(--bien)}
+.qr-host svg,.qr-host img{display:block;width:100%;height:auto}
+.phong-ma{font-family:var(--serif);font-size:clamp(56px,9vw,112px);font-weight:700;letter-spacing:.14em;line-height:1;color:var(--bien2)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .phong-ma,:root:not([data-theme="light"]) .host-top .ma{color:var(--nghe)}}
+:root[data-theme="dark"] .phong-ma,:root[data-theme="dark"] .host-top .ma{color:var(--nghe)}
+.link-vao{font-size:15px;color:var(--chu2);word-break:break-all;margin-top:.5em}
+.thuy-thu{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.thuy-thu span{background:var(--cat);border:1.5px solid var(--vien);border-radius:999px;padding:.2em .75em;font-weight:600;animation:hien .4s ease}
+@keyframes hien{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.tuong-thuat{display:grid;gap:8px;max-height:52vh;overflow:auto}
+.tuong-thuat div{display:flex;gap:8px;align-items:flex-start;font-size:16px;line-height:1.4;animation:hien .4s ease}
+.tuong-thuat > div:first-child{font-weight:700}
+.tuong-thuat > div:not(:first-child){opacity:.72}
+.tuong-thuat .mat-gio{width:28px;height:28px}.tuong-thuat .mat-gio svg{width:20px;height:20px}
+.phan-bo{display:grid;gap:6px;margin-top:12px}
+.phan-bo div{display:grid;grid-template-columns:1.8em 1fr 4.5em;gap:10px;align-items:center;font-weight:700}
+.phan-bo i{display:block;height:18px;border-radius:6px;background:var(--vien);overflow:hidden}
+.phan-bo i span{display:block;height:100%;background:var(--do);transition:width .8s ease}
+.phan-bo div.dung i span{background:var(--xanh)}
+.bxh-song td:first-child{width:2em}
+.len{color:var(--xanh);font-size:13px}.xuong{color:var(--do);font-size:13px}
+.buc-vinh{display:flex;gap:12px;align-items:flex-end;justify-content:center;margin:16px 0}
+.buc-vinh div{flex:1;max-width:220px;text-align:center;background:var(--cat);border:1.5px solid var(--vien);border-radius:12px 12px 0 0;padding:12px 8px}
+.buc-vinh b{display:block;font-size:20px}.buc-vinh em{display:block;font-style:normal;font-size:34px}
+.p-dau{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.p-dau b{font-family:var(--serif);font-size:22px;color:var(--bien2)}
+.p-lon{font-size:clamp(40px,12vw,64px);text-align:center;font-weight:800;line-height:1.1;margin:.2em 0}
+.p-giua{text-align:center}
+.p-trang{margin-top:10px;font-weight:700;text-align:center;color:var(--chu2)}
+#p-noi .dap-an button{min-height:60px}
+#p-noi .dap-an button.chon-roi{border-color:var(--nghe);background:color-mix(in srgb,var(--nghe) 18%,var(--cat))}
+#p-noi details{margin:10px 0}
+#p-noi details .doan{max-height:none}
+/* vòng thưởng Listening */
+.bo-the{border:2px dashed var(--nghe);border-radius:14px;padding:14px 16px;margin:12px 0 4px;background:color-mix(in srgb,var(--nghe) 8%,var(--giay))}
+.bo-the h2{margin-top:0}
+.bo-luoi{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.bo-o{background:var(--giay);border:1.5px solid var(--vien);border-radius:12px;padding:10px 12px;display:grid;gap:2px}
+.bo-o b{font-size:19px}.bo-o em{font-style:normal;font-weight:700;color:var(--ngoc)}
+.bo-o strong{font-size:22px;color:var(--xanh)}
+.bo-o.no{opacity:.55}.bo-o.done{border-color:var(--ngoc)}
+.b-cau{border-top:1px solid var(--vien);padding:12px 0}
+.b-cau p{margin:0 0 8px;font-weight:600;line-height:1.45}
+.b-cau .muc{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--chu2);margin-left:6px}
+.b-chon{display:grid;gap:6px}
+.b-chon button{text-align:left;border:2px solid var(--vien);background:var(--cat);border-radius:10px;padding:9px 12px;font-size:16px;line-height:1.4}
+.b-chon button[aria-pressed="true"]{border-color:var(--nghe);background:color-mix(in srgb,var(--nghe) 20%,var(--cat));font-weight:600}
+.b-chon button:disabled{cursor:default}
+#p-noi audio{width:100%;margin:8px 0}
+.b-dh{display:inline-block;background:var(--giay);border:1.5px solid var(--vien);border-radius:10px;padding:.2em .7em;font-weight:700}
+.b-xem{text-align:left;margin-top:12px}
+.b-xem div{border-top:1px solid var(--vien);padding:8px 0;font-size:15px}
+</style>
+</head>
+<body>
+<canvas id="phao"></canvas>
+<div class="wrap">
+
+<!-- ====== TRANG ĐẦU ====== -->
+<section id="man-dau">
+  <header class="dau">
+    <div class="nho">Christianity in Southeast Asia · Lecture minigame</div>
+    <h1>Voyage of the Bell</h1>
+    <p>60 questions · 12 ports · 5 question types: reading comprehension, text structure, paragraph summary, multiple choice, fill in the blank.</p>
+  </header>
+
+  <div class="loi-gio">
+    <div class="mat-gio" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 5v3"/><path d="M11 27v-8a9 9 0 0 1 18 0v8l3 4H8z"/><path d="M17 34a3 3 0 0 0 6 0"/></svg></div>
+    <div>
+      <p><b>I am the Bell.</b> The lecture says Spanish friars placed whole towns "bajo de la campana (under the sound of the church bells)", and used me for labor drafts, tributes and religious instruction. I have rung from the friar towns of Cebu to the streets of Manila in 1986, and I have heard many versions of this story.</p>
+      <p>Today I will carry you through twelve ports, five questions at each, from the camphor traders of Barus to the megachurches of Singapore. After every answer I read you the exact words of the lecture so you can check. Read the passages carefully: I only ring once.</p>
+    </div>
+  </div>
+
+  <div class="the vao-phong">
+    <div><b>📡 Joining a live room?</b> <span class="mo">Type the code shown on the projector.</span></div>
+    <div class="vao-hang"><input type="text" id="ma-vao" maxlength="4" placeholder="CODE" autocomplete="off" aria-label="Room code"><button class="nut-phu" id="nut-vao-phong">Join</button></div>
+  </div>
+
+  <div class="luoi">
+    <div class="the">
+      <h2>Come aboard</h2>
+      <span class="nhan">Mode</span>
+      <div class="chon" id="chon-che-do">
+        <button data-v="solo" aria-pressed="true">Solo</button>
+        <button data-v="doi" aria-pressed="false">Teams (one shared screen)</button>
+        <button data-v="stream" aria-pressed="false">Live stream · projector + phones</button>
+      </div>
+
+      <span class="nhan">Voyage length</span>
+      <div class="chon" id="chon-do-dai">
+        <button data-v="all" aria-pressed="true">Full · 60 questions</button>
+        <button data-v="short" aria-pressed="false">Short · 24</button>
+        <button data-v="one" aria-pressed="false">One port · 5</button>
+      </div>
+      <div id="khung-cang" class="an" style="margin-top:8px"><select id="chon-cang"></select></div>
+
+      <div id="khung-solo">
+        <span class="nhan">Captain's name</span>
+        <input type="text" id="ten" maxlength="24" placeholder="e.g. Lan Anh – K23">
+        <span class="nhan">Sea conditions</span>
+        <div class="chon" id="chon-kho">
+          <button data-v="de" aria-pressed="false">Calm seas</button>
+          <button data-v="vua" aria-pressed="true">Steady wind</button>
+          <button data-v="kho" aria-pressed="false">Storm</button>
+        </div>
+        <p class="mo" id="mo-kho"></p>
+      </div>
+
+      <div id="khung-doi" class="an">
+        <span class="nhan">Number of teams</span>
+        <div class="chon" id="chon-so-doi">
+          <button data-v="2" aria-pressed="false">2</button><button data-v="3" aria-pressed="false">3</button>
+          <button data-v="4" aria-pressed="true">4</button><button data-v="5" aria-pressed="false">5</button><button data-v="6" aria-pressed="false">6</button>
+        </div>
+        <span class="nhan">Team names</span>
+        <div class="doi-ds" id="ten-doi"></div>
+        <p class="mo">Teams take turns. After a wrong answer or a timeout, another team may <b>steal</b> the question for 50 points. The host has two one-time events: <b>Fair wind</b> (next question scores double) and <b>Sea storm</b> (the leading team loses 150).</p>
+      </div>
+
+      <div id="khung-stream" class="an">
+        <span class="nhan">Pace</span>
+        <div class="chon" id="chon-nhip">
+          <button data-v="de" aria-pressed="false">Relaxed</button>
+          <button data-v="vua" aria-pressed="true">Normal</button>
+          <button data-v="kho" aria-pressed="false">Fast</button>
+        </div>
+        <p class="mo" id="mo-nhip"></p>
+        <p class="mo">For the lecturer: this screen becomes the projector. It opens a room with a QR code; students scan it and answer on their phones. The projector shows each question, a live commentary by the Bell (read aloud if you like) and the leaderboard. Every device needs internet.</p>
+      </div>
+
+      <button class="nut-chinh" id="nut-bat-dau">Set sail ⛵</button>
+    </div>
+
+    <div class="the">
+      <h2>Five question types</h2>
+      <div class="dang" id="dang"></div>
+      <h2 style="margin-top:18px">Scoring</h2>
+      <p style="margin:.2em 0">Correct: 100 points + up to 100 for speed. From the third correct answer in a row: +50 each. Wrong: 0 points, and in Solo mode you lose a life.</p>
+      <p style="margin:.2em 0">Solo power-ups: <b>½</b> removes 2 wrong options · <b>❄</b> freezes the clock for 15 seconds · <b>⤼</b> skips a question without losing a life.</p>
+      <p class="phim">Shortcuts: A B C D (or 1–4) to answer, Enter for the next question.</p>
+      <h2 style="margin-top:18px">Captains' hall of fame</h2>
+      <div id="bxh-dau"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== MÀN CHƠI ====== -->
+<section id="man-choi" class="an">
+  <div class="hai-trinh" id="hai-trinh"></div>
+  <div class="thanh">
+    <div class="o" id="tt-cau">Question 1/40</div>
+    <div class="o" id="tt-diem">0 pts</div>
+    <div class="o mang" id="tt-mang"></div>
+    <div class="o" id="tt-chuoi">Streak 0</div>
+    <div class="vat-pham" id="vat-pham">
+      <button id="vp-nua" title="Remove 2 wrong options">½ <span></span></button>
+      <button id="vp-bang" title="Freeze the clock for 15 seconds">❄ <span></span></button>
+      <button id="vp-qua" title="Skip this question">⤼ <span></span></button>
+    </div>
+  </div>
+  <div class="doi-bang an" id="doi-bang"></div>
+  <div class="su-kien an" id="su-kien">
+    <button id="sk-gio">🌬 Fair wind ×2</button>
+    <button id="sk-bao">🌪 Sea storm: leader −150</button>
+  </div>
+  <div class="dong-ho" id="dong-ho"><div></div></div>
+
+  <article class="cau" id="the-cau">
+    <div><span class="huy-hieu" id="c-dang"></span><span class="chu-de" id="c-chu-de"></span></div>
+    <div class="doan" id="c-doan"></div>
+    <div class="hoi" id="c-hoi"></div>
+    <div class="dap-an" id="c-dap-an"></div>
+    <div class="phan-hoi an" id="c-phan-hoi"></div>
+  </article>
+</section>
+
+<!-- ====== TỔNG KẾT ====== -->
+<section id="man-cuoi" class="an">
+  <div class="the">
+    <div class="mo" id="k-phu"></div>
+    <div class="danh-hieu" id="k-danh-hieu"></div>
+    <div class="loi-gio" style="margin:8px 0"><div class="mat-gio" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 5v3"/><path d="M11 27v-8a9 9 0 0 1 18 0v8l3 4H8z"/><path d="M17 34a3 3 0 0 0 6 0"/></svg></div><div id="k-loi"></div></div>
+    <div class="so-lon" id="k-so"></div>
+    <h2>By question type</h2>
+    <div class="theo-dang" id="k-dang"></div>
+    <div id="k-doi"></div>
+    <h2 id="k-xem-tieu">Questions to review</h2>
+    <div class="xem-lai" id="k-xem"></div>
+    <div class="hang-nut">
+      <button class="nut-chinh" id="nut-lai">Sail again</button>
+      <button class="nut-phu" id="nut-ve">Back to harbour</button>
+    </div>
+  </div>
+</section>
+
+<!-- ====== STREAM: MÁY CHIẾU (giảng viên mở phòng) ====== -->
+<section id="man-host" class="an">
+  <div class="host-top">
+    <span>Live room <span class="ma" id="h-ma-nho">····</span></span>
+    <span class="ket-noi" id="h-ket-noi"><i></i><span>Connecting…</span></span>
+    <span class="o" id="h-so-cau">Lobby</span>
+    <span class="o" id="h-tra-loi">0 aboard</span>
+  </div>
+  <div class="host-grid">
+    <div id="h-trai"></div>
+    <aside class="h-phai">
+      <div class="the"><h2>Bell commentary</h2><div class="tuong-thuat" id="h-tt"></div></div>
+      <div class="the"><h2>Leaderboard</h2><div id="h-bxh"><p class="mo">Scores appear after the first question.</p></div></div>
+    </aside>
+  </div>
+</section>
+
+<!-- ====== STREAM: ĐIỆN THOẠI SINH VIÊN ====== -->
+<section id="man-player" class="an">
+  <div class="p-dau"><b>Voyage of the Bell</b><span class="ket-noi" id="p-ket-noi"><i></i><span>Not connected</span></span></div>
+  <div id="p-noi"></div>
+</section>
+</div>
+
+<div class="nut-goc">
+  <button id="nut-giong" class="an" aria-pressed="true" title="Read the commentary aloud">🗣</button>
+  <button id="nut-nhac" aria-pressed="true" title="Background music">♫</button>
+  <button id="nut-am" aria-pressed="true" title="Sound effects">🔔</button>
+</div>
+
+<script>
+// Ngân hàng câu hỏi — bài giảng "Christianity in Southeast Asia: Historiography, Encounters, and Vernacular
+// Transformations". options[0] luôn là đáp án đúng; game tự xáo vị trí khi chơi.
+// type: doc = đọc hiểu, cau-truc = phân tích cấu trúc, tom-luoc = tóm lược đoạn,
+//       trac-nghiem = trắc nghiệm, dien = điền vào chỗ trống ("_____" là chỗ trống).
+// explanation = trích nguyên văn bài giảng; baoRight/baoWrong = lời bình của Chuông.
+window.CHRIST_SEA = {
+  title: `Christianity in Southeast Asia`,
+  stations: [
+    { id: 1,  name: `Manila`,      theme: `The Historiographical Turn` },
+    { id: 2,  name: `Barus`,       theme: `The Church of the East` },
+    { id: 3,  name: `Malacca`,     theme: `Padroado, Patronato & Propaganda Fide` },
+    { id: 4,  name: `Cebu`,        theme: `Reducción, Friarocracy & Translation` },
+    { id: 5,  name: `Đàng Trong`,  theme: `Rhodes, Quốc ngữ & the Thầy giảng` },
+    { id: 6,  name: `Rangoon`,     theme: `Judson & the Karen Golden Book` },
+    { id: 7,  name: `Penang`,      theme: `The Pangkor Treaty & British Malaya` },
+    { id: 8,  name: `Lake Toba`,   theme: `The Indische Kerk & Batak Adat` },
+    { id: 9,  name: `Dumaguete`,   theme: `Comity & Independent Churches` },
+    { id: 10, name: `Dili`,        theme: `Catholic Majorities` },
+    { id: 11, name: `Highlands`,   theme: `Frontier Minorities` },
+    { id: 12, name: `Yogyakarta`,  theme: `Inculturation, Resistance & Megachurches` }
+  ],
+  questions: [
+  // ───────────── TRẠM 1 · The Historiographical Turn
+  { id: 1, station: 1, type: `doc`, topic: `The colonial paradigm`,
+    passage: `The academic historiography of Christianity in Southeast Asia has undergone an epistemological shift over the past four decades, moving decisively away from traditional missiological and Eurocentric institutional frameworks toward vernacular, polycentric, and subaltern models of analysis. Under the older colonial paradigm, the introduction and diffusion of Christianity were typically framed as unilateral transfers of Western institutional orthodoxy, facilitated by Iberian maritime expansion, chartered trading companies, and European missionary congregations. In these accounts, indigenous Southeast Asians appeared primarily as passive converts, obstinate idolaters, or transparent recipients of metropolitan modernizing initiatives.`,
+    question: `According to the passage, how did the older colonial paradigm portray indigenous Southeast Asians?`,
+    options: [`As passive converts, obstinate idolaters, or transparent recipients of metropolitan modernizing initiatives`, `As active translators who reshaped Christian vocabularies and rituals for their own existential and political purposes`, `As founders of polycentric, vernacular churches independent of Europe`, `As patrons who financed Iberian maritime expansion`],
+    explanation: `"In these accounts, indigenous Southeast Asians appeared primarily as passive converts, obstinate idolaters, or transparent recipients of metropolitan modernizing initiatives."`,
+    baoRight: `Ding! In the old accounts, the people who heard me ring were treated like furniture in the church. Modern historians have started asking the furniture what it thought.`,
+    baoWrong: `Dong… The colonial paradigm cast Southeast Asians as "passive converts, obstinate idolaters, or transparent recipients" of Western initiatives. The active, translating converts belong to the newer scholarship.` },
+
+  { id: 2, station: 1, type: `cau-truc`, topic: `How the scholarship builds`,
+    passage: `[¶1] The structural foundations of this revision were laid by ecclesiastical historians like John N. Schumacher, whose institutional studies of the nineteenth-century Philippine Church challenged the notion that the indigenous clergy was merely a subordinate instrument of Spanish colonial governance. …\n\n[¶2] Vicente L. Rafael extended this analytical turn to linguistic and cultural translation … Rafael analyzed how conversion operated through linguistic mistranslation and cultural evasion. …\n\n[¶3] Expanding upon this subaltern perspective, Reynaldo C. Ileto's Pasyon and Revolution demonstrated that vernacular Christian texts could generate anti-colonial revolutionary consciousness. …`,
+    question: `How are the three paragraphs related to one another?`,
+    options: [`Each builds on the previous one, carrying the same revisionist turn into a new field: institutions → translation → revolution`, `¶2 and ¶3 each refute the argument about the Philippine clergy that Schumacher puts forward in ¶1`, `They narrate, in chronological order, the successive stages of the Spanish mission in the Philippines from Legazpi to Aglipay and Manalo`, `¶1 states a problem in the colonial archive, and ¶2 and ¶3 offer two competing solutions to it`],
+    explanation: `The linking phrases show the chain: "The structural foundations of this revision were laid by…", "Rafael extended this analytical turn…", "Expanding upon this subaltern perspective…".`,
+    baoRight: `Ding! "Laid the foundations", "extended", "expanding upon": three scholars ringing the same bell, each a little louder than the last.`,
+    baoWrong: `Dong… Look at the linking words: "extended this analytical turn" and "Expanding upon this subaltern perspective". Each scholar builds on the one before; nobody refutes anybody.` },
+
+  { id: 3, station: 1, type: `tom-luoc`, topic: `Tara Alberts`,
+    passage: `In mainland and maritime Southeast Asia, Tara Alberts's Conflict and Conversion reframes early modern encounters by decentering the European missionary. Alberts demonstrates that across seventeenth-century Malacca, Ayutthaya, Cochinchina (Đàng Trong), and Tonkin (Đàng Ngoài), Catholic practice was maintained primarily through indigenous networks of catechists, lay confraternities, women, and mixed-descent merchants. By examining how ordinary converts engaged with Catholic rituals, holy water, and medicinal therapies, Alberts illustrates that Southeast Asians evaluated Christianity on local terms of ritual efficacy and spiritual healing, incorporating elements into their existing sacred landscapes.`,
+    question: `Which option best summarizes the paragraph?`,
+    options: [`Alberts decenters the missionary: local catechists, confraternities, women and merchants kept Catholicism alive, and converts judged it by ritual power and healing.`, `Alberts shows that European missionaries alone sustained Catholic practice in every port, while local converts merely followed their priests' instructions without question.`, `Alberts argues that Southeast Asian converts rejected holy water and medicine as foreign superstitions and kept only Church doctrine.`, `Alberts studies how nineteenth-century Protestant missions spread among the upland peoples of Burma through printed vernacular Bibles.`],
+    explanation: `"Catholic practice was maintained primarily through indigenous networks of catechists, lay confraternities, women, and mixed-descent merchants … Southeast Asians evaluated Christianity on local terms of ritual efficacy and spiritual healing…"`,
+    baoRight: `Ding! "Decentering the priest": the people who actually pulled my rope were the catechists, the women and the merchants.`,
+    baoWrong: `Dong… Alberts moves the missionary out of the centre. Catholic life was kept going by local catechists, confraternities, women and mixed-descent merchants, and converts judged it by ritual efficacy and healing.` },
+
+  { id: 4, station: 1, type: `trac-nghiem`, topic: `Native clergy and nationalism`,
+    question: `Which historian showed that the struggle of native secular priests against the Spanish regular orders was the first institutional incubator of modern Philippine nationalism?`,
+    options: [`John N. Schumacher`, `Vicente L. Rafael`, `Reynaldo C. Ileto`, `Peter C. Phan`],
+    explanation: `"Schumacher demonstrated that the struggle of native secular priests against the hegemony of the Spanish regular orders formed the initial institutional incubator for modern Philippine nationalism…"`,
+    baoRight: `Ding! Schumacher read the dusty church records and found a nationalism hatching inside the sacristy.`,
+    baoWrong: `Dong… That was John N. Schumacher. Rafael studied translation, Ileto the Pasyon, and Phan "World Christianities".` },
+
+  { id: 5, station: 1, type: `dien`, topic: `Peter C. Phan`,
+    question: `Peter C. Phan articulates a "_____" paradigm that treats Asian Christianity not as a European transplant but as a diverse family of localized, vernacular religions.`,
+    options: [`World Christianities`, `Prosperity Gospel`, `Padroado Real`, `Friarocracy`],
+    explanation: `"Peter C. Phan articulates a 'World Christianities' paradigm that categorizes Asian Christianity not as a European transplant, but as a diverse family of localized, vernacular religions."`,
+    baoRight: `Ding! "World Christianities", in the plural. Every bell in Asia has its own tone.`,
+    baoWrong: `Dong… The answer is "World Christianities": Asian Christianity as a family of local, vernacular religions.` },
+  // ───────────── TRẠM 2 · The Church of the East
+  { id: 6, station: 2, type: `doc`, topic: `Fahṣūr (Barus)`,
+    passage: `The most explicit medieval textual reference appears in the fourteenth-century geographical compendium attributed to Abu Salih the Armenian, titled Description of Churches and Monasteries of Egypt and Some Neighboring Countries, which drew on twelfth-century sources. This text details an active Christian community at "Fahṣūr" (Fansur/Barus) on the northwestern coast of Sumatra, celebrated across the medieval Mediterranean, Arab, and Persian worlds as the premier global source of high-grade camphor (Dryobalanops aromatica). The account records several churches in the settlement, noting that all local Christians belonged to the Church of the East and maintained a central parish dedicated to the Virgin Mary.`,
+    question: `According to the passage, what was Fahṣūr (Fansur/Barus) famous for across the medieval Mediterranean, Arab and Persian worlds?`,
+    options: [`Being the premier global source of high-grade camphor`, `Being the seat of the Patriarch-Catholicos of the Church of the East`, `Its cathedral built by Portuguese Jesuits`, `Its trade in cloves and nutmeg from the Moluccas`],
+    explanation: `"…'Fahṣūr' (Fansur/Barus) on the northwestern coast of Sumatra, celebrated across the medieval Mediterranean, Arab, and Persian worlds as the premier global source of high-grade camphor (Dryobalanops aromatica)."`,
+    baoRight: `Ding! Camphor from Barus. Long before any Iberian bell rang here, a parish of the Virgin Mary already stood among the camphor traders.`,
+    baoWrong: `Dong… Barus was famous as "the premier global source of high-grade camphor". The Patriarch sat far away in Seleucia-Ctesiphon.` },
+
+  { id: 7, station: 2, type: `cau-truc`, topic: `Texts and archaeology`,
+    passage: `[¶1] … This text details an active Christian community at "Fahṣūr" (Fansur/Barus) on the northwestern coast of Sumatra … The account records several churches in the settlement …\n\n[¶2] These textual records are supported by archaeological discoveries from the Bongal Site in Central Tapanuli, North Sumatra, situated near the historical Barus harbor complex. Excavations have revealed a stratified maritime trade settlement yielding Persian glassware, Middle Eastern ceramics, Tang Dynasty coins, and Abbasid silver and bronze coinage spanning the eighth to tenth centuries.`,
+    question: `What is the function of paragraph 2 in relation to paragraph 1?`,
+    options: [`It brings archaeological evidence that corroborates the written record described in ¶1`, `It argues that the written record in ¶1 is a later forgery, since archaeologists have found no trace of Christians anywhere near Barus`, `It moves on to a new period: the Portuguese conquest of Sumatra`, `It gives the economic causes of the decline of the Barus community`],
+    explanation: `The opening phrase of ¶2 signals the link: "These textual records are supported by archaeological discoveries from the Bongal Site…".`,
+    baoRight: `Ding! The words on parchment and the coins in the soil tell the same story. "Supported by" is the hinge.`,
+    baoWrong: `Dong… ¶2 opens with "These textual records are supported by archaeological discoveries": the digging confirms the text.` },
+
+  { id: 8, station: 2, type: `tom-luoc`, topic: `A non-hegemonic diaspora`,
+    passage: `This pre-colonial Christian presence operated without state backing or territorial ambitions. It functioned as a non-hegemonic merchant diaspora integrated into the seasonal rhythms of the Indian Ocean monsoons. Unlike the later Iberian missions, this early mercantile Church did not systematically build large agrarian institutions, but remained an enclave community of foreign and mixed traders that eventually assimilated into the maritime populations of the archipelago.`,
+    question: `Which option best summarizes the paragraph?`,
+    options: [`The early Church was a stateless merchant community that followed the monsoon trade, built no large agrarian institutions and in time blended into the coastal peoples.`, `The early Church was backed by Sasanian Persia, conquered several Sumatran ports, and ruled them as a Christian kingdom for centuries.`, `Like the later Iberian missions, the early Church built large agrarian institutions and converted the farming villages of the islands.`, `The early Church flourished in Barus and Kalah until Portuguese fleets arrived in the sixteenth century and destroyed its churches, its parish of the Virgin Mary and its camphor trade.`],
+    explanation: `"This pre-colonial Christian presence operated without state backing or territorial ambitions … remained an enclave community of foreign and mixed traders that eventually assimilated into the maritime populations of the archipelago."`,
+    baoRight: `Ding! No crown, no army, no plantations: just traders waiting for the monsoon, and slowly becoming locals.`,
+    baoWrong: `Dong… The key words are "without state backing or territorial ambitions" and "eventually assimilated". This Church never built agrarian institutions.` },
+
+  { id: 9, station: 2, type: `trac-nghiem`, topic: `The Bongal Site`,
+    question: `Which find at the Bongal Site reflects Church of the East iconography?`,
+    options: [`An engraved bronze hand cross`, `A Latin rosary and miraculous medal`, `A Portuguese church bell dated 1511`, `A printed vernacular Bible`],
+    explanation: `"Among these finds was an engraved bronze hand cross reflecting Church of the East iconography, confirming the presence of Eastern Christian merchants alongside Muslim, Hindu, and Buddhist traders centuries before European colonial fleets arrived…"`,
+    baoRight: `Ding! A small bronze cross, and a big lesson: Christianity reached these waters centuries before the European fleets.`,
+    baoWrong: `Dong… It was an engraved bronze hand cross. (Sadly, no bell. I checked.)` },
+
+  { id: 10, station: 2, type: `dien`, topic: `Seventh-century letters`,
+    question: `Letters of about 650 CE by Mar Ishoʻyahb III refer to maritime outposts that historical geographers associate with transshipment points near the Malay Peninsula, such as the port of _____.`,
+    options: [`Kalah`, `Barus`, `Malacca`, `Ambon`],
+    explanation: `"…refer to maritime commercial outposts situated along the Indian Ocean littoral, which historical geographers associate with transshipment points in the vicinity of the Malay Peninsula, such as the port of Kalah."`,
+    baoRight: `Ding! Kalah, a port so old that even I can't remember the sound of its bells.`,
+    baoWrong: `Dong… The port named in the lecture is Kalah. Malacca's moment came much later.` },
+  // ───────────── TRẠM 3 · Padroado, Patronato & Propaganda Fide
+  { id: 11, station: 3, type: `doc`, topic: `Two Iberian models`,
+    passage: `The Portuguese Padroado network centered its maritime enterprise on fortified coastal trading hubs (feitorias) along maritime trade routes—including Goa, Malacca (seized in 1511), Solor, and Macau—relying on mobile naval patrols rather than deep inland administrative control.\n\nThe Spanish Patronato system instituted a program of territorial colonization and administrative consolidation across the Philippine archipelago, initiated by Miguel López de Legazpi in Cebu (1565) and Manila (1571), utilizing religious orders to oversee agrarian populations.`,
+    question: `According to the passage, how did the Portuguese Padroado differ from the Spanish Patronato?`,
+    options: [`The Padroado relied on fortified coastal trading hubs and naval patrols; the Patronato pursued territorial colonization, using religious orders to oversee farming populations`, `The Padroado colonized the interior of the Philippines with religious orders, while the Patronato held only a chain of fortified coastal trading posts`, `The Padroado was directed by the Pope through the Propaganda Fide in Rome, while the Patronato was run by the Dutch East India Company from its headquarters in Batavia on Java`, `Both relied entirely on mobile naval patrols, and neither of them ever tried to govern farming populations or build towns on land`],
+    explanation: `The Padroado relied on "fortified coastal trading hubs (feitorias) … mobile naval patrols rather than deep inland administrative control"; the Patronato "instituted a program of territorial colonization … utilizing religious orders to oversee agrarian populations."`,
+    baoRight: `Ding! Portugal built forts by the sea; Spain built towns around the church. Guess which one needed more bells.`,
+    baoWrong: `Dong… Portugal held coastal feitorias with naval patrols. Spain colonized territory and used religious orders to manage farming populations.` },
+
+  { id: 12, station: 3, type: `cau-truc`, topic: `The Moluccan missions`,
+    passage: `In the Moluccan archipelago, Portuguese Jesuits led by Francis Xavier (who visited Malacca and Ambon between 1545 and 1547) sought to establish Catholic settlements amidst competition between the Islamic Sultanates of Ternate and Tidore and local animist groups. Because the Portuguese presence was geographically thin and dependent on vulnerable sea lanes, these Catholic communities suffered frequent attacks during regional political conflicts. When the Dutch East India Company (VOC) captured Ambon and Malacca in the early seventeenth century, the Dutch expelled Iberian clergy and absorbed local Catholic converts into the state-supervised Reformed Church (Indische Kerk), highlighting the vulnerability of missions tied to weak colonial military networks.`,
+    question: `How does the paragraph explain what happened to the Moluccan Catholic communities?`,
+    options: [`Through cause and effect: a thin presence on vulnerable sea lanes ("Because…") led to attacks, and the VOC conquest then absorbed the converts`, `By comparing two competing theories about why Francis Xavier left the Moluccas and sailed on to Japan`, `By defining the term "Indische Kerk" and then giving several counter-examples from Ternate and Tidore`, `By listing the sultanates and Catholic settlements of the region one after another in chronological order, from Ternate and Tidore to Ambon and Malacca`],
+    explanation: `"Because the Portuguese presence was geographically thin and dependent on vulnerable sea lanes, these Catholic communities suffered frequent attacks … highlighting the vulnerability of missions tied to weak colonial military networks."`,
+    baoRight: `Ding! "Because" sets off the chain, and "highlighting" draws the lesson: a mission is only as safe as the ships that guard it.`,
+    baoWrong: `Dong… The paragraph is a cause-and-effect chain. "Because" the presence was thin, the communities were attacked; then the VOC took over.` },
+
+  { id: 13, station: 3, type: `tom-luoc`, topic: `The 1659 Instructions`,
+    passage: `The 1659 Instructions marked an early modern policy of cultural accommodation and institutional decolonization:\n\nMissionaries were explicitly forbidden from changing local customs, traditions, or dress, provided they were not directly contrary to Christian morality, warning that it was absurd to transport European political structures to Asia.\n\nThe Apostolic Vicars were ordered to prioritize the formation of an indigenous clergy and native episcopacy, ensuring that local Christian communities could flourish independently of European personnel.\n\nPriests were instructed to remain detached from the political rivalries and commercial interests of European monarchs, answering exclusively to the spiritual authority of Rome.`,
+    question: `Which option best summarizes the 1659 Instructions?`,
+    options: [`Rome told its Apostolic Vicars to respect local customs, to train a native clergy and bishops, and to keep out of European monarchs' politics and trade.`, `Rome ordered missionaries to bring European dress, customs and political structures to Asia in order to civilize new converts and serve the Catholic crowns.`, `Rome placed the new Apostolic Vicars under the authority of the Portuguese Padroado bishops in Goa and Macau.`, `Rome told missionaries to resettle scattered villages into grid-patterned towns built around the church and convento.`],
+    explanation: `The three points: do not change local customs that are not "directly contrary to Christian morality"; "prioritize the formation of an indigenous clergy and native episcopacy"; "remain detached from the political rivalries and commercial interests of European monarchs".`,
+    baoRight: `Ding! Respect the customs, raise local priests, stay out of the kings' business. Very sensible advice from Rome.`,
+    baoWrong: `Dong… The Instructions ran the other way: keep local customs, build an indigenous clergy, stay out of European politics and trade.` },
+
+  { id: 14, station: 3, type: `trac-nghiem`, topic: `Propaganda Fide`,
+    question: `Why did Pope Gregory XV establish the Sacred Congregation de Propaganda Fide in 1622?`,
+    options: [`To reclaim papal control over overseas missions from the Iberian monarchs`, `To fund and protect Portuguese and Spanish maritime expansion`, `To create the state-supervised Indische Kerk in the Dutch East Indies and pay its clergy as civil servants`, `To partition the Philippines among Protestant mission boards`],
+    explanation: `"Tensions over ecclesiastical jurisdiction and missionary strategy led Pope Gregory XV to establish the Sacred Congregation de Propaganda Fide in 1622 to reclaim papal control over overseas missions from the Iberian monarchs."`,
+    baoRight: `Ding! Rome wanted its bell rope back from the kings of Lisbon and Madrid.`,
+    baoWrong: `Dong… Propaganda Fide was created to take control of the missions back from the Iberian crowns.` },
+
+  { id: 15, station: 3, type: `dien`, topic: `Jurisdiction conflicts`,
+    question: `Portuguese Padroado authorities in Goa and _____ rejected the authority of Rome's Apostolic Vicars, arresting MEP missionaries and excommunicating converts who obeyed them.`,
+    options: [`Macau`, `Manila`, `Batavia`, `Ayutthaya`],
+    explanation: `"Portuguese Padroado authorities in Goa and Macau rejected the authority of Rome's Apostolic Vicars, arresting MEP missionaries and excommunicating local converts who obeyed them…"`,
+    baoRight: `Ding! Goa and Macau. Two bells, two bishops, and the poor converts caught between them.`,
+    baoWrong: `Dong… It was Goa and Macau, the two Padroado strongholds.` },
+  // ───────────── TRẠM 4 · Reducción, Friarocracy & Translation
+  { id: 16, station: 4, type: `doc`, topic: `Bajo de la campana`,
+    passage: `In contrast, the Spanish consolidated permanent authority over lowland Philippine societies through the spatial policy of reducción. Spanish friars—Augustinians, Franciscans, Dominicans, and Jesuits—forcibly relocated dispersed indigenous settlements (barangays) into centralized, grid-patterned towns centered on the Catholic church and convento. This administrative policy placed the local population bajo de la campana (under the sound of the church bells), making the church bell a tool for coordinating labor drafts, collecting tributes, enforcing religious instruction, and conducting colonial surveillance.`,
+    question: `According to the passage, what did the church bell become under reducción?`,
+    options: [`A tool for coordinating labor drafts, collecting tributes, enforcing religious instruction and conducting colonial surveillance`, `A warning signal that told merchant ships in the harbor when the monsoon winds were about to change`, `A symbol of the independent Filipino church and of its long struggle against the Spanish friars`, `A way to call villagers together so that they could elect their own parish priests, town officials and village headmen each year`],
+    explanation: `"This administrative policy placed the local population bajo de la campana (under the sound of the church bells), making the church bell a tool for coordinating labor drafts, collecting tributes, enforcing religious instruction, and conducting colonial surveillance."`,
+    baoRight: `Ding… and a little guilty. Yes, that was me: labor drafts, tribute, catechism, surveillance. Not my proudest century.`,
+    baoWrong: `Dong… Under reducción, I (the bell) coordinated labor drafts, tribute, religious instruction and surveillance. I'm not proud of it.` },
+
+  { id: 17, station: 4, type: `cau-truc`, topic: `Rafael on confession`,
+    passage: `Focusing on early Spanish Tagalog missions, Rafael analyzed how conversion operated through linguistic mistranslation and cultural evasion. While Spanish friars sought to enforce hierarchy, interiorized guilt, and political submission through the sacrament of confession and vernacular catechisms, Tagalog converts interpreted Christian concepts through local ethics of reciprocal debt (utang na loob) and vernacular spirit systems. Tagalogs submitted to Spanish religious signs while simultaneously draining them of their intended imperial authority, transforming the colonial encounter into a continuous negotiation of linguistic boundaries.`,
+    question: `What pattern organizes the central sentences of this paragraph?`,
+    options: [`A contrast between what the friars intended and how Tagalog converts actually read it, signalled by "While…" and "while simultaneously…"`, `A chronological list of the sacraments the friars introduced, from baptism through to confession`, `A problem (the persistence of local spirit beliefs) followed by the friars' successful solution: catechisms and confession in the vernacular`, `A definition of utang na loob followed by several examples of the same idea from Spain`],
+    explanation: `"While Spanish friars sought to enforce hierarchy … Tagalog converts interpreted Christian concepts through local ethics of reciprocal debt (utang na loob) … Tagalogs submitted to Spanish religious signs while simultaneously draining them of their intended imperial authority…"`,
+    baoRight: `Ding! The friars meant one thing, the Tagalogs heard another. "While" is the bell that marks the contrast.`,
+    baoWrong: `Dong… Watch "While Spanish friars sought…" and "while simultaneously draining them": the paragraph contrasts the friars' aims with the converts' reading.` },
+
+  { id: 18, station: 4, type: `tom-luoc`, topic: `Friarocracy`,
+    passage: `Because Spanish lay administrators were scarce in the provinces, the parish friar served as the central representative of the imperial state, running local schooling, administering justice, and controlling the municipal register. This arrangement established the Philippine "friarocracy" (la frailocracia), creating an institutional hegemony that shaped political life in the colony for more than three centuries.`,
+    question: `Which option best summarizes the paragraph?`,
+    options: [`With few Spanish civil officials in the provinces, the parish friar acted for the state, running schools, justice and records; this "friarocracy" lasted over three centuries.`, `Spanish lay administrators firmly controlled every province and deliberately kept the friars out of schooling, justice and politics.`, `The friarocracy was a short-lived experiment of the 1570s that ended soon after Legazpi's death, when civil governors took over.`, `Filipino secular priests ran the provincial schools, courts and municipal registers, while the Spanish friars stayed in Manila and served only the Spanish colonists and officials.`],
+    explanation: `"Because Spanish lay administrators were scarce in the provinces, the parish friar served as the central representative of the imperial state … This arrangement established the Philippine 'friarocracy' (la frailocracia)…"`,
+    baoRight: `Ding! Priest, teacher, judge and registrar, all in one cassock. That is the friarocracy.`,
+    baoWrong: `Dong… Lay officials were scarce, so the friar did the state's work: schooling, justice, the register. That arrangement lasted more than three centuries.` },
+
+  { id: 19, station: 4, type: `trac-nghiem`, topic: `Spanish colonization`,
+    question: `Who initiated Spanish territorial colonization of the Philippines in Cebu (1565) and Manila (1571)?`,
+    options: [`Miguel López de Legazpi`, `Francis Xavier`, `Alexandre de Rhodes`, `Gregorio Aglipay`],
+    explanation: `"…a program of territorial colonization and administrative consolidation across the Philippine archipelago, initiated by Miguel López de Legazpi in Cebu (1565) and Manila (1571)…"`,
+    baoRight: `Ding! Legazpi: Cebu in 1565, Manila in 1571. The first Spanish bells soon followed.`,
+    baoWrong: `Dong… It was Miguel López de Legazpi. Xavier worked in the Moluccas, Rhodes in Đại Việt, and Aglipay came three centuries later.` },
+
+  { id: 20, station: 4, type: `dien`, topic: `Rafael's book`,
+    question: `Vicente L. Rafael extended the analytical turn to linguistic and cultural translation in his book _____.`,
+    options: [`Contracting Colonialism`, `Pasyon and Revolution`, `Conflict and Conversion`, `Catholic Vietnam`],
+    explanation: `"Vicente L. Rafael extended this analytical turn to linguistic and cultural translation in Contracting Colonialism."`,
+    baoRight: `Ding! Contracting Colonialism, a book about how much gets lost (and won) in translation.`,
+    baoWrong: `Dong… Rafael wrote Contracting Colonialism. Pasyon and Revolution is Ileto's; Conflict and Conversion is Alberts's; Catholic Vietnam is Keith's.` },
+  // ───────────── TRẠM 5 · Rhodes, Quốc ngữ & the Thầy giảng
+  { id: 21, station: 5, type: `doc`, topic: `The thầy giảng guild`,
+    passage: `Recognizing that foreign clergy were vulnerable to periodic banishment by Vietnamese lords suspicious of external political connections, Rhodes established the Nhà Đức Chúa Trời (House of the Lord) and founded the thầy giảng (catechist) guild. These unmarried indigenous lay catechists took vows of celibacy and poverty, distributed charity and medicine, conducted funerals, presided over liturgical assemblies, and baptized converts during times of persecution. The thầy giảng institution ensured that Vietnamese Catholicism developed as an autonomous, self-sustaining community capable of surviving official prohibitions.`,
+    question: `According to the passage, why did Rhodes found the thầy giảng guild?`,
+    options: [`Because foreign clergy could be banished at any time by Vietnamese lords suspicious of their external political ties`, `Because Rome had forbidden Vietnamese men to become priests or to hold any office in the Church`, `Because the Nguyễn lords asked him to train literate officials and interpreters for their court and their foreign trade in Đàng Trong`, `Because Portuguese merchants needed local interpreters to carry on the spice trade with Tonkin`],
+    explanation: `"Recognizing that foreign clergy were vulnerable to periodic banishment by Vietnamese lords suspicious of external political connections, Rhodes established the Nhà Đức Chúa Trời (House of the Lord) and founded the thầy giảng (catechist) guild."`,
+    baoRight: `Ding! Missionaries could be expelled; the thầy giảng stayed. That is how a church learns to ring its own bell.`,
+    baoWrong: `Dong… Foreign priests could be banished at any moment, so Rhodes trained Vietnamese lay catechists to keep the community going.` },
+
+  { id: 22, station: 5, type: `cau-truc`, topic: `Accommodation in Đại Việt`,
+    passage: `[¶1] In mainland Southeast Asia, Catholic missions encountered centralized, sophisticated states where European military conquest was impossible. In seventeenth-century Đại Việt—divided between the Trịnh lords in Tonkin (Đàng Ngoài) and the Nguyễn lords in Cochinchina (Đàng Trong)—missionaries adopted accommodationist strategies …\n\n[¶2] The French Jesuit Alexandre de Rhodes mastered spoken Vietnamese, adopted local scholarly dress, and engaged local elites through scientific and geographical discussions.`,
+    question: `How is paragraph 2 related to paragraph 1?`,
+    options: [`¶1 states a general strategy (accommodation where conquest was impossible); ¶2 illustrates it with the concrete example of Rhodes`, `¶2 contradicts ¶1 by showing that Rhodes in fact relied on Portuguese military force and naval patrols to win his converts in Đại Việt`, `¶1 describes an effect, and ¶2 goes back in time to explain the economic cause that produced it`, `¶2 starts a new topic, the rivalry between the Trịnh and Nguyễn lords, that is unrelated to ¶1`],
+    explanation: `¶1: "missionaries adopted accommodationist strategies"; ¶2 shows what that looked like: Rhodes "mastered spoken Vietnamese, adopted local scholarly dress, and engaged local elites".`,
+    baoRight: `Ding! General rule, then a living example. Rhodes even swapped his cassock for scholar's robes.`,
+    baoWrong: `Dong… ¶1 gives the strategy (accommodation); ¶2 shows it in practice through Rhodes: language, dress, conversation with elites.` },
+
+  { id: 23, station: 5, type: `tom-luoc`, topic: `Healing and protection`,
+    passage: `In early modern Đại Việt and the Malay Archipelago, Tara Alberts demonstrates that common people appropriated Catholic material culture through traditional concepts of spiritual healing and protection. Latin prayers, miraculous medals, rosaries, and holy water were utilized as amulets against wandering spirits (ma), epidemics, childbirth complications, and agricultural misfortune. Indigenous converts evaluated European priests and catechists primarily by their ritual effectiveness in counteracting malicious spirits and providing bodily healing, incorporating elements of the new faith into existing cosmological systems.`,
+    question: `Which option best summarizes the paragraph?`,
+    options: [`Ordinary converts used Catholic prayers and objects as amulets and judged priests by their power to heal and repel spirits, fitting the new faith into their own cosmology.`, `Converts rejected rosaries, medals and holy water as foreign magic and accepted only the written doctrine taught to them by the priests.`, `European priests strictly banned medals, rosaries and holy water among Vietnamese converts because they feared these would be used as amulets against spirits and epidemics.`, `Converts abandoned all their earlier beliefs about wandering spirits as soon as they were baptized by the European missionaries.`],
+    explanation: `"Latin prayers, miraculous medals, rosaries, and holy water were utilized as amulets against wandering spirits (ma) … Indigenous converts evaluated European priests and catechists primarily by their ritual effectiveness…"`,
+    baoRight: `Ding! Holy water against the ma, a rosary for a safe birth: the faith was judged by whether it worked.`,
+    baoWrong: `Dong… Converts used Catholic objects as amulets and judged priests by their ritual power to heal and protect, within their existing cosmology.` },
+
+  { id: 24, station: 5, type: `trac-nghiem`, topic: `The 1651 dictionary`,
+    question: `When and by whom was Rhodes's Dictionarium Annamiticum Lusitanum et Latinum published?`,
+    options: [`In 1651, by the Propaganda Fide in Rome`, `In 1622, by the Portuguese Padroado in Goa`, `In 1659, by the Missions Étrangères de Paris`, `In 1813, by the American Baptist press in Rangoon`],
+    explanation: `"…the romanized script (chữ Quốc ngữ), which he codified in the landmark 1651 Dictionarium Annamiticum Lusitanum et Latinum published by the Propaganda Fide in Rome."`,
+    baoRight: `Ding! 1651, Rome. Vietnamese, Portuguese and Latin side by side, and the letters you are reading Vietnamese in today.`,
+    baoWrong: `Dong… The dictionary appeared in 1651, published by the Propaganda Fide in Rome.` },
+
+  { id: 25, station: 5, type: `dien`, topic: `The accommodation model`,
+    question: `In seventeenth-century Đại Việt, missionaries adopted accommodationist strategies inspired by _____'s work in Ming and Qing China.`,
+    options: [`Matteo Ricci`, `Francis Xavier`, `François Pallu`, `Adoniram Judson`],
+    explanation: `"…missionaries adopted accommodationist strategies inspired by Matteo Ricci's work in Ming and Qing China."`,
+    baoRight: `Ding! Matteo Ricci, who taught the missions that a mandarin's robe can open more doors than a cannon.`,
+    baoWrong: `Dong… The model came from Matteo Ricci in China.` },
+  // ───────────── TRẠM 6 · Judson & the Karen Golden Book
+  { id: 26, station: 6, type: `doc`, topic: `The Golden Book`,
+    passage: `Among the Karen, conversion was accelerated by an indigenous myth regarding a lost sacred "Golden Book" (Liker K'li). Karen oral traditions held that the supreme creator deity, Ywa, had originally provided their ancestors with written wisdom in a golden book, which was lost through negligence. The myth prophesied that a foreign "white brother" would one day cross the sea to restore the sacred text.\n\nWhen American missionaries arrived bearing the printed vernacular Bible, thousands of Karen recognized the scripture as the physical fulfillment of their ancestral prophecy.`,
+    question: `According to the passage, why did thousands of Karen accept the printed Bible?`,
+    options: [`They recognized it as the physical fulfillment of their ancestral prophecy of the lost Golden Book`, `The British colonial government required all upland peoples to register as Christians`, `It was the first book ever printed in Burmese, and owning one brought high social status`, `Buddhist monks in Rangoon told them that the Bible was a newly rediscovered Theravada scripture from Ceylon`],
+    explanation: `"When American missionaries arrived bearing the printed vernacular Bible, thousands of Karen recognized the scripture as the physical fulfillment of their ancestral prophecy."`,
+    baoRight: `Ding! A lost book, a brother from over the sea, and then a ship arriving with a book. Some prophecies ring very loudly.`,
+    baoWrong: `Dong… The Karen saw the printed Bible as the fulfillment of the prophecy: the white brother returning the lost Golden Book.` },
+
+  { id: 27, station: 6, type: `cau-truc`, topic: `A chain of consequences`,
+    passage: `This institutional development reinforced an emergent Karen national consciousness. As Christian highlanders entered colonial civil administration and British military regiments, social divisions deepened between the Christianized minority uplands and the Buddhist Burman lowlands, forming fault lines that drove post-colonial ethnic insurgencies.`,
+    question: `How is the paragraph organized?`,
+    options: [`As a chain of consequences: mission institutions → Karen national consciousness → upland–lowland divisions → post-colonial insurgencies`, `As a point-by-point comparison of Karen and Bamar religious doctrines, followed by the author's judgment on which tradition shaped the colonial state more deeply`, `As a definition of "insurgency" followed by several counter-examples drawn from colonial Burma`, `As a list of Karen myths and prophecies arranged in the order in which they were first recorded`],
+    explanation: `"This institutional development reinforced an emergent Karen national consciousness … social divisions deepened … forming fault lines that drove post-colonial ethnic insurgencies."`,
+    baoRight: `Ding! One link pulls the next: schools, identity, uniforms, division, war. A heavy chain for a bell rope.`,
+    baoWrong: `Dong… It is a cause-and-effect chain, from mission institutions to Karen national consciousness to the fault lines behind later insurgencies.` },
+
+  { id: 28, station: 6, type: `tom-luoc`, topic: `From lowland to upland`,
+    passage: `[In British Burma, an American Baptist mission was established in Rangoon in 1813.] Finding little traction among the Theravada Buddhist Burman majority, Baptist evangelization shifted toward non-Burman upland populations, particularly the Karen, Kachin, and Chin peoples.`,
+    question: `Which option best summarizes the paragraph?`,
+    options: [`The Baptist mission made little progress among Buddhist Burmans, so it turned to upland minorities such as the Karen, Kachin and Chin.`, `The Baptist mission converted most of the Buddhist Burman majority within a few years of arriving in Rangoon.`, `The Baptists ignored the upland peoples completely and concentrated all of their work, schools and printing among the Buddhist Burmans of Rangoon.`, `The British government banned the Baptists from any contact with the Karen, Kachin and Chin peoples.`],
+    explanation: `"Finding little traction among the Theravada Buddhist Burman majority, Baptist evangelization shifted toward non-Burman upland populations, particularly the Karen, Kachin, and Chin peoples."`,
+    baoRight: `Ding! Little response in the lowlands, so the mission climbed into the hills.`,
+    baoWrong: `Dong… The Burman majority stayed Buddhist; the mission shifted to the Karen, Kachin and Chin uplands.` },
+
+  { id: 29, station: 6, type: `trac-nghiem`, topic: `The Judsons`,
+    question: `Who established the American Baptist mission in Rangoon in 1813?`,
+    options: [`Adoniram Judson and Ann Hasseltine Judson`, `Ludwig Ingwer Nommensen`, `François Pallu and Pierre Lambert de la Motte`, `Isabelo de los Reyes and Gregorio Aglipay`],
+    explanation: `"In British Burma, Adoniram Judson and Ann Hasseltine Judson established an American Baptist mission in Rangoon in 1813."`,
+    baoRight: `Ding! Adoniram and Ann Judson, who sailed a very long way to ring a bell in Rangoon.`,
+    baoWrong: `Dong… It was Adoniram Judson and Ann Hasseltine Judson. Nommensen went to the Batak; Pallu and Lambert de la Motte to Indochina.` },
+
+  { id: 30, station: 6, type: `dien`, topic: `Karen scripts`,
+    question: `The Baptist mission codified written scripts for Pwo and _____ Karen, opened village schools, and provided modern healthcare.`,
+    options: [`Sgaw`, `Kachin`, `Chin`, `Bamar`],
+    explanation: `"The Baptist mission codified written scripts for Pwo and Sgaw Karen, opened village schools, and provided modern healthcare."`,
+    baoRight: `Ding! Pwo and Sgaw: two Karen languages, two new alphabets.`,
+    baoWrong: `Dong… The two Karen scripts were Pwo and Sgaw.` },
+  // ───────────── TRẠM 7 · The Pangkor Treaty & British Malaya
+  { id: 31, station: 7, type: `doc`, topic: `Article 6`,
+    passage: `In British Malaya, religious policy was defined by colonial administrative convenience. Under the Pangkor Treaty …, the British established their system of indirect rule across the Malay Peninsula. Article 6 of the agreement stipulated that the British Resident's administrative counsel must be followed on all matters:\n\n"...other than those touching Malay Religion and Custom."`,
+    question: `According to Article 6, on which matters did the British Resident's advice NOT have to be followed?`,
+    options: [`Matters touching Malay Religion and Custom`, `Matters of tin mining and rubber taxes`, `Matters of defence and foreign policy`, `Matters concerning Chinese and Tamil immigrants`],
+    explanation: `"Article 6 of the agreement stipulated that the British Resident's administrative counsel must be followed on all matters: '...other than those touching Malay Religion and Custom.'"`,
+    baoRight: `Ding! Everything except religion and custom. One clause drew a line no mission bell could cross.`,
+    baoWrong: `Dong… The exception was "Malay Religion and Custom". On everything else, the Resident's advice had to be followed.` },
+
+  { id: 32, station: 7, type: `cau-truc`, topic: `Mission schools`,
+    passage: `Missionaries built extensive networks of elite Anglo-Chinese and Anglo-Tamil schools, hospitals, and social institutions in urban centers like Penang, Kuala Lumpur, Ipoh, and Singapore. This spatial policy institutionalized the division between ethnic Malays (whose identity was linked to Islam) and immigrant communities, leaving Christianity largely confined to ethnic minority and urban enclaves.`,
+    question: `How is the paragraph organized?`,
+    options: [`It first describes what missionaries built and where, then states the long-term consequence of this policy ("This spatial policy institutionalized…")`, `It compares two rival theories about the origins of Malay identity and then chooses the stronger of the two`, `It defines the term "Anglo-Chinese school" and then gives several counter-examples taken from Penang`, `It narrates the founding of Penang, Kuala Lumpur, Ipoh and Singapore one after another in chronological order, ending with the arrival of the missions`],
+    explanation: `"This spatial policy institutionalized the division between ethnic Malays (whose identity was linked to Islam) and immigrant communities, leaving Christianity largely confined to ethnic minority and urban enclaves."`,
+    baoRight: `Ding! First the buildings, then the consequence. "This spatial policy" points back and sums it all up.`,
+    baoWrong: `Dong… Sentence 1 describes the schools and hospitals; sentence 2, opening with "This spatial policy", gives the lasting result.` },
+
+  { id: 33, station: 7, type: `tom-luoc`, topic: `Containing the missions`,
+    passage: `To prevent anti-colonial unrest among the Malay-Muslim population, British colonial authorities strictly barred Christian missionaries from proselytizing ethnic Malays. Consequently, missionary organizations—such as the Anglicans, English Presbyterians, and American Methodists—channeled their resources toward non-Muslim Chinese and Indian (Tamil) immigrant communities …`,
+    question: `Which option best summarizes the paragraph?`,
+    options: [`To avoid unrest among Malay Muslims, the British banned missions to Malays, so the missions turned to Chinese and Tamil immigrants instead.`, `The British encouraged missionaries to convert the Malay population, hoping that this would weaken the sultans and the Islamic courts that supported them.`, `Missionaries chose on their own to avoid the Chinese and Tamil communities and to focus on Malay villages.`, `Malay sultans invited Anglican and Methodist missionaries to run schools inside their royal courts.`],
+    explanation: `"…British colonial authorities strictly barred Christian missionaries from proselytizing ethnic Malays. Consequently, missionary organizations … channeled their resources toward non-Muslim Chinese and Indian (Tamil) immigrant communities…"`,
+    baoRight: `Ding! One door closed by law, another opened: the Chinese and Tamil communities.`,
+    baoWrong: `Dong… The British barred missions to Malays to prevent unrest; "Consequently", the missions turned to Chinese and Tamil immigrants.` },
+
+  { id: 34, station: 7, type: `trac-nghiem`, topic: `Indirect rule`,
+    question: `In which year was the Pangkor Treaty signed, setting up British indirect rule on the Malay Peninsula?`,
+    options: [`1874`, `1813`, `1862`, `1901`],
+    explanation: `"Under the Pangkor Treaty of 1874, the British established their system of indirect rule across the Malay Peninsula."`,
+    baoRight: `Ding! 1874. One treaty, and the religious map of Malaya was drawn for a century.`,
+    baoWrong: `Dong… The Pangkor Treaty dates from 1874. (1813 is Judson in Rangoon, 1862 Nommensen among the Batak, 1901 the Comity Agreement.)` },
+
+  { id: 35, station: 7, type: `dien`, topic: `Immigrant labor`,
+    question: `Missions in Malaya worked among non-Muslim Chinese and Tamil immigrant communities brought in to work in the tin mines and _____ estates.`,
+    options: [`rubber`, `spice`, `sugar`, `tea`],
+    explanation: `"…non-Muslim Chinese and Indian (Tamil) immigrant communities brought in to work in the tin mines and rubber estates."`,
+    baoRight: `Ding! Tin and rubber, the two engines of colonial Malaya.`,
+    baoWrong: `Dong… They worked in the tin mines and the rubber estates.` },
+  // ───────────── TRẠM 8 · The Indische Kerk & Batak Adat
+  { id: 36, station: 8, type: `doc`, topic: `The Indische Kerk`,
+    passage: `In the Dutch East Indies, the colonial state supported the Indische Kerk, an official ecclesiastical bureaucracy that paid both Dutch Reformed and Lutheran clergy as civil servants. Fearing that Christian proselytization among Muslim populations in Java and Sumatra would trigger Islamic holy wars (jihad) against the state, the colonial administration redirected mission agencies toward animist populations in the Outer Islands.`,
+    question: `According to the passage, why did the Dutch redirect mission agencies toward the Outer Islands?`,
+    options: [`They feared that missions among Muslims in Java and Sumatra would trigger holy wars (jihad) against the state`, `The Outer Islands had the richest camphor forests, which the missions were expected to manage`, `The Pope ordered the Dutch to leave Java and Sumatra to the restored Jesuit missions, and the Dutch had to obey`, `Muslim sultans in Java paid the Dutch administration to keep all missionaries away`],
+    explanation: `"Fearing that Christian proselytization among Muslim populations in Java and Sumatra would trigger Islamic holy wars (jihad) against the state, the colonial administration redirected mission agencies toward animist populations in the Outer Islands."`,
+    baoRight: `Ding! Fear of jihad redrew the mission map, just as the Pangkor Treaty did across the strait.`,
+    baoWrong: `Dong… The Dutch feared missions among Muslims would spark jihad, so they sent the missions to animist peoples in the Outer Islands.` },
+
+  { id: 37, station: 8, type: `cau-truc`, topic: `Nommensen's method`,
+    passage: `[¶1] Nommensen avoided demanding that converts abandon their cultural norms; instead, he integrated Christian ethics with Batak customary law (adat) and traditional lineage structures (marga).\n\n[¶2] By incorporating clan patriarchs into church councils and translating scriptures into the Toba Batak vernacular, Nommensen fostered an autonomous indigenous church …`,
+    question: `How is paragraph 2 related to paragraph 1?`,
+    options: [`¶1 gives Nommensen's approach; ¶2 names the means ("By incorporating… and translating…") and the result: an autonomous indigenous church`, `¶2 rejects the approach described in ¶1 and explains why Nommensen later abandoned it altogether`, `¶1 and ¶2 compare Nommensen's methods, point by point, with those of Adoniram Judson in Burma`, `¶2 lists the problems with Batak adat and the marga system that eventually forced Nommensen to give up his mission and leave North Sumatra`],
+    explanation: `"By incorporating clan patriarchs into church councils and translating scriptures into the Toba Batak vernacular, Nommensen fostered an autonomous indigenous church…"`,
+    baoRight: `Ding! "By … , Nommensen fostered …": method first, result after. A neat little bell-pull of a sentence.`,
+    baoWrong: `Dong… ¶1 gives the approach (keep adat and marga); ¶2 names the means and the result, an autonomous indigenous church.` },
+
+  { id: 38, station: 8, type: `tom-luoc`, topic: `The Dutch East Indies (comparison table)`,
+    passage: `Dutch East Indies — Colonial hegemon: Kingdom of the Netherlands. Predominant traditions: Dutch Reformed, Lutheran, Roman Catholic. Key missionary bodies: Indische Kerk; Rhenish Missionary Society (RMG); Jesuit restoration. Institutional strategy: State-subsidized church bureaucracy; containment away from Muslim populations toward animist highland groups (Batak, Toraja). Enduring legacy: Formation of large, self-governing ethnic churches (e.g., HKBP) that integrated customary law (adat).`,
+    question: `Which option best summarizes this row of the lecture's comparison table?`,
+    options: [`The Dutch paid for a state church, kept missions away from Muslims and sent them to animist highlanders, leaving large self-governing ethnic churches that kept adat.`, `The Dutch sent missions mainly to the Muslims of Java and Sumatra, paying them as civil servants, and the result was a single centralized national church for all islands.`, `The Dutch banned all missionary bodies from the colony, so Christianity survived only in small merchant enclaves on the coast.`, `The Dutch divided the islands among several American mission boards under a comity agreement like that of the Philippines.`],
+    explanation: `"State-subsidized church bureaucracy; containment away from Muslim populations toward animist highland groups (Batak, Toraja) … Formation of large, self-governing ethnic churches (e.g., HKBP) that integrated customary law (adat)."`,
+    baoRight: `Ding! State church, containment, and in the end, big ethnic churches that kept their adat.`,
+    baoWrong: `Dong… The Dutch subsidized a state church and steered missions toward animist highlanders, which produced self-governing ethnic churches like the HKBP.` },
+
+  { id: 39, station: 8, type: `trac-nghiem`, topic: `Nommensen`,
+    question: `Ludwig Ingwer Nommensen arrived among the Batak Toba in 1862 on behalf of which mission society?`,
+    options: [`The German Rhenish Missionary Society (RMG)`, `The Société des Missions Étrangères de Paris (MEP)`, `The American Baptist Foreign Mission Society`, `The Christian and Missionary Alliance (CMA)`],
+    explanation: `"…Ludwig Ingwer Nommensen of the German Rhenish Missionary Society (RMG) arrived in 1862."`,
+    baoRight: `Ding! The Rhenish Mission, from the banks of the Rhine to the shores of Lake Toba.`,
+    baoWrong: `Dong… Nommensen came with the German Rhenish Missionary Society (RMG).` },
+
+  { id: 40, station: 8, type: `dien`, topic: `HKBP`,
+    question: `Nommensen's mission became the _____ (HKBP), the largest single indigenous Protestant body in Southeast Asia.`,
+    options: [`Huria Kristen Batak Protestan`, `Indische Kerk`, `Iglesia Filipina Independiente`, `Kachin Baptist Convention`],
+    explanation: `"…Nommensen fostered an autonomous indigenous church that became the Huria Kristen Batak Protestan (HKBP), which grew to be the largest single indigenous Protestant body in Southeast Asia."`,
+    baoRight: `Ding! Huria Kristen Batak Protestan. The largest indigenous Protestant church in the region, and every bell in it rings in Batak.`,
+    baoWrong: `Dong… HKBP stands for Huria Kristen Batak Protestan.` },
+  // ───────────── TRẠM 9 · Comity & Independent Churches
+  { id: 41, station: 9, type: `doc`, topic: `Outside the partition`,
+    passage: `The Protestant Episcopal Church chose not to enter the partitioning system, refusing to proselytize baptized Catholic lowlanders, and instead directed its educational and medical work toward non-Christian highlanders in the Cordilleras and the Muslim communities of Mindanao.`,
+    question: `According to the passage, why did the Protestant Episcopal Church stay out of the partitioning system?`,
+    options: [`It refused to proselytize baptized Catholic lowlanders and worked instead among Cordillera highlanders and Mindanao Muslims`, `It wanted to keep the whole city of Manila and all of its Catholic parishes for itself`, `The other mission boards expelled it from the Evangelical Union after a dispute over money`, `It chose to work only among Chinese immigrants in the commercial districts of Manila and Iloilo, where the other boards had no congregations at all`],
+    explanation: `"The Protestant Episcopal Church chose not to enter the partitioning system, refusing to proselytize baptized Catholic lowlanders, and instead directed its educational and medical work toward non-Christian highlanders in the Cordilleras and the Muslim communities of Mindanao."`,
+    baoRight: `Ding! The Episcopalians would not ring their bell over a Catholic parish. They went to the mountains and to Mindanao instead.`,
+    baoWrong: `Dong… The Episcopal Church refused to evangelize baptized Catholics and worked among Cordillera highlanders and Mindanao Muslims.` },
+
+  { id: 42, station: 9, type: `cau-truc`, topic: `Two consequences of 1898`,
+    passage: `American Protestantism introduced English-language education and founded universities such as Silliman University (established in 1901 in Dumaguete). At the same time, the transition of 1898 accelerated native breakaways from Rome. Frustrated by the Vatican's reluctance to appoint Filipino bishops, Isabelo de los Reyes and Father Gregorio Aglipay established the Iglesia Filipina Independiente (IFI) in 1902, drawing hundreds of thousands of nationalist Catholics into an autonomous national church.`,
+    question: `What does the phrase "At the same time" do in this paragraph?`,
+    options: [`It introduces a second, parallel development of the same period: alongside Protestant education came native breakaways from Rome`, `It signals that the second sentence contradicts and corrects the first: American education did not spread at all, because Filipinos broke away from Rome`, `It introduces a specific example of what was being taught at Silliman University in Dumaguete`, `It marks a jump forward of several decades, from the American colonial era to independence`],
+    explanation: `"American Protestantism introduced English-language education … At the same time, the transition of 1898 accelerated native breakaways from Rome."`,
+    baoRight: `Ding! Two bells at the same hour: American schools on one side, Filipino churches breaking from Rome on the other.`,
+    baoWrong: `Dong… "At the same time" adds a second development of the same period, the native breakaways from Rome. It is not a contradiction.` },
+
+  { id: 43, station: 9, type: `tom-luoc`, topic: `The end of the patronato`,
+    passage: `In the Philippines, the transition from Spanish to American colonial rule in 1898 ended the centuries-long patronato system and introduced the constitutional separation of church and state. To prevent redundant competition, seven American mission boards met in Manila in 1901 to form the Evangelical Union and sign the Comity Agreement.`,
+    question: `Which option best summarizes the paragraph?`,
+    options: [`American rule in 1898 ended the patronato and separated church and state; in 1901 seven US mission boards signed the Comity Agreement to avoid competing.`, `Spanish rule continued after 1898, and the patronato system was strengthened by a new agreement with the American mission boards.`, `In 1901 the Vatican and the United States signed a treaty that divided the Philippine islands between Catholic dioceses and Protestant mission boards, province by province.`, `Seven American mission boards met in Manila in 1901 and agreed to compete openly for the same Catholic congregations.`],
+    explanation: `"…the transition from Spanish to American colonial rule in 1898 ended the centuries-long patronato system … seven American mission boards met in Manila in 1901 to form the Evangelical Union and sign the Comity Agreement."`,
+    baoRight: `Ding! New rulers, new rules: church and state separate, and seven boards agreeing not to step on each other's toes.`,
+    baoWrong: `Dong… 1898 ended the patronato and brought church–state separation; in 1901 seven boards signed the Comity Agreement "to prevent redundant competition".` },
+
+  { id: 44, station: 9, type: `trac-nghiem`, topic: `The Comity Agreement`,
+    question: `Under the 1901 Comity Agreement, which mission board was assigned the Western Visayan islands of Panay and Negros?`,
+    options: [`The Northern Baptists`, `The Methodists`, `The Presbyterians`, `The Christian and Missionary Alliance`],
+    explanation: `"The Northern Baptists were assigned the Western Visayan islands of Panay and Negros."`,
+    baoRight: `Ding! Panay and Negros went to the Northern Baptists. You know your mission map!`,
+    baoWrong: `Dong… Panay and Negros went to the Northern Baptists. The Methodists took Central Luzon, and the CMA Western Mindanao and Sulu.` },
+
+  { id: 45, station: 9, type: `dien`, topic: `An indigenous movement`,
+    question: `In 1914, Felix Manalo founded the _____, an indigenous Christian restorationist movement with strict administrative centralism and unified voting habits.`,
+    options: [`Iglesia ni Cristo`, `Iglesia Filipina Independiente`, `Cofradía de San José`, `Evangelical Union`],
+    explanation: `"In 1914, Felix Manalo founded the Iglesia ni Cristo (INC), an indigenous Christian restorationist movement that maintained strict administrative centralism and unified voting habits…"`,
+    baoRight: `Ding! Iglesia ni Cristo: when it votes, it votes together.`,
+    baoWrong: `Dong… Felix Manalo founded the Iglesia ni Cristo (INC). The IFI was Aglipay and de los Reyes's church.` },
+  // ───────────── TRẠM 10 · Catholic Majorities
+  { id: 46, station: 10, type: `doc`, topic: `Pancasila and conversion`,
+    passage: `The demographic shift occurred following the 1975 Indonesian invasion and annexation of the territory as the province of Timor Timur. Under the Indonesian state ideology of Pancasila, every citizen was required to register membership in one of five officially recognized monotheistic world religions; traditional animist belief was forbidden and frequently treated as evidence of communist sympathies. Because Indonesia had a vast Muslim majority, the East Timorese population entered the Catholic Church as a means of cultural preservation and nonviolent political resistance.`,
+    question: `According to the passage, why did the East Timorese population enter the Catholic Church after 1975?`,
+    options: [`Pancasila forced everyone to register in a recognized religion; in a Muslim-majority state, Catholicism became a way to preserve their culture and resist`, `Portuguese missionaries returned after 1975 and converted the animist population by force, village by village, with the open support of the Indonesian army`, `The Indonesian government made Catholicism the official religion of Timor Timur to win local support`, `The Vatican paid families to be baptized so that it could keep its dioceses of Dili and Baucau`],
+    explanation: `"Under the Indonesian state ideology of Pancasila, every citizen was required to register membership in one of five officially recognized monotheistic world religions … the East Timorese population entered the Catholic Church as a means of cultural preservation and nonviolent political resistance."`,
+    baoRight: `Ding! Animism was forbidden, Islam was the occupier's majority: the church became a shelter and a quiet form of resistance.`,
+    baoWrong: `Dong… Pancasila required a recognized religion. In a Muslim-majority state, the Timorese chose Catholicism to preserve their culture and resist nonviolently.` },
+
+  { id: 47, station: 10, type: `cau-truc`, topic: `Two paths to a majority`,
+    passage: `[¶1] In the Philippines, Catholic hegemony was built over more than three centuries of Spanish colonial rule. Rather than remaining an external European imposition, the faith was internalized through vernacular and syncretic practices. …\n\n[¶2] In sharp contrast to the Philippine centuries-long colonial trajectory, the mass Catholicization of Timor-Leste was a late-twentieth-century phenomenon driven by regional geopolitical violence. When Portugal abruptly abandoned Portuguese Timor in 1975, only 25 to 30 percent of the Timorese population was Catholic …`,
+    question: `How is paragraph 2 related to paragraph 1?`,
+    options: [`It contrasts Timor-Leste's rapid, late-twentieth-century Catholicization with the Philippines' slow, centuries-long path ("In sharp contrast…")`, `It gives another example of the same slow, centuries-long process described for the Philippines in ¶1`, `It explains the economic and demographic causes of the developments that ¶1 describes, showing that most of Timor's Catholics came from the Philippines`, `It continues the story of ¶1, narrating what happened to the Philippine Church after 1975`],
+    explanation: `"In sharp contrast to the Philippine centuries-long colonial trajectory, the mass Catholicization of Timor-Leste was a late-twentieth-century phenomenon driven by regional geopolitical violence."`,
+    baoRight: `Ding! Three centuries in Manila, about two decades in Dili. "In sharp contrast" says it all.`,
+    baoWrong: `Dong… "In sharp contrast" marks a comparison: the Philippines took centuries, Timor-Leste only a few decades.` },
+
+  { id: 48, station: 10, type: `tom-luoc`, topic: `People Power 1986`,
+    passage: `Led by Jaime Cardinal Sin, Archbishop of Manila, the Church used its national radio station (Radio Veritas) and parish networks to coordinate the nonviolent 1986 EDSA People Power Revolution, protecting defecting military officers and bringing down the authoritarian regime of Ferdinand Marcos.`,
+    question: `Which option best summarizes the paragraph?`,
+    options: [`Under Cardinal Sin, the Church used Radio Veritas and its parishes to organize the nonviolent 1986 EDSA revolution, sheltering defecting officers and helping topple Marcos.`, `Cardinal Sin supported the Marcos regime and used Radio Veritas and the parish networks to ask the faithful to stay at home and keep off the streets of Manila in February 1986.`, `In 1986 the Church organized an armed uprising in the provinces, with parish priests leading units of defecting soldiers.`, `Radio Veritas was shut down by the army before EDSA began, so the Church played no part in the fall of Marcos.`],
+    explanation: `"…the Church used its national radio station (Radio Veritas) and parish networks to coordinate the nonviolent 1986 EDSA People Power Revolution, protecting defecting military officers and bringing down the authoritarian regime of Ferdinand Marcos."`,
+    baoRight: `Ding! A radio station, thousands of parishes, and no guns. Every church bell in Manila rang that February.`,
+    baoWrong: `Dong… Cardinal Sin's Church used Radio Veritas and the parishes to coordinate a nonviolent revolution that brought down Marcos.` },
+
+  { id: 49, station: 10, type: `trac-nghiem`, topic: `The Tetum liturgy`,
+    question: `In 1981, which language did the East Timorese Church adopt as its official liturgical language?`,
+    options: [`Tetum`, `Bahasa Indonesia`, `Portuguese`, `Latin`],
+    explanation: `"A turning point occurred in 1981, when the local Church, backed by the Holy See, adopted Tetum (the indigenous lingua franca) rather than Indonesian (Bahasa Indonesia) as its official liturgical language."`,
+    baoRight: `Ding! Tetum, the people's own language, turned into a sacred voice of resistance.`,
+    baoWrong: `Dong… It was Tetum, the indigenous lingua franca, chosen instead of Indonesian.` },
+
+  { id: 50, station: 10, type: `dien`, topic: `Timoridade`,
+    question: `By the 1999 independence referendum, more than _____ percent of the East Timorese population had embraced Catholicism.`,
+    options: [`95`, `25 to 30`, `50`, `75`],
+    explanation: `"By the time of the UN-sponsored independence referendum in 1999, more than 95 percent of the East Timorese population had embraced Catholicism, embedding the faith into Timorese national identity (Timoridade)."`,
+    baoRight: `Ding! From about a quarter in 1975 to over 95 percent in 1999. Few bells anywhere have gained a congregation that fast.`,
+    baoWrong: `Dong… More than 95 percent. The 25–30 percent figure is from 1975, when Portugal left.` },
+  // ───────────── TRẠM 11 · Frontier Minorities
+  { id: 51, station: 11, type: `doc`, topic: `The New Way`,
+    passage: `Embracing the "New Way" provided Hmong villagers with a religious rationale to discard costly ancestral spirit altars, eliminate expensive livestock sacrifice rituals, abandon opium cultivation and consumption, and bypass traditional shamanic fees. Christianity offered a pathway to economic modernization and connected a mountain minority to a global, transnational Hmong diaspora in the United States and Europe.`,
+    question: `According to the passage, what practical benefits did the "New Way" offer Hmong villagers?`,
+    options: [`A reason to give up costly spirit altars, livestock sacrifices, opium and shamanic fees, plus links to the Hmong diaspora abroad`, `Land grants, tax exemptions, new roads and village schools promised by the Vietnamese state to every Hmong village that registered as Christian`, `Jobs in the colonial civil administration and places in the British military regiments`, `A guarantee of physical protection from the Far East Broadcasting Company and its staff`],
+    explanation: `"Embracing the 'New Way' provided Hmong villagers with a religious rationale to discard costly ancestral spirit altars, eliminate expensive livestock sacrifice rituals, abandon opium cultivation and consumption, and bypass traditional shamanic fees."`,
+    baoRight: `Ding! Fewer buffaloes sacrificed, no opium, no shaman's bill, and cousins in Minnesota. A very practical conversion.`,
+    baoWrong: `Dong… The New Way let villagers drop costly altars, sacrifices, opium and shamanic fees, and linked them to the Hmong diaspora.` },
+
+  { id: 52, station: 11, type: `cau-truc`, topic: `The Central Highlands`,
+    passage: `In the Central Highlands, French MEP missionaries and American CMA (Tin Lành) personnel evangelized among Montagnard (Đồng bào) populations—including the Jarai, Bahnar, Ede, and Koho. … During the Second Indochina War, portions of the Montagnard population allied with Western forces through organizations like FULRO (United Front for the Liberation of Oppressed Races).\n\nIn the post-Đổi Mới era, Protestant Montagnards face regular state surveillance, with authorities treating unregistered "house church" networks and independent Degar Protestantism as potential threats to national integration and territorial security.`,
+    question: `How is this section organized?`,
+    options: [`Chronologically: missionary evangelization → the Second Indochina War → the post-Đổi Mới era`, `As a comparison of the Jarai, Bahnar, Ede and Koho languages and scripts`, `As a problem followed by the final solution adopted by the Vietnamese state`, `As a definition of "Degar" followed by several counter-examples from the Kinh settlers of the lowlands`],
+    explanation: `The time markers carry the structure: missionaries "evangelized…", "During the Second Indochina War…", "In the post-Đổi Mới era…".`,
+    baoRight: `Ding! Mission, war, Đổi Mới: three periods, three sounds of the same highland bell.`,
+    baoWrong: `Dong… Follow the time markers: "During the Second Indochina War", "In the post-Đổi Mới era". It is a chronological account.` },
+
+  { id: 53, station: 11, type: `tom-luoc`, topic: `Myanmar's frontier states`,
+    passage: `In Myanmar, the link between Christianity and ethnic identity remains central to ongoing civil conflict. In the frontier states—Kachin, Chin, and Karen States—Christianity (predominantly Baptist, Methodist, and Catholic) serves as a communal defense against the majoritarian Bamar-Buddhist nationalism promoted by successive military regimes (Tatmadaw). Institutions like the Kachin Baptist Convention (KBC) and the Myanmar Baptist Convention function as social service providers, running schools, organizing disaster relief, maintaining archives, and supporting displaced civilians during military conflicts.`,
+    question: `Which option best summarizes the paragraph?`,
+    options: [`In Myanmar's frontier states, Christianity shields ethnic communities against the military's Bamar-Buddhist nationalism, and churches such as the KBC run schools and relief.`, `Christianity in Myanmar has no real connection with ethnic identity, and the churches stay completely outside the civil conflict.`, `The Tatmadaw promotes Baptist and Methodist churches as part of its national policy of unifying the frontier states.`, `The Kachin Baptist Convention is a political party that governs Kachin State, commands its own army and negotiates directly with the Tatmadaw in the name of all of Myanmar's Christians.`],
+    explanation: `"…Christianity (predominantly Baptist, Methodist, and Catholic) serves as a communal defense against the majoritarian Bamar-Buddhist nationalism … Institutions like the Kachin Baptist Convention (KBC) … function as social service providers…"`,
+    baoRight: `Ding! In the hills of Myanmar, the church is shield, school and relief camp at once.`,
+    baoWrong: `Dong… Christianity is a "communal defense" for the frontier peoples, and churches like the KBC provide schools, relief and help to displaced civilians.` },
+
+  { id: 54, station: 11, type: `trac-nghiem`, topic: `Radio and the Hmong`,
+    question: `What sparked the Hmong conversion movement in northern Vietnam from the late 1980s?`,
+    options: [`Shortwave radio broadcasts in Hmong by the Far East Broadcasting Company (FEBC) from Saipan and Manila`, `Printed Bibles in the Hmong language brought up into the mountains by American Baptist missionaries from Rangoon`, `The thầy giảng catechists trained by Alexandre de Rhodes`, `Orders from the Vietnamese government to register in a recognized religion`],
+    explanation: `"This movement was sparked by transborder shortwave radio broadcasts in the Hmong language transmitted by the Far East Broadcasting Company (FEBC) from stations in Saipan and Manila."`,
+    baoRight: `Ding! No missionary walked up the mountain: the message came by shortwave. I have to admit, a radio carries further than a bell.`,
+    baoWrong: `Dong… It was shortwave radio in the Hmong language, broadcast by the FEBC from Saipan and Manila.` },
+
+  { id: 55, station: 11, type: `dien`, topic: `Indonesia after 1965`,
+    question: `Conversions to Protestantism and Catholicism surged across Java and North Sumatra following the _____ anti-communist purges, as rural citizens joined recognized religions to avoid accusations of communist sympathies.`,
+    options: [`1965–1966`, `1975–1976`, `1998–1999`, `1945–1946`],
+    explanation: `"Conversions to Protestantism and Catholicism surged across Java and North Sumatra following the 1965–1966 anti-communist purges, as rural citizens joined recognized monotheistic religions to avoid accusations of communist sympathies."`,
+    baoRight: `Ding! After 1965–1966, having no recognized religion could be dangerous, and the churches filled.`,
+    baoWrong: `Dong… The surge followed the 1965–1966 anti-communist purges.` },
+  // ───────────── TRẠM 12 · Inculturation, Resistance & Megachurches
+  { id: 56, station: 12, type: `doc`, topic: `Javanese Catholicism`,
+    passage: `In contemporary Indonesia, inculturation has been integrated into architectural forms, liturgical music, and the performing arts. Roman Catholic churches across Java—such as the Church of the Sacred Heart of Jesus in Ganjuran, Yogyakarta—adopt traditional Javanese joglo architectural plans. Statues depict Christ and the Virgin Mary in royal Javanese court attire, while Eucharistic liturgies incorporate gamelan percussion orchestras and vernacular hymns composed using Javanese pentatonic tuning (slendro and pelog).`,
+    question: `According to the passage, how is Javanese culture built into Catholic worship?`,
+    options: [`Through joglo church plans, statues in Javanese court dress, gamelan orchestras and hymns in slendro and pelog tuning`, `Through Latin-only masses and imported Gothic cathedrals designed by Dutch colonial architects`, `Through a strict ban on gamelan, joglo buildings and Javanese court dress in all the Catholic churches of Yogyakarta and Central Java`, `Through Portuguese hymns and processions brought over from Malacca in the sixteenth century`],
+    explanation: `"…adopt traditional Javanese joglo architectural plans. Statues depict Christ and the Virgin Mary in royal Javanese court attire, while Eucharistic liturgies incorporate gamelan percussion orchestras and vernacular hymns composed using Javanese pentatonic tuning (slendro and pelog)."`,
+    baoRight: `Ding! In Ganjuran the gamelan plays at Mass, and frankly it sounds better than I do.`,
+    baoWrong: `Dong… Joglo architecture, Javanese court dress for the statues, gamelan and pentatonic hymns: that is inculturation in Java.` },
+
+  { id: 57, station: 12, type: `cau-truc`, topic: `Mainline vs. megachurch`,
+    passage: `Mainline Catholic and Protestant denominations maintain geographic parish boundaries, traditional synod governance, historic liturgical cycles, and commitments to social action and cultural accommodation (adat).\n\nIndependent Neo-Pentecostal megachurches operate corporate, multi-site campuses located in commercial shopping districts, run by charismatic senior pastors using broadcast-grade media technologies, professional worship bands, and small-group discipleship cells.`,
+    question: `How is this passage organized?`,
+    options: [`As a point-by-point comparison of two kinds of church: territory, governance, worship and social role`, `As a chronological history of a single megachurch, from its founding in a shopping district to its present multi-site campuses`, `As a cause (the decline of mainline churches) followed by its single main effect`, `As a definition of "synod" followed by examples from several Catholic dioceses`],
+    explanation: `The lecture introduces the pair as "The institutional differences between traditional mainline churches and modern urban megachurches…": parish boundaries vs. multi-site campuses, synods vs. charismatic pastors, liturgical cycles vs. media and worship bands.`,
+    baoRight: `Ding! Parish bell versus stage lights: the passage lines them up feature by feature.`,
+    baoWrong: `Dong… The two paragraphs compare the same features side by side: territory, leadership, worship. It is a comparison.` },
+
+  { id: 58, station: 12, type: `tom-luoc`, topic: `Hermano Pule`,
+    passage: `A prominent instance of this dynamic was the Cofradía de San José, established in 1832 in Tayabas province, Philippines, by Apolinario de la Cruz (known as Hermano Pule). Barred from entering a Catholic religious order because of his native (indio) racial status, Pule organized an independent lay confraternity dedicated to Saint Joseph, gathering thousands of followers across Southern Luzon.\n\nWhen the Spanish colonial state and friar hierarchy banned the Cofradía as heretical and dispatched troops to disperse it, the movement mobilized into armed resistance. … Pule's followers interpreted their struggle against the Spanish military as a reenactment of Christ's walk to Calvary (lakaran), viewing bodily death not as defeat, but as a path to collective moral purification and national renewal (liwanag).`,
+    question: `Which option best summarizes the passage?`,
+    options: [`Shut out of a religious order as an indio, Hermano Pule founded a lay confraternity; when Spain banned it and sent troops, his followers resisted, seeing it as Christ's road to Calvary.`, `Hermano Pule was a Spanish friar who led colonial troops against a heretical sect in Tayabas, was honored by the Crown for this service, and later became the Archbishop of Manila.`, `The Cofradía de San José was founded by the Spanish friars in 1832 to strengthen colonial rule and loyalty to Spain in Southern Luzon.`, `The Cofradía de San José was a merchant guild in Tayabas that traded camphor with Barus and only later turned to politics.`],
+    explanation: `"Barred from entering a Catholic religious order because of his native (indio) racial status, Pule organized an independent lay confraternity … Pule's followers interpreted their struggle against the Spanish military as a reenactment of Christ's walk to Calvary (lakaran)…"`,
+    baoRight: `Ding! Shut out of the order, Pule built his own. The Pasyon gave his followers the words for their resistance.`,
+    baoWrong: `Dong… Pule, rejected as an indio, founded the Cofradía; when Spain sent troops, his followers resisted, reading their struggle as Christ's road to Calvary.` },
+
+  { id: 59, station: 12, type: `trac-nghiem`, topic: `The Prosperity Gospel`,
+    question: `Under the Prosperity Gospel, how are financial success, physical health and professional advancement interpreted?`,
+    options: [`As visible markers of divine favor and victorious personal faith`, `As temptations that the faithful must renounce in order to reach salvation`, `As debts owed to the clan under utang na loob`, `As signs of colonial corruption`],
+    explanation: `"Through the framework of the Prosperity Gospel, financial success, physical health, and professional advancement are interpreted as visible markers of divine favor and victorious personal faith."`,
+    baoRight: `Ding! A promotion as a sign of grace. Somewhere a medieval friar is fainting.`,
+    baoWrong: `Dong… In the Prosperity Gospel, wealth, health and career success are "visible markers of divine favor".` },
+
+  { id: 60, station: 12, type: `dien`, topic: `Catholics and the Đông Du movement`,
+    question: `During the Đông Du (Go East) movement led by _____, several Vietnamese Catholic priests were imprisoned on Poulo Condore for supporting the nationalist resistance.`,
+    options: [`Phan Bội Châu`, `Ngô Đình Diệm`, `Nguyễn Bá Tòng`, `Hồ Chí Minh`],
+    explanation: `"During the anti-colonial Đông Du (Go East) movement led by Phan Bội Châu, several Vietnamese Catholic priests were arrested, tried, and imprisoned on Poulo Condore for providing logistical and financial support to the nationalist resistance."`,
+    baoRight: `Ding! Phan Bội Châu. Some Vietnamese priests paid for that cause with years on Côn Đảo.`,
+    baoWrong: `Dong… The Đông Du movement was led by Phan Bội Châu. Nguyễn Bá Tòng was the first native Vietnamese bishop named in the lecture.` }
+  ]
+};
+
+// Vòng thưởng Listening — bài nghe Listening_Christianity_SEA (phòng trưng bày lịch sử của trường đại học: Linh, Alex, Ben).
+// Soạn lại từ 02_Listening_Questions.docx và đáp án 03_Teacher_Transcript_and_Answers.docx thành câu chấm máy được.
+// lv: e = dễ, m = vừa, c = khó, a = nâng cao. type mc: options[0] đúng; type text: accept = các đáp án chấp nhận.
+window.LISTEN_BONUS = {
+  audio: `nghe/listening-christianity-sea.mp3`,
+  minutes: 15,
+  pick: { e:3, m:2, c:3, a:2 },
+  pool: [
+  { id:`E1`, lv:`e`, type:`mc`, q:`Where does the conversation take place?`,
+    options:[`In a university history gallery`, `On a trading ship`, `In a church school`, `At a maritime museum`] },
+  { id:`E2`, lv:`e`, type:`mc`, q:`Which church were some early Christian merchants connected with?`,
+    options:[`The Church of the East`, `The Church of England`, `The Philippine Independent Church`, `The Dutch Reformed Church`] },
+  { id:`E3`, lv:`e`, type:`mc`, q:`Where was the bronze cross found?`,
+    options:[`At the Bongal site in North Sumatra`, `In Manila`, `In Timor-Leste`, `In the port of Malacca`] },
+  { id:`E4`, lv:`e`, type:`mc`, q:`Who is Linh?`,
+    options:[`The guide of the exhibition`, `A student preparing an audio report`, `A Vietnamese lay teacher`, `The director of a church choir`] },
+  { id:`E5`, lv:`e`, type:`mc`, q:`What are Alex and Ben preparing?`,
+    options:[`A short audio report for their class`, `A guidebook for the history gallery`, `A documentary film about Sumatra`, `A dictionary of Vietnamese words`] },
+  { id:`E6`, lv:`e`, type:`mc`, q:`What does Alex hear coming from the room with the Philippines display?`,
+    options:[`Singing`, `Rain on the roof`, `Church bells`, `Waves and a ship's engine`] },
+
+  { id:`M1`, lv:`m`, type:`text`, q:`Write ONE YEAR. Alexandre de Rhodes published an important dictionary in _____.`, accept:[`1651`] },
+  { id:`M2`, lv:`m`, type:`text`, q:`Write ONE YEAR. The large growth of Catholicism in Timor-Leste came after the Indonesian invasion in _____.`, accept:[`1975`] },
+  { id:`M3`, lv:`m`, type:`text`, q:`Write ONE YEAR. The local church in Timor-Leste chose its language for worship in _____.`, accept:[`1981`] },
+  { id:`M4`, lv:`m`, type:`text`, q:`Write ONE WORD. The local church in Timor-Leste chose _____, rather than Indonesian, as its language for worship.`, accept:[`tetum`] },
+  { id:`M5`, lv:`m`, type:`text`, q:`Write NO MORE THAN TWO WORDS. The romanized way of writing Vietnamese is now called _____.`, accept:[`quoc ngu`, `quốc ngữ`, `chu quoc ngu`, `chữ quốc ngữ`] },
+  { id:`M6`, lv:`m`, type:`text`, q:`Write NO MORE THAN TWO WORDS. The Vietnamese lay teachers who helped Catholic communities continue were called _____.`, accept:[`thay giang`, `thầy giảng`] },
+
+  { id:`C1`, lv:`c`, type:`mc`, q:`What was the Pasyon?`,
+    options:[`A poetic telling of Christ's suffering in a local language, sung together during Holy Week`, `A Spanish law code that friars read aloud in every village church`, `A Latin prayer that only the Spanish priests were allowed to recite aloud at Easter`, `A printed dictionary of Tagalog religious words made by missionaries`] },
+  { id:`C2`, lv:`c`, type:`mc`, q:`How could some listeners relate the Pasyon to life under colonial rule?`,
+    options:[`They connected its story of suffering and hope with their own lives`, `They learned from it that they should obey colonial officials`, `They used it as a history of the Spanish conquest of the islands`, `They sang it only in secret, because the Spanish friars had banned it in every village`] },
+  { id:`C3`, lv:`c`, type:`mc`, q:`How does the timing of Catholic growth differ between the Philippines and Timor-Leste?`,
+    options:[`It took centuries under Spanish rule in the Philippines, but came much later in Timor-Leste, after the 1975 Indonesian invasion`, `It came quickly after 1975 in the Philippines, but took centuries under Portuguese rule in Timor-Leste`, `It happened at the same time in both places, during the Spanish conquest of the sixteenth century, as friars moved from Manila to Dili`, `It began in Timor-Leste first and then spread to the Philippines with Indonesian traders`] },
+  { id:`C4`, lv:`c`, type:`mc`, q:`Why did the choice of Tetum for worship matter in Timor-Leste?`,
+    options:[`It strengthened a shared national identity and gave the language a role in peaceful resistance`, `It was required by the Indonesian government for every church in the province`, `It was the language of the Portuguese colonists, so choosing it pleased both the Vatican and Lisbon`, `It made services shorter, so more people could attend during the rainy season`] },
+  { id:`C5`, lv:`c`, type:`mc`, q:`Which list matches the tasks of the thay giang?`,
+    options:[`Teaching the faith, offering charity and medicine, organizing funerals and leading gatherings`, `Collecting taxes for the lords, running the village courts and keeping the land and tribute registers`, `Translating the Bible into Tagalog and printing it for the Spanish friars`, `Building stone churches, sailing trade ships and guarding the ports`] },
+  { id:`C6`, lv:`c`, type:`mc`, q:`According to Linh, was the romanized Vietnamese script developed by one person alone?`,
+    options:[`No. Vietnamese collaborators worked with Portuguese Jesuits and Alexandre de Rhodes`, `Yes. Alexandre de Rhodes created it alone after learning Vietnamese`, `No. Court scholars in Huế created it on their own, without any help from the missionaries`, `Yes. A Portuguese merchant invented it to keep his trade records`] },
+
+  { id:`A1`, lv:`a`, type:`mc`, q:`Why would it be wrong to conclude from the bronze cross alone that the whole region had converted?`,
+    options:[`It shows Eastern Christian merchants, but early communities were small groups at trading ports, and one object cannot prove a regional conversion`, `The cross was made in Europe in the sixteenth century, so it cannot tell us anything about earlier merchants in Sumatra`, `The cross was found in Manila, far from the trading ports where the Church of the East merchants travelled`, `Linh explains that the cross is a modern copy made for the gallery, so historians no longer treat it as real evidence of Christians in Sumatra`] },
+  { id:`A2`, lv:`a`, type:`mc`, q:`What is the speakers' central argument about Christianity in Southeast Asia?`,
+    options:[`It was not simply copied from Europe: local people translated, taught, sang and organized it in ways that mattered to their communities`, `It arrived with European ships in the sixteenth century, and local people accepted it in exactly the form the missionaries brought`, `It spread mainly through Church of the East merchants, who converted whole kingdoms long before Europeans arrived`, `It became strong only where colonial governments forced people to join the church, banned all local customs and replaced local languages with Latin`] },
+  { id:`A3`, lv:`a`, type:`mc`, q:`According to Ben, what different kinds of evidence do the Sumatra cross and the Vietnamese teachers show?`,
+    options:[`An early trading community in one case, and a local network that kept worship alive in the other`, `Proof of a powerful Christian kingdom in one case, and proof of a European colony and its army in the other`, `Evidence of Spanish missions in one case, and evidence of Indonesian rule in the other`, `Two examples of the same thing: foreign priests building churches in port cities`] },
+  { id:`A4`, lv:`a`, type:`mc`, q:`What was the effect of the thay giang's work on Vietnamese Catholic communities?`,
+    options:[`The community became less dependent on visiting foreign clergy`, `The community became fully controlled by Portuguese merchants and their ships`, `The community stopped holding funerals and public gatherings`, `The community moved away from Vietnam to the Philippines`] },
+  { id:`A5`, lv:`a`, type:`mc`, q:`Alex first thinks Christianity arrived with European ships in the sixteenth century. How does Linh correct him?`,
+    options:[`She says Church of the East merchants travelled through the Malacca Strait long before European colonial fleets`, `She agrees with him, and adds that the very first Christians arrived with the Spanish fleet in Manila`, `She says Christianity arrived in the nineteenth century with American missionaries`, `She says the first Christians were Vietnamese teachers who sailed to Sumatra`] },
+  { id:`A6`, lv:`a`, type:`mc`, q:`What does Alex conclude about the Philippines and Timor-Leste?`,
+    options:[`They became largely Catholic through different histories, yet local communities shaped religious practice in both`, `They became Catholic through the same history, because both were Spanish colonies for three centuries`, `Only the Philippines developed local forms of worship; Timor-Leste kept the European liturgy unchanged`, `Neither place is largely Catholic today, because most people later returned to the religions of their ancestors`] }
+  ]
+};
+
+</script>
+<script>
+(function(){
+"use strict";
+const D = window.CHRIST_SEA;
+const $ = id => document.getElementById(id);
+const TYPES = {
+  "doc":        {ten:"Reading comprehension", mo:"Read the passage and find a detail or idea it states.", giay:90},
+  "cau-truc":   {ten:"Text structure",        mo:"See how a paragraph or section is organised and which linking words signal it.", giay:90},
+  "tom-luoc":   {ten:"Paragraph summary",     mo:"Pick the summary that is accurate and covers the main points.", giay:90},
+  "trac-nghiem":{ten:"Multiple choice",       mo:"Facts from the lecture and its comparison tables.", giay:40},
+  "dien":       {ten:"Fill in the blank",     mo:"Choose the exact word or phrase the lecture uses.", giay:40}
+};
+const KHO = {
+  de:  {ten:"Calm seas", heSo:1.5,  mang:5, vp:2},
+  vua: {ten:"Steady wind",heSo:1,    mang:3, vp:1},
+  kho: {ten:"Storm",     heSo:0.65, mang:2, vp:1}
+};
+const LETTERS = "ABCD";
+
+/* ---------- lưu trữ an toàn ---------- */
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v==null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+
+/* ---------- âm thanh tự sinh (Web Audio) ---------- */
+const Am = (function(){
+  let ctx = null, master = null, musicGain = null, timer = null, step = 0;
+  let musicOn = store.get("vob-nhac", true), sfxOn = store.get("vob-am", true);
+  function ensure(){
+    if(!ctx){
+      const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return null;
+      ctx = new AC(); master = ctx.createGain(); master.gain.value = .9; master.connect(ctx.destination);
+      musicGain = ctx.createGain(); musicGain.gain.value = .11; musicGain.connect(master);
+    }
+    if(ctx.state === "suspended") ctx.resume();
+    return ctx;
+  }
+  const hz = m => 440 * Math.pow(2, (m - 69) / 12);
+  function tone(midi, t, dur, type, vol, dest, slideTo){
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type; o.frequency.setValueAtTime(hz(midi), t);
+    if(slideTo != null) o.frequency.exponentialRampToValueAtTime(hz(slideTo), t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(dest || master); o.start(t); o.stop(t + dur + .05);
+  }
+  function noise(t, dur, freq, q, vol, dest){
+    const n = Math.floor(ctx.sampleRate * dur), b = ctx.createBuffer(1, n, ctx.sampleRate), d = b.getChannelData(0);
+    for(let i=0;i<n;i++) d[i] = Math.random()*2-1;
+    const s = ctx.createBufferSource(); s.buffer = b;
+    const f = ctx.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = freq; f.Q.value = q;
+    const g = ctx.createGain(); g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    s.connect(f); f.connect(g); g.connect(dest || master); s.start(t);
+  }
+  // thang ngũ cung trên vòng hợp âm 4 ô nhịp (la thứ – fa – đô – son)
+  const PENTA = [0,2,4,7,9], ROOTS = [57, 53, 60, 55];
+  function beat(){
+    if(!ctx) return;
+    const t = ctx.currentTime + .02, bar = Math.floor(step / 8) % 4, pos = step % 8, root = ROOTS[bar];
+    if(pos === 0 || pos === 4) tone(root - 24, t, .5, "sine", .5, musicGain);
+    if(pos !== 3 && pos !== 7 && Math.random() < .8){
+      const n = root + 12 + PENTA[(step * 3 + bar + (Math.random()*3|0)) % 5];
+      tone(n, t, .22, "triangle", .32, musicGain);
+    }
+    if(pos % 2 === 0) noise(t, .09, pos % 4 === 0 ? 180 : 320, 2.5, pos % 4 === 0 ? .9 : .45, musicGain);
+    step++;
+  }
+  function startMusic(){ if(!musicOn || timer || !ensure()) return; timer = setInterval(beat, 260); }
+  function stopMusic(){ clearInterval(timer); timer = null; }
+  return {
+    unlock(){ ensure(); },
+    get musicOn(){ return musicOn; }, get sfxOn(){ return sfxOn; },
+    toggleMusic(){ musicOn = !musicOn; store.set("vob-nhac", musicOn); musicOn ? startMusic() : stopMusic(); return musicOn; },
+    toggleSfx(){ sfxOn = !sfxOn; store.set("vob-am", sfxOn); return sfxOn; },
+    startMusic, stopMusic,
+    right(){ if(!sfxOn || !ensure()) return; const t = ctx.currentTime;
+      [72,76,79,84].forEach((m,i) => tone(m, t + i*.09, .25, "triangle", .35));
+      noise(t + .3, .35, 7000, 1.2, .18); },
+    wrong(){ if(!sfxOn || !ensure()) return; const t = ctx.currentTime;
+      noise(t, .18, 400, 1.5, .5); tone(55, t + .05, .45, "sawtooth", .22, null, 43); },
+    win(){ if(!sfxOn || !ensure()) return; const t = ctx.currentTime;
+      [67,72,76,79,76,79,84].forEach((m,i) => { const d = i === 6 ? .7 : .16;
+        tone(m, t + i*.14, d, "square", .14); tone(m - 12, t + i*.14, d, "square", .08); }); },
+    lose(){ if(!sfxOn || !ensure()) return; const t = ctx.currentTime;
+      [67,66,65,64].forEach((m,i) => tone(m, t + i*.32, .3, "triangle", .3, null, m - .6));
+      tone(40, t + 1.3, 1.1, "sine", .4); },
+    tick(){ if(!sfxOn || !ensure()) return; tone(96, ctx.currentTime, .05, "square", .05); },
+    click(){ if(!sfxOn || !ensure()) return; tone(84, ctx.currentTime, .06, "triangle", .12); }
+  };
+})();
+let yenLang = false; // điện thoại trong phòng stream: không bật nhạc nền
+window.addEventListener("pointerdown", function first(){ Am.unlock(); if(!yenLang) Am.startMusic(); window.removeEventListener("pointerdown", first); });
+
+/* ---------- tiện ích ---------- */
+function shuffle(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){ const j = Math.random()*(i+1)|0; [a[i],a[j]] = [a[j],a[i]]; } return a; }
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function toast(msg){ const el = document.createElement("div"); el.className = "thong-bao"; el.textContent = msg;
+  document.body.appendChild(el); setTimeout(() => el.remove(), 2400); }
+function show(id){ ["man-dau","man-choi","man-cuoi","man-host","man-player"].forEach(s => $(s).classList.toggle("an", s !== id)); window.scrollTo(0,0); }
+function pressGroup(el, onChange){
+  el.addEventListener("click", e => { const b = e.target.closest("button"); if(!b) return;
+    el.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); Am.click(); onChange && onChange(b.dataset.v); });
+}
+const val = el => el.querySelector('[aria-pressed="true"]').dataset.v;
+
+/* ---------- trang đầu ---------- */
+const cfg = { mode:"solo", len:"all", kho:"vua", soDoi:4, nhip:"vua" };
+$("dang").innerHTML = Object.entries(TYPES).map(([k,t]) =>
+  `<div data-type="${k}"><b>${t.ten}</b>${t.mo}</div>`).join("");
+$("chon-cang").innerHTML = D.stations.map(s => `<option value="${s.id}">Port ${s.id} · ${esc(s.name)} — ${esc(s.theme)}</option>`).join("");
+$("ten").value = store.get("vob-ten", "");
+function moKho(){ const k = KHO[cfg.kho];
+  $("mo-kho").textContent = `${k.mang} lives · each power-up ${k.vp}× · ${Math.round(90*k.heSo)} seconds for passage questions, ${Math.round(40*k.heSo)} seconds for short ones.`; }
+function veTenDoi(){
+  const cu = [...$("ten-doi").querySelectorAll("input")].map(i => i.value);
+  const mac = ["Barus","Malacca","Cebu","Penang","Dili","Toba"];
+  $("ten-doi").innerHTML = Array.from({length:cfg.soDoi}, (_,i) =>
+    `<input type="text" maxlength="20" value="${esc(cu[i] || "Team " + mac[i])}">`).join("");
+}
+pressGroup($("chon-che-do"), v => { cfg.mode = v; $("khung-solo").classList.toggle("an", v !== "solo"); $("khung-doi").classList.toggle("an", v !== "doi");
+  $("khung-stream").classList.toggle("an", v !== "stream"); $("nut-bat-dau").textContent = v === "stream" ? "Open a live room 📡" : "Set sail ⛵"; });
+function moNhip(){ const k = KHO[cfg.nhip];
+  $("mo-nhip").textContent = `${Math.round(90*k.heSo)} seconds for passage questions, ${Math.round(40*k.heSo)} seconds for short ones.`; }
+pressGroup($("chon-nhip"), v => { cfg.nhip = v; moNhip(); });
+moNhip();
+pressGroup($("chon-do-dai"), v => { cfg.len = v; $("khung-cang").classList.toggle("an", v !== "one"); });
+pressGroup($("chon-kho"), v => { cfg.kho = v; moKho(); });
+pressGroup($("chon-so-doi"), v => { cfg.soDoi = +v; veTenDoi(); });
+moKho(); veTenDoi();
+
+function veBxh(){
+  const ds = store.get("vob-bxh", []);
+  $("bxh-dau").innerHTML = ds.length ? `<table class="bxh"><tr><th>#</th><th>Captain</th><th>Voyage</th><th>Points</th></tr>` +
+    ds.slice(0,10).map((r,i) => `<tr><td>${i+1}</td><td>${esc(r.ten)}</td><td>${esc(r.kieu)}</td><td>${r.diem}</td></tr>`).join("") + `</table>`
+    : `<p class="mo">Nobody has made port yet. The hall of fame is saved in this browser only.</p>`;
+}
+veBxh();
+
+/* ---------- trạng thái ván ---------- */
+let G = null;
+
+function buildQueue(){
+  const byStation = D.stations.map(s => shuffle(D.questions.filter(q => q.station === s.id)));
+  if(cfg.len === "one"){ const id = +$("chon-cang").value; return byStation[id-1]; }
+  if(cfg.len === "short") return byStation.flatMap(a => a.slice(0,2));
+  return byStation.flat();
+}
+
+$("nut-bat-dau").addEventListener("click", start);
+function start(){
+  Am.unlock(); Am.startMusic();
+  if(cfg.mode === "stream"){ hostCreate(); return; }
+  const queue = buildQueue();
+  G = { queue, i:0, score:0, streak:0, best:0, log:[], locked:false, timer:null, frozenUntil:0, doubleNext:false };
+  G.stationsInRun = [...new Set(queue.map(q => q.station))];
+  if(cfg.mode === "solo"){
+    const k = KHO[cfg.kho];
+    G.ten = ($("ten").value.trim() || "Nameless captain"); store.set("vob-ten", $("ten").value.trim());
+    G.lives = k.mang; G.items = {nua:k.vp, bang:k.vp, qua:k.vp}; G.heSo = k.heSo;
+  } else {
+    G.heSo = 1;
+    G.teams = [...$("ten-doi").querySelectorAll("input")].map((el,i) => ({ten: el.value.trim() || "Team " + (i+1), diem:0, dung:0, cuop:0}));
+    G.turn = 0; G.evGio = true; G.evBao = true;
+  }
+  $("vat-pham").classList.toggle("an", cfg.mode !== "solo");
+  $("tt-mang").classList.toggle("an", cfg.mode !== "solo");
+  $("tt-diem").classList.toggle("an", cfg.mode !== "solo");
+  $("tt-chuoi").classList.toggle("an", cfg.mode !== "solo");
+  $("doi-bang").classList.toggle("an", cfg.mode !== "doi");
+  $("su-kien").classList.toggle("an", cfg.mode !== "doi");
+  $("sk-gio").disabled = false; $("sk-bao").disabled = false;
+  show("man-choi");
+  renderQuestion();
+}
+
+/* ---------- vẽ hải trình ---------- */
+function routeHtml(station){
+  return D.stations.map(s => {
+    const cls = s.id === station ? "nay" : (s.id < station ? "qua" : "");
+    return `<div class="cang ${cls}"><i></i><span>${esc(s.name)}</span></div>`;
+  }).join("") + `<div class="tau" style="left:calc(${((station-1) + .5) * 100 / D.stations.length}% )">⛵</div>`;
+}
+function renderRoute(){ $("hai-trinh").innerHTML = routeHtml(G.queue[G.i].station); }
+
+function renderStatus(){
+  $("tt-cau").textContent = `Question ${G.i+1}/${G.queue.length}`;
+  if(cfg.mode === "solo"){
+    $("tt-diem").textContent = `${G.score} pts`;
+    $("tt-mang").textContent = "♥".repeat(G.lives) + "♡".repeat(Math.max(0, KHO[cfg.kho].mang - G.lives));
+    $("tt-chuoi").textContent = `Streak ${G.streak}`;
+    for(const k of ["nua","bang","qua"]){ const b = $("vp-"+k); b.querySelector("span").textContent = "×" + G.items[k]; b.disabled = G.items[k] <= 0 || G.locked; }
+  } else {
+    $("doi-bang").innerHTML = G.teams.map((t,i) => `<div class="${i === G.turn ? "luot" : ""}">${esc(t.ten)} <small>${t.diem} pts</small></div>`).join("");
+    $("sk-gio").disabled = !G.evGio; $("sk-bao").disabled = !G.evBao;
+  }
+}
+
+/* ---------- câu hỏi ---------- */
+function renderPassage(p){
+  return p.split("\n\n").map(par => "<p>" + esc(par).replace(/^\[([^\]]+)\]/, '<span class="nhan-doan">[$1]</span>') + "</p>").join("");
+}
+function renderQuestion(){
+  const q = G.queue[G.i];
+  G.locked = false; G.order = shuffle([0,1,2,3]); G.removed = []; G.stealing = null; G.firstWrong = null;
+  const card = $("the-cau"); card.dataset.type = q.type;
+  const st = D.stations[q.station-1];
+  $("c-dang").textContent = TYPES[q.type].ten;
+  $("c-chu-de").textContent = `Port ${st.id} · ${st.name} — ${q.topic}`;
+  $("c-doan").classList.toggle("an", !q.passage);
+  $("c-doan").innerHTML = q.passage ? renderPassage(q.passage) : "";
+  $("c-doan").scrollTop = 0;
+  $("c-hoi").innerHTML = q.type === "dien"
+    ? esc(q.question).replace("_____", '<span class="trong" id="o-trong">?</span>')
+    : esc(q.question);
+  $("c-dap-an").innerHTML = G.order.map((oi, pos) =>
+    `<button data-oi="${oi}"><b>${LETTERS[pos]}</b><span>${esc(q.options[oi])}</span></button>`).join("");
+  $("c-phan-hoi").className = "phan-hoi an"; $("c-phan-hoi").innerHTML = "";
+  renderRoute(); renderStatus();
+  if(G.doubleNext){ toast("🌬 Fair wind! This question scores double."); }
+  startTimer(TYPES[q.type].giay * G.heSo);
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+$("c-dap-an").addEventListener("click", e => { const b = e.target.closest("button"); if(b && !b.disabled) answer(+b.dataset.oi); });
+
+/* ---------- đồng hồ ---------- */
+function startTimer(sec){
+  clearInterval(G.timer);
+  G.total = sec * 1000; G.left = G.total; G.last = performance.now(); G.lastTick = 99;
+  const bar = $("dong-ho");
+  G.timer = setInterval(() => {
+    const now = performance.now(), dt = now - G.last; G.last = now;
+    if(now < G.frozenUntil){ bar.classList.add("bang"); return; }
+    bar.classList.remove("bang");
+    G.left -= dt;
+    const f = Math.max(0, G.left / G.total);
+    bar.firstElementChild.style.width = (f * 100) + "%";
+    bar.classList.toggle("gap", G.left < 10000);
+    const s = Math.ceil(G.left / 1000);
+    if(G.left < 5000 && s !== G.lastTick && s > 0){ G.lastTick = s; Am.tick(); }
+    if(G.left <= 0){ clearInterval(G.timer); timeout(); }
+  }, 100);
+  bar.firstElementChild.style.width = "100%"; bar.classList.remove("gap","bang");
+}
+function stopTimer(){ clearInterval(G.timer); }
+
+/* ---------- trả lời ---------- */
+function speedPoints(){ return Math.round(100 * Math.max(0, G.left) / G.total); }
+
+function answer(oi){
+  if(G.locked) return;
+  const q = G.queue[G.i];
+  const ok = oi === 0;
+  if(cfg.mode === "doi" && G.stealing != null){ finishSteal(oi); return; }
+  G.locked = true; stopTimer();
+  let gained = 0, note = "";
+  if(ok){
+    G.streak++; G.best = Math.max(G.best, G.streak);
+    gained = 100 + speedPoints();
+    if(G.streak >= 3){ gained += 50; note = ` (incl. +50 for a ${G.streak} streak)`; }
+    if(G.doubleNext){ gained *= 2; note += " ×2 fair wind"; }
+    Am.right();
+  } else {
+    G.streak = 0; Am.wrong();
+  }
+  G.doubleNext = false;
+  if(cfg.mode === "solo"){
+    G.score += gained;
+    if(!ok) G.lives--;
+    G.log.push({q, ok, chosen:oi, gained});
+  } else {
+    const t = G.teams[G.turn];
+    if(ok){ t.diem += gained; t.dung++; }
+    G.log.push({q, ok, chosen:oi, gained, team:G.turn});
+  }
+  reveal(oi, ok, gained, note);
+}
+
+function timeout(){
+  if(G.locked) return;
+  const q = G.queue[G.i];
+  G.locked = true; G.streak = 0; G.doubleNext = false; Am.wrong();
+  if(cfg.mode === "solo"){ G.lives--; G.log.push({q, ok:false, chosen:null, gained:0}); }
+  else G.log.push({q, ok:false, chosen:null, gained:0, team:G.turn});
+  reveal(null, false, 0, "", true);
+}
+
+function markButtons(chosen, showCorrect){
+  const wrong = [].concat(chosen).filter(v => v != null);
+  $("c-dap-an").querySelectorAll("button").forEach(b => {
+    const oi = +b.dataset.oi; b.disabled = true; b.classList.remove("loai","sai","dung","mo-nhat");
+    if(oi === 0 && showCorrect) b.classList.add("dung");
+    else if(wrong.includes(oi)) b.classList.add("sai");
+    else if(showCorrect) b.classList.add("mo-nhat");
+  });
+  if(showCorrect && $("o-trong")) $("o-trong").textContent = G.queue[G.i].options[0];
+}
+
+function gioSvgSmall(){ return document.querySelector(".mat-gio").innerHTML; }
+
+function reveal(chosen, ok, gained, note, isTimeout){
+  G.lastChosen = chosen;
+  const canSteal = cfg.mode === "doi" && !ok && G.teams.length > 1;
+  markButtons(chosen, !canSteal);
+  const fb = $("c-phan-hoi");
+  if(canSteal){
+    G.firstWrong = chosen;
+    fb.className = "phan-hoi no";
+    fb.innerHTML = `<h3>${isTimeout ? "⏰ Time's up!" : "✗ Not quite!"}</h3>
+      <p>${esc(G.teams[G.turn].ten)} missed the wave. Which team wants to steal (50 points if right)?</p>
+      <div class="cuop">${G.teams.map((t,i) => i === G.turn ? "" : `<button class="nut-phu" data-steal="${i}">${esc(t.ten)} steals!</button>`).join("")}
+      <button class="nut-phu" data-steal="-1">No steal · show answer</button></div>`;
+    fb.querySelectorAll("[data-steal]").forEach(b => b.addEventListener("click", () => startSteal(+b.dataset.steal)));
+    renderStatus();
+    return;
+  }
+  showExplanation(ok, gained, note, isTimeout);
+}
+
+function showExplanation(ok, gained, note, isTimeout, stealInfo){
+  const q = G.queue[G.i];
+  markButtons(G.lastChosen ?? null, true);
+  const fb = $("c-phan-hoi");
+  const last = G.i === G.queue.length - 1 || (cfg.mode === "solo" && G.lives <= 0);
+  const head = ok ? `✓ Correct! +${gained} pts${note || ""}` : (isTimeout ? "⏰ Time's up!" : "✗ Not quite!");
+  fb.className = "phan-hoi " + (ok ? "ok" : "no");
+  fb.innerHTML = `<h3>${head}</h3>${stealInfo ? `<p>${stealInfo}</p>` : ""}
+    <div class="gio"><div class="mat-gio">${gioSvgSmall()}</div><div><b>Bell:</b> ${esc(ok ? q.baoRight : q.baoWrong)}</div></div>
+    <div class="trich"><b>From the lecture</b>${esc(q.explanation)}</div>
+    <div class="hang-nut"><button class="nut-chinh" id="nut-tiep">${last ? "Make port · see results" : "Next question ⟶"}</button>
+    <span class="phim">Enter</span></div>`;
+  $("nut-tiep").addEventListener("click", next);
+  G.locked = true; G.awaitNext = true;
+  renderStatus();
+  if(cfg.mode === "solo" && G.lives <= 0) toast("Out of lives! The ship must make port early.");
+  setTimeout(() => fb.scrollIntoView({behavior:"smooth", block:"nearest"}), 60);
+}
+
+/* ---------- cướp câu (chế độ đội) ---------- */
+function startSteal(ti){
+  const q = G.queue[G.i];
+  if(ti < 0){ G.lastChosen = G.firstWrong; showExplanation(false, 0, "", G.firstWrong == null); return; }
+  G.stealing = ti; G.locked = false;
+  $("c-dap-an").querySelectorAll("button").forEach(b => {
+    const oi = +b.dataset.oi; b.disabled = oi === G.firstWrong; b.classList.remove("sai","dung","mo-nhat");
+    if(oi === G.firstWrong) b.classList.add("loai");
+  });
+  $("c-phan-hoi").className = "phan-hoi"; $("c-phan-hoi").innerHTML = `<h3>⚔ ${esc(G.teams[ti].ten)} is stealing…</h3><p class="mo">Choose an answer.</p>`;
+  startTimer(20);
+}
+function finishSteal(oi){
+  stopTimer(); G.locked = true;
+  const t = G.teams[G.stealing], ok = oi === 0;
+  let info;
+  if(ok){ t.diem += 50; t.cuop++; Am.right(); info = `⚔ ${esc(t.ten)} stole it, +50 points!`; }
+  else { Am.wrong(); info = `⚔ ${esc(t.ten)} missed the steal.`; }
+  G.lastChosen = ok ? [G.firstWrong] : [G.firstWrong, oi];
+  showExplanation(false, 0, "", false, info);
+  if(ok){ const fb = $("c-phan-hoi"); fb.className = "phan-hoi ok"; fb.querySelector("h3").textContent = "✓ Stolen!"; }
+}
+
+/* ---------- vật phẩm & sự kiện ---------- */
+$("vp-nua").addEventListener("click", () => {
+  if(G.locked || G.items.nua <= 0) return;
+  G.items.nua--; const wrongs = shuffle([1,2,3]).slice(0,2);
+  $("c-dap-an").querySelectorAll("button").forEach(b => { if(wrongs.includes(+b.dataset.oi)){ b.disabled = true; b.classList.add("loai"); } });
+  Am.click(); renderStatus();
+});
+$("vp-bang").addEventListener("click", () => {
+  if(G.locked || G.items.bang <= 0) return;
+  G.items.bang--; G.frozenUntil = performance.now() + 15000; toast("❄ Clock frozen for 15 seconds"); Am.click(); renderStatus();
+});
+$("vp-qua").addEventListener("click", () => {
+  if(G.locked || G.items.qua <= 0) return;
+  G.items.qua--; stopTimer(); G.locked = true;
+  G.log.push({q:G.queue[G.i], ok:false, skipped:true, chosen:null, gained:0});
+  G.lastChosen = null;
+  showExplanation(false, 0, "", false, "⤼ You skipped this one and kept your life. Read the answer so it sticks.");
+});
+$("sk-gio").addEventListener("click", () => { if(!G.evGio) return; G.evGio = false; G.doubleNext = true; toast("🌬 Fair wind! The next question scores double."); renderStatus(); });
+$("sk-bao").addEventListener("click", () => {
+  if(!G.evBao) return; G.evBao = false;
+  const max = Math.max(...G.teams.map(t => t.diem));
+  const top = G.teams.filter(t => t.diem === max);
+  top.forEach(t => t.diem = Math.max(0, t.diem - 150));
+  toast(`🌪 A sea storm hits ${top.map(t => t.ten).join(", ")}: −150 points!`); Am.wrong(); renderStatus();
+});
+
+/* ---------- sang câu / kết thúc ---------- */
+function next(){
+  G.awaitNext = false; G.lastChosen = undefined; G.frozenUntil = 0;
+  if(cfg.mode === "solo" && G.lives <= 0){ finish(); return; }
+  if(G.i >= G.queue.length - 1){ finish(); return; }
+  G.i++;
+  if(cfg.mode === "doi") G.turn = (G.turn + 1) % G.teams.length;
+  renderQuestion();
+}
+
+const DANH_HIEU = [
+  [.9, "Apostolic Vicar of the lecture", "Rome would send you out with the 1659 Instructions in your pocket. From Barus to Yogyakarta, not one wrong note."],
+  [.75,"Master catechist (thầy giảng)", "You could keep a whole community going even if every missionary were banished. Only a few small slips."],
+  [.55,"Diligent seminarian", "You know the main story, but a few pages of the lecture are still waiting for a second reading."],
+  [.35,"Newly baptized convert", "You have heard me ring, but you are still learning the words. Reread a few sections and sail again."],
+  [0,  "Seasick pilgrim", "I rang a little too loudly, didn't I? Reread the lecture and sail again. I can wait; bells are patient."]
+];
+
+function finish(){
+  stopTimer();
+  const fb = $("c-phan-hoi");
+  const answered = G.log.length, right = G.log.filter(l => l.ok).length;
+  const ratio = G.queue.length ? right / G.queue.length : 0;
+  $("k-phu").textContent = cfg.mode === "solo"
+    ? `${G.ten} · ${KHO[cfg.kho].ten} · ${G.queue.length} questions${G.lives <= 0 ? " · made port early, out of lives" : ""}`
+    : `Teams · ${G.queue.length} questions`;
+
+  if(cfg.mode === "solo"){
+    const dh = DANH_HIEU.find(d => ratio >= d[0]);
+    $("k-danh-hieu").textContent = dh[1];
+    $("k-loi").innerHTML = `<p><b>Bell:</b> ${esc(dh[2])}</p>`;
+    $("k-so").innerHTML = `<div>Points<b>${G.score}</b></div><div>Correct<b>${right}/${G.queue.length}</b></div><div>Best streak<b>${G.best}</b></div><div>Answered<b>${answered}</b></div>`;
+    $("k-doi").innerHTML = "";
+    const kieu = (cfg.len === "all" ? D.questions.length + " questions" : cfg.len === "short" ? D.stations.length * 2 + " questions" : "Port " + G.queue[0].station) + " · " + KHO[cfg.kho].ten;
+    const ds = store.get("vob-bxh", []); ds.push({ten:G.ten, diem:G.score, kieu}); ds.sort((a,b) => b.diem - a.diem); store.set("vob-bxh", ds.slice(0,30)); veBxh();
+    ratio >= .55 && G.lives > 0 ? (Am.win(), confetti()) : Am.lose();
+  } else {
+    const ranked = G.teams.map((t,i) => ({...t, i})).sort((a,b) => b.diem - a.diem);
+    $("k-danh-hieu").textContent = `🏆 ${ranked[0].ten} makes port first!`;
+    $("k-loi").innerHTML = `<p><b>Bell:</b> The whole fleet has finished the voyage. Trailing teams, take heart: the Hmong "New Way" began with nothing more than a shortwave radio signal.</p>`;
+    $("k-so").innerHTML = `<div>Correct on first try<b>${right}/${G.queue.length}</b></div>`;
+    $("k-doi").innerHTML = `<h2>Team ranking</h2><table class="bxh"><tr><th>#</th><th>Team</th><th>Correct</th><th>Steals</th><th>Points</th></tr>` +
+      ranked.map((t,i) => `<tr><td>${i+1}</td><td>${esc(t.ten)}</td><td>${t.dung}</td><td>${t.cuop}</td><td>${t.diem}</td></tr>`).join("") + `</table>`;
+    Am.win(); confetti();
+  }
+
+  // theo dạng câu
+  $("k-dang").innerHTML = Object.entries(TYPES).map(([k,t]) => {
+    const all = G.queue.filter(q => q.type === k); if(!all.length) return "";
+    const ok = G.log.filter(l => l.q.type === k && l.ok).length;
+    const p = Math.round(100 * ok / all.length);
+    return `<div class="h" data-type="${k}"><span>${t.ten}</span><i><span style="width:${p}%"></span></i><b>${ok}/${all.length}</b></div>`;
+  }).join("");
+
+  // xem lại
+  const miss = G.queue.filter(q => !G.log.some(l => l.q === q && l.ok));
+  $("k-xem-tieu").textContent = miss.length ? `Review ${miss.length} question${miss.length > 1 ? "s" : ""}` : "Nothing to review: a perfect voyage!";
+  $("k-xem").innerHTML = miss.map(q => {
+    const l = G.log.find(x => x.q === q);
+    const chosen = l && l.chosen != null ? q.options[l.chosen] : (l && l.skipped ? "(skipped)" : l ? "(time ran out)" : "(not reached)");
+    return `<details data-type="${q.type}"><summary>${TYPES[q.type].ten} · Port ${q.station} — ${esc(q.question)}</summary>
+      <p><b>Your answer:</b> ${esc(chosen)}</p><p><b>Correct answer:</b> ${esc(q.options[0])}</p>
+      <div class="trich"><b>From the lecture</b>${esc(q.explanation)}</div></details>`;
+  }).join("");
+  show("man-cuoi");
+}
+$("nut-lai").addEventListener("click", start);
+$("nut-ve").addEventListener("click", () => { show("man-dau"); });
+
+/* ---------- phím tắt ---------- */
+document.addEventListener("keydown", e => {
+  if($("man-choi").classList.contains("an") || e.target.matches("input,select,textarea")) return;
+  const k = e.key.toUpperCase();
+  let pos = "ABCD".indexOf(k); if(pos < 0) pos = "1234".indexOf(k);
+  if(pos >= 0 && k.length === 1){ const b = $("c-dap-an").children[pos]; if(b && !b.disabled) b.click(); return; }
+  if(e.key === "Enter" && G && G.awaitNext){ e.preventDefault(); next(); }
+});
+
+/* ---------- âm thanh: nút góc ---------- */
+$("nut-nhac").setAttribute("aria-pressed", Am.musicOn);
+$("nut-am").setAttribute("aria-pressed", Am.sfxOn);
+$("nut-nhac").addEventListener("click", () => $("nut-nhac").setAttribute("aria-pressed", Am.toggleMusic()));
+$("nut-am").addEventListener("click", () => $("nut-am").setAttribute("aria-pressed", Am.toggleSfx()));
+
+/* ---------- pháo giấy ---------- */
+function confetti(){
+  const c = $("phao"), x = c.getContext("2d"); c.width = innerWidth; c.height = innerHeight;
+  const cols = ["#C98B2B","#1D7C77","#2B6CB0","#C0533F","#8A4FB0","#F4ECDD"];
+  const ps = Array.from({length:160}, () => ({x:Math.random()*c.width, y:-20-Math.random()*c.height*.5, vx:(Math.random()-.5)*3, vy:2+Math.random()*3, r:4+Math.random()*5, a:Math.random()*6, c:cols[Math.random()*cols.length|0]}));
+  let t = 0;
+  (function f(){ x.clearRect(0,0,c.width,c.height);
+    ps.forEach(p => { p.x += p.vx; p.y += p.vy; p.a += .1; x.save(); x.translate(p.x,p.y); x.rotate(p.a); x.fillStyle = p.c; x.fillRect(-p.r/2,-p.r/4,p.r,p.r/2); x.restore(); });
+    if(++t < 220) requestAnimationFrame(f); else x.clearRect(0,0,c.width,c.height); })();
+}
+
+/* ================= STREAM: máy chiếu mở phòng, điện thoại trả lời =================
+   Máy chiếu giữ toàn bộ điểm và lời tường thuật; điện thoại chỉ gửi lựa chọn.
+   Kết nối qua broker MQTT công cộng bằng WebSocket, không cần máy chủ riêng.
+   Tin nhắn chỉ chứa tên tự đặt, mã câu và lựa chọn — không có dữ liệu cá nhân nào khác. */
+const BROKERS = ["wss://broker.emqx.io:8084/mqtt", "wss://broker.hivemq.com:8884/mqtt"];
+const MQTT_SRC = "https://cdn.jsdelivr.net/npm/mqtt@5.10.1/dist/mqtt.min.js";
+const QR_SRC = "https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js";
+const ABC = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+const rid = n => Array.from({length:n}, () => ABC[Math.random()*ABC.length|0]).join("");
+const tp = (code, k) => `bell-voyage/v1/${code}/${k}`;
+const sec = ms => (ms/1000).toFixed(1) + "s";
+const plural = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
+function listNames(a){ return a.length <= 3 ? a.join(", ").replace(/, ([^,]*)$/, " and $1") : `${a.slice(0,2).join(", ")} and ${a.length-2} others`; }
+
+const scripts = {};
+function loadScript(src){
+  return scripts[src] || (scripts[src] = new Promise((ok, no) => {
+    const s = document.createElement("script"); s.src = src; s.onload = ok;
+    s.onerror = () => { delete scripts[src]; s.remove(); no(new Error(src)); };
+    document.head.appendChild(s);
+  }));
+}
+function setConn(el, state, text){ el.className = "ket-noi " + state; el.querySelector("span").textContent = text; }
+function tryBroker(b){
+  return new Promise((ok, no) => {
+    const c = mqtt.connect(BROKERS[b], {clientId:"mv_" + rid(12), clean:true, connectTimeout:6000, reconnectPeriod:0, keepalive:30});
+    const t = setTimeout(() => { c.end(true); no(); }, 7000);
+    c.once("connect", () => { clearTimeout(t); c.options.reconnectPeriod = 2500; ok(c); });
+    c.once("error", () => { clearTimeout(t); c.end(true); no(); });
+  });
+}
+function watchConn(c, el){
+  c.on("connect", () => setConn(el, "on", "Connected"));
+  c.on("reconnect", () => setConn(el, "", "Reconnecting…"));
+  c.on("offline", () => setConn(el, "off", "Offline, retrying…"));
+}
+
+/* ---------- giọng đọc tường thuật (Web Speech, tiếng Anh) ---------- */
+const Voice = {
+  on: store.get("vob-giong", true),
+  cut(){ try{ window.speechSynthesis && speechSynthesis.cancel(); }catch(e){} },
+  say(text){
+    if(!this.on || !window.speechSynthesis) return;
+    const u = new SpeechSynthesisUtterance(text.replace(/\p{Extended_Pictographic}/gu, "").replace(/#(\d)/g, "number $1"));
+    const v = speechSynthesis.getVoices().find(v => /^en[-_](GB|US)/i.test(v.lang));
+    if(v) u.voice = v; u.lang = v ? v.lang : "en-GB"; u.rate = 1.03;
+    speechSynthesis.speak(u);
+  }
+};
+$("nut-giong").setAttribute("aria-pressed", Voice.on);
+$("nut-giong").addEventListener("click", () => { Voice.on = !Voice.on; store.set("vob-giong", Voice.on); if(!Voice.on) Voice.cut(); $("nut-giong").setAttribute("aria-pressed", Voice.on); });
+
+/* ---------- phía máy chiếu ---------- */
+let H = null;
+function say(text, loud){
+  if(!H) return;
+  H.feed.unshift(text); H.feed.length = Math.min(H.feed.length, 9);
+  $("h-tt").innerHTML = H.feed.map(t => `<div><div class="mat-gio">${gioSvgSmall()}</div><span>${esc(t)}</span></div>`).join("");
+  if(loud) Voice.say(text);
+}
+function pub(k, obj, retain){ if(H && H.client) H.client.publish(tp(H.code, k), JSON.stringify(obj), {qos:1, retain:!!retain}); }
+function publishState(){ pub("s", stateMsg(), true); }
+function soonPublish(){ clearTimeout(H.pubT); H.pubT = setTimeout(() => H && publishState(), 300); }
+function ranked(){ return [...H.players.values()].sort((a,b) => b.score - a.score || a.name.localeCompare(b.name)); }
+
+function stateMsg(){
+  const s = {v:1, ph:H.phase, seq:H.seq, n:H.players.size, qi:H.i, qn:H.queue.length};
+  if(H.phase === "q" || H.phase === "r"){ s.qid = H.queue[H.i].id; s.ord = H.ord; }
+  if(H.phase === "q"){ s.dur = H.dur; s.rem = Math.max(0, Math.round(H.dur - (performance.now() - H.qStart))); }
+  if(H.phase === "r" || H.phase === "end"){
+    s.res = {};
+    H.players.forEach(p => { s.res[p.pid] = [p.last || 0, p.score, p.rank || 0, p.ok ? 1 : 0, p.streak, p.chose ?? -1]; });
+  }
+  if(H.phase === "end") s.top = ranked().slice(0,3).map(p => [p.name, p.score]);
+  if(H.bo) s.bo = {c:H.bo.closed ? 1 : 0, rem:Math.max(0, Math.round(H.bo.endsAt - performance.now())), st:H.bo.st, r:H.bo.r};
+  return s;
+}
+
+async function hostCreate(){
+  if(H) hostClose(true);
+  H = {code:rid(4), queue:buildQueue(), i:-1, seq:0, phase:"lobby", heSo:KHO[cfg.nhip].heSo,
+       players:new Map(), ans:new Map(), feed:[], log:[], joinBuf:[], leader:null, link:""};
+  const me = H;
+  show("man-host"); $("nut-giong").classList.remove("an");
+  $("h-ma-nho").textContent = H.code; $("h-tt").innerHTML = "";
+  $("h-bxh").innerHTML = `<p class="mo">Scores appear after the first question.</p>`;
+  setConn($("h-ket-noi"), "", "Connecting…");
+  hostLobby();
+  say("Hoisting the sails and looking for the wind…");
+  try{ await Promise.all([loadScript(MQTT_SRC), loadScript(QR_SRC)]); }
+  catch(e){ if(H === me) hostFail("Could not load the connection library. Check the internet connection, then open the room again."); return; }
+  let c = null, b = 0;
+  for(; b < BROKERS.length; b++){ try{ c = await tryBroker(b); break; }catch(e){} }
+  if(H !== me){ c && c.end(true); return; }
+  if(!c) return hostFail("Could not reach the live servers. The network may block them: try another Wi-Fi or a phone hotspot.");
+  H.client = c; H.b = b;
+  watchConn(c, $("h-ket-noi")); setConn($("h-ket-noi"), "on", "Connected");
+  c.on("message", hostMsg);
+  c.subscribe([tp(H.code, "j"), tp(H.code, "a"), tp(H.code, "b")], {qos:1});
+  H.link = `${location.origin}${location.pathname}?room=${H.code}&b=${b}`;
+  hostLobby(); publishState();
+  say(`Room ${H.code} is open. Scan the code and come aboard!`, true);
+}
+function hostFail(msg){ setConn($("h-ket-noi"), "off", "Not connected"); say("⚠ " + msg); toast(msg); }
+
+function hostLobby(){
+  $("h-so-cau").textContent = `Lobby · ${H.queue.length} questions`;
+  let qr = "";
+  if(H.link && window.qrcode){ const q = qrcode(0, "M"); q.addData(H.link); q.make(); qr = q.createSvgTag({cellSize:6, margin:2, scalable:true}); }
+  $("h-trai").innerHTML = `<div class="the">
+    <div class="sanh"><div class="qr-host">${qr || `<p style="color:#333;margin:2em 0;text-align:center">Preparing the QR code…</p>`}</div>
+      <div><div class="mo">Scan the QR code, or open the game and type the room code</div>
+      <div class="phong-ma">${H.code}</div><div class="link-vao">${esc(H.link)}</div></div></div>
+    <h2 style="margin-top:16px">Crew aboard · <span id="h-so">0</span></h2>
+    <div class="thuy-thu" id="h-ds"></div>
+    <div class="hang-nut"><button class="nut-chinh" id="h-di" disabled>Set sail ⛵</button>
+      <button class="nut-phu" id="h-dong">Close room</button><span class="phim">Enter</span></div></div>`;
+  hostCrew();
+}
+function hostCrew(){
+  $("h-tra-loi").textContent = `${H.players.size} aboard`;
+  if(H.phase !== "lobby" || !$("h-ds")) return;
+  $("h-so").textContent = H.players.size;
+  $("h-ds").innerHTML = [...H.players.values()].map(p => `<span>${esc(p.name)}</span>`).join("")
+    || `<p class="mo" style="margin:0">Waiting for the first sailor…</p>`;
+  $("h-di").disabled = !H.players.size || !H.client;
+}
+
+function hostMsg(topic, buf){
+  if(!H) return;
+  let m; try{ m = JSON.parse(buf.toString()); }catch(e){ return; }
+  if(!m || typeof m.pid !== "string" || !/^[A-Z0-9]{8}$/.test(m.pid)) return;
+  if(topic === tp(H.code, "j")) hostJoin(m);
+  else if(topic === tp(H.code, "a")) hostAnswer(m);
+  else if(topic === tp(H.code, "b")) hostBonusMsg(m);
+}
+function hostJoin(m){
+  let p = H.players.get(m.pid);
+  if(!p){
+    const want = String(m.name || "").replace(/\s+/g, " ").trim().slice(0, 24) || "Deckhand";
+    const taken = new Set([...H.players.values()].map(x => x.name.toLowerCase()));
+    let name = want, k = 2; while(taken.has(name.toLowerCase())) name = `${want} ${k++}`;
+    p = {pid:m.pid, name, score:0, streak:0, best:0, right:0, last:0, rank:H.players.size + 1, ok:false, chose:-1, base:0, bonus:0};
+    H.players.set(m.pid, p);
+    H.joinBuf.push(name); clearTimeout(H.joinT);
+    H.joinT = setTimeout(() => { if(!H) return; say(`⛵ ${listNames(H.joinBuf)} came aboard.`); H.joinBuf = []; }, 1200);
+    hostCrew(); soonPublish();
+    if(H.phase !== "lobby") updAnswered();
+  }
+  pub("p/" + m.pid, {ok:1, name:p.name});
+  if(H.bo && H.bo.sets[m.pid]) pub("p/" + m.pid, {bq:H.bo.sets[m.pid]}); // điện thoại tải lại giữa vòng thưởng
+}
+function hostAnswer(m){
+  const p = H.players.get(m.pid);
+  if(!p || H.phase !== "q" || m.seq !== H.seq) return;
+  if(H.ans.has(m.pid)){ pub("p/" + m.pid, {got:H.seq}); return; }
+  const oi = m.oi, t = performance.now() - H.qStart;
+  if(![0,1,2,3].includes(oi) || t > H.dur + 1500) return;
+  H.ans.set(m.pid, {oi, t});
+  pub("p/" + m.pid, {got:H.seq});
+  updAnswered();
+  if(H.ans.size === 1) say(`${p.name} drops anchor first, after ${sec(t)}.`, true);
+  if(!H.half && H.players.size >= 4 && H.ans.size >= H.players.size / 2 && H.ans.size < H.players.size){ H.half = true; say("Half the fleet has answered."); }
+  if(H.ans.size >= H.players.size){
+    const seq = H.seq;
+    say("Every ship is in. Let's see who read the wind right.");
+    setTimeout(() => { if(H && H.phase === "q" && H.seq === seq) hostReveal(); }, 900);
+  }
+}
+function updAnswered(){ if(H.phase === "q") $("h-tra-loi").textContent = `${H.ans.size}/${H.players.size} answered`; else $("h-tra-loi").textContent = `${H.players.size} aboard`; }
+
+function hostNext(){
+  if(!H || (H.phase === "lobby" && (!H.players.size || !H.client))) return;
+  if(H.i >= H.queue.length - 1){ hostEnd(); return; }
+  const prev = H.queue[H.i];
+  H.i++; H.seq++; H.phase = "q";
+  const q = H.queue[H.i], st = D.stations[q.station-1];
+  H.ord = shuffle([0,1,2,3]); H.ans = new Map(); H.half = false; H.warned = false;
+  H.dur = Math.round(TYPES[q.type].giay * H.heSo * 1000); H.qStart = performance.now();
+  Voice.cut();
+  if(H.i === 0) say(`Anchors up! ${plural(H.players.size, "ship")} set sail on a ${H.queue.length}-question voyage.`);
+  if(!prev || prev.station !== q.station) say(`Land ho! Port ${st.id}, ${st.name}: ${st.theme}.`);
+  say(`Question ${H.i+1} of ${H.queue.length}. ${TYPES[q.type].ten}, ${Math.round(H.dur/1000)} seconds on the clock.`, true);
+  renderHostQ(); publishState();
+  clearInterval(H.tick); H.lastTick = 99; H.beat = 0;
+  H.tick = setInterval(hostTick, 200);
+}
+function hostTick(){
+  if(!H || H.phase !== "q") return;
+  const left = H.dur - (performance.now() - H.qStart);
+  const bar = $("h-dong-ho");
+  if(bar){ bar.firstElementChild.style.width = Math.max(0, left / H.dur * 100) + "%"; bar.classList.toggle("gap", left < 10000); }
+  const s = Math.ceil(left / 1000);
+  if(left < 5000 && s !== H.lastTick && s > 0){ H.lastTick = s; Am.tick(); }
+  if(!H.warned && left < 10000){ H.warned = true; const k = H.players.size - H.ans.size;
+    if(k > 0) say(`Ten seconds left! ${k === 1 ? "One ship is" : k + " ships are"} still at sea.`, true); }
+  if(++H.beat % 20 === 0) publishState(); // mỗi 4 giây phát lại để máy vào muộn hay mất mạng bắt kịp đồng hồ
+  if(left <= 0) hostReveal();
+}
+function renderHostQ(){
+  const q = H.queue[H.i], st = D.stations[q.station-1];
+  $("h-so-cau").textContent = `Question ${H.i+1}/${H.queue.length}`;
+  $("h-trai").innerHTML = `<div class="hai-trinh">${routeHtml(q.station)}</div>
+    <div class="dong-ho" id="h-dong-ho"><div></div></div>
+    <article class="cau" data-type="${q.type}">
+      <div><span class="huy-hieu">${TYPES[q.type].ten}</span><span class="chu-de">Port ${st.id} · ${esc(st.name)} — ${esc(q.topic)}</span></div>
+      ${q.passage ? `<div class="doan">${renderPassage(q.passage)}</div>` : ""}
+      <div class="hoi">${q.type === "dien" ? esc(q.question).replace("_____", '<span class="trong" id="h-trong">?</span>') : esc(q.question)}</div>
+      <div class="dap-an" id="h-dap-an">${H.ord.map((oi, pos) => `<button disabled data-oi="${oi}"><b>${LETTERS[pos]}</b><span>${esc(q.options[oi])}</span></button>`).join("")}</div>
+      <div id="h-ket-qua"></div>
+    </article>
+    <div class="hang-nut"><button class="nut-chinh" id="h-mo">Reveal the answer</button>
+      <button class="nut-phu" id="h-het">End voyage</button><span class="phim">Enter</span></div>`;
+  updAnswered();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function hostReveal(){
+  if(!H || H.phase !== "q") return;
+  clearInterval(H.tick); H.phase = "r";
+  const q = H.queue[H.i];
+  const before = new Map(ranked().map((p, i) => [p.pid, i + 1]));
+  const counts = [0,0,0,0]; let rightN = 0, fastest = null;
+  H.ans.forEach(a => counts[a.oi]++);
+  H.players.forEach(p => {
+    const a = H.ans.get(p.pid), ok = !!a && a.oi === 0;
+    let g = 0;
+    if(ok){
+      p.streak++; p.best = Math.max(p.best, p.streak); p.right++; rightN++;
+      g = 100 + Math.round(100 * Math.max(0, H.dur - a.t) / H.dur) + (p.streak >= 3 ? 50 : 0);
+      if(!fastest || a.t < fastest.t) fastest = {p, t:a.t};
+    } else p.streak = 0;
+    p.score += g; p.last = g; p.ok = ok; p.chose = a ? a.oi : -1;
+  });
+  const now = ranked();
+  now.forEach((p, i) => { p.prev = before.get(p.pid) || i + 1; p.rank = i + 1; });
+  H.log.push({q, rightN, answered:H.ans.size});
+  publishState();
+
+  // đánh dấu đáp án, phân bố lựa chọn, lời giải
+  $("h-dap-an").querySelectorAll("button").forEach(b => b.classList.add(+b.dataset.oi === 0 ? "dung" : "mo-nhat"));
+  if($("h-trong")) $("h-trong").textContent = q.options[0];
+  const tot = Math.max(1, H.ans.size), good = H.ans.size > 0 && rightN / H.ans.size >= .5;
+  const miss = H.players.size - H.ans.size;
+  $("h-ket-qua").innerHTML = `<div class="phan-bo">${H.ord.map((oi, pos) =>
+      `<div class="${oi === 0 ? "dung" : ""}"><span>${LETTERS[pos]}</span><i><span style="width:0" data-w="${Math.round(100 * counts[oi] / tot)}"></span></i><span>${counts[oi]} · ${Math.round(100 * counts[oi] / tot)}%</span></div>`).join("")}</div>
+    <div class="phan-hoi ${good ? "ok" : "no"}"><h3>${rightN}/${H.ans.size} answered correctly${miss > 0 ? ` · ${miss} no answer` : ""}</h3>
+      <div class="gio"><div class="mat-gio">${gioSvgSmall()}</div><div><b>Bell:</b> ${esc(good ? q.baoRight : q.baoWrong)}</div></div>
+      <div class="trich"><b>From the lecture</b>${esc(q.explanation)}</div></div>`;
+  requestAnimationFrame(() => requestAnimationFrame(() =>
+    $("h-ket-qua").querySelectorAll("[data-w]").forEach(s => s.style.width = s.dataset.w + "%")));
+  const btn = $("h-mo"); btn.id = "h-tiep"; btn.textContent = H.i >= H.queue.length - 1 ? "Final results 🏆" : "Next question ⟶";
+  renderHostBxh(); updAnswered();
+  good ? Am.right() : Am.wrong();
+
+  // tường thuật
+  if(!H.ans.size) say("Silence on the sea: nobody answered that one.", true);
+  else if(!rightN) say("Not one ship found this harbour. Read the lecture line closely.", true);
+  else if(rightN === H.ans.size) say(rightN === 1 ? "Spot on! The only answer was right." : `A clean sweep! All ${rightN} answers were right.`, true);
+  else say(`${rightN} of ${H.ans.size} found the right harbour, ${Math.round(100 * rightN / H.ans.size)} percent.`, true);
+  if(fastest) say(`Fastest correct answer: ${fastest.p.name}, ${sec(fastest.t)}.`, true);
+  now.filter(p => p.ok && p.streak >= 3).sort((a,b) => b.streak - a.streak).slice(0, 2)
+    .forEach(p => say(`🔥 ${p.name} is riding a ${p.streak}-wave streak.`));
+  const climber = now.filter(p => p.prev - p.rank >= 3).sort((a,b) => (b.prev - b.rank) - (a.prev - a.rank))[0];
+  if(climber) say(`${climber.name} climbs ${climber.prev - climber.rank} places to #${climber.rank}.`);
+  const lead = now[0];
+  if(lead && lead.score > 0){
+    const old = H.leader && H.players.get(H.leader);
+    if(!old) say(`${lead.name} takes the early lead with ${lead.score} points.`, true);
+    else if(old !== lead) say(`⚓ ${lead.name} takes the lead from ${old.name}!`, true);
+    else if(H.log.length % 4 === 0) say(`${lead.name} still leads, with ${lead.score} points.`);
+    H.leader = lead.pid;
+  }
+}
+function renderHostBxh(){
+  const r = ranked().slice(0, 10);
+  $("h-bxh").innerHTML = `<table class="bxh bxh-song"><tr><th>#</th><th>Sailor</th><th>Points</th></tr>` + r.map(p => {
+    const d = (p.prev || p.rank) - p.rank;
+    return `<tr><td>${p.rank}</td><td>${esc(p.name)} ${d > 0 ? `<span class="len">▲${d}</span>` : d < 0 ? `<span class="xuong">▼${-d}</span>` : ""}${p.streak >= 3 ? ` 🔥${p.streak}` : ""}</td><td>${p.score}</td></tr>`;
+  }).join("") + `</table>` + (H.players.size > 10 ? `<p class="mo">+ ${plural(H.players.size - 10, "more sailor")}</p>` : "");
+}
+
+function hostEnd(){
+  if(!H) return;
+  clearInterval(H.tick); H.phase = "end";
+  H.players.forEach(p => { p.base = p.score; p.bonus = 0; });
+  publishState(); updAnswered();
+  renderHostEnd();
+  const r = ranked();
+  Voice.cut();
+  say(r[0] ? `The voyage is over. ${r[0].name} makes port first with ${r[0].score} points!` : "The voyage is over.", true);
+  Am.win(); confetti();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+function renderHostEnd(){
+  const r = ranked(), bonus = H.bo && H.bo.closed;
+  $("h-so-cau").textContent = bonus ? "Final results with bonus" : "Voyage complete";
+  const podium = [[r[1], 150, "🥈"], [r[0], 190, "🏆"], [r[2], 120, "🥉"]].map(([p, h, m]) =>
+    p ? `<div style="min-height:${h}px"><em>${m}</em><b>${esc(p.name)}</b>${p.score} pts</div>` : "").join("");
+  const byType = Object.entries(TYPES).map(([k, t]) => {
+    const L = H.log.filter(l => l.q.type === k); if(!L.length) return "";
+    const a = L.reduce((s, l) => s + l.answered, 0), ok = L.reduce((s, l) => s + l.rightN, 0), pc = a ? Math.round(100 * ok / a) : 0;
+    return `<div class="h" data-type="${k}"><span>${t.ten}</span><i><span style="width:${pc}%"></span></i><b>${a ? pc + "%" : "–"}</b></div>`;
+  }).join("");
+  $("h-trai").innerHTML = `<div class="the">
+    <div class="danh-hieu">${r[0] ? `🏆 ${esc(r[0].name)} makes port first!` : "Voyage complete"}</div>
+    <div class="buc-vinh">${podium}</div>
+    <div id="h-bo"></div>
+    ${byType ? `<h2>Whole class by question type</h2><p class="mo">Share of answers that were correct.</p><div class="theo-dang">${byType}</div>` : ""}
+    <h2>Final ranking</h2>
+    <table class="bxh"><tr><th>#</th><th>Sailor</th><th>Correct</th><th>Best streak</th>${bonus ? "<th>Voyage</th><th>Bonus</th>" : ""}<th>Points</th></tr>${r.map((p, i) =>
+      `<tr><td>${i+1}</td><td>${esc(p.name)}</td><td>${p.right}/${H.log.length}</td><td>${p.best}</td>${bonus ? `<td>${p.base}</td><td>${p.bonus ? "+" + p.bonus : ""}</td>` : ""}<td>${p.score}</td></tr>`).join("")}</table>
+    <div class="hang-nut"><button class="nut-chinh" id="h-csv">Download results (CSV)</button><button class="nut-phu" id="h-ve">Close room</button></div></div>`;
+  renderBonusPanel();
+  renderHostBxh();
+}
+
+/* ---------- vòng thưởng Listening: hạng 1–3 chọn thi, thưởng tới 30% điểm hải trình ---------- */
+const L = window.LISTEN_BONUS || null, LMAP = new Map(L ? L.pool.map(x => [x.id, x]) : []); // không có bài nghe → không mời vòng thưởng
+const LV_TEN = {e:"Easy", m:"Moderate", c:"Challenging", a:"Advanced"};
+const normL = s => String(s).toLowerCase().replace(/\bce\b/g, "").replace(/[^a-z0-9]/g, "");
+function gradeL(item, v){
+  if(v == null || v === "") return false;
+  return item.type === "mc" ? v === 0 : item.accept.some(a => normL(a) === normL(v));
+}
+const BO_TEXT = {offer:"Deciding…", yes:"Listening", no:"Stayed in port", done:"Handed in"};
+function bonusSet(){ // mỗi người một bộ: rút ngẫu nhiên theo mức, xáo đáp án
+  const qs = Object.entries(L.pick).flatMap(([lv, n]) => shuffle(L.pool.filter(x => x.lv === lv)).slice(0, n).map(x => x.id));
+  const ord = {}; qs.forEach(id => { if(LMAP.get(id).type === "mc") ord[id] = shuffle([0,1,2,3]); });
+  return {qs, ord};
+}
+function renderBonusPanel(){
+  const el = $("h-bo"); if(!el) return;
+  if(!L){ el.innerHTML = ""; return; }
+  const B = H.bo, top = ranked().slice(0, 3);
+  if(!B){
+    el.innerHTML = top.length ? `<div class="bo-the"><h2>🎧 Special round · Listening Challenge</h2>
+      <p>The top three may take a 5-minute listening test on their phones (headphones on): a conversation in a university history gallery about Christianity in Southeast Asia,
+      then ${Object.values(L.pick).reduce((a, b) => a + b, 0)} questions drawn at random for each sailor. Each correct answer adds 3% of their voyage score, up to +30%.</p>
+      <p class="mo">Invited: ${top.map(p => `<b>${esc(p.name)}</b> (${p.score})`).join(" · ")} · Time limit ${L.minutes} minutes</p>
+      <div class="hang-nut"><button class="nut-chinh" id="h-bo-mo">Offer the bonus round 🎧</button></div></div>` : "";
+    return;
+  }
+  const left = Math.max(0, B.endsAt - performance.now()), mm = Math.floor(left / 60000), ss = Math.floor(left / 1000) % 60;
+  el.innerHTML = `<div class="bo-the"><h2>🎧 Listening Challenge ${B.closed ? "· results" : `· <span id="h-bo-dh">${mm}:${String(ss).padStart(2, "0")}</span> left`}</h2>
+    <div class="bo-luoi">${B.el.map(pid => { const p = H.players.get(pid), st = B.st[pid], res = B.r[pid];
+      const n = Object.values(B.ans[pid] || {}).filter(v => v !== "" && v != null).length, tot = B.sets[pid] ? B.sets[pid].qs.length : 0;
+      return `<div class="bo-o ${st}"><b>${esc(p.name)}</b><span class="mo">Voyage ${p.base} pts</span>
+        ${res ? `<em>${res[0]}/${res[1]} correct</em><strong>${res[2] ? "+" + res[2] : "+0"} bonus</strong>`
+              : `<em>${BO_TEXT[st]}</em>${st === "yes" || st === "done" ? `<span>${n}/${tot} answered</span>` : ""}`}</div>`; }).join("")}</div>
+    ${B.closed ? "" : `<div class="hang-nut"><button class="nut-phu" id="h-bo-dong">Close the bonus round now</button></div>`}</div>`;
+}
+function bonusOpen(){
+  if(!H || H.phase !== "end" || H.bo) return;
+  const el = ranked().slice(0, 3).map(p => p.pid);
+  if(!el.length) return;
+  H.bo = {el, st:{}, sets:{}, ans:{}, r:{}, closed:false, endsAt:performance.now() + L.minutes * 60000};
+  el.forEach(pid => H.bo.st[pid] = "offer");
+  publishState(); renderBonusPanel();
+  say(`Special round! ${listNames(el.map(pid => H.players.get(pid).name))} may take the Listening Challenge for a bonus of up to 30 percent.`, true);
+  clearInterval(H.boTick); H.boBeat = 0;
+  H.boTick = setInterval(() => {
+    if(!H || !H.bo || H.bo.closed) return;
+    const left = H.bo.endsAt - performance.now();
+    const t = $("h-bo-dh"); if(t) t.textContent = `${Math.floor(Math.max(0, left) / 60000)}:${String(Math.floor(Math.max(0, left) / 1000) % 60).padStart(2, "0")}`;
+    if(left <= 0){ say("Time! The bonus round is closed."); bonusClose(); }
+    else if(++H.boBeat % 10 === 0) publishState();
+  }, 1000);
+}
+function hostBonusMsg(m){
+  const B = H.bo, pid = m.pid;
+  if(!B || B.closed || !B.el.includes(pid)) return;
+  const p = H.players.get(pid);
+  if(m.act === "yes" && (B.st[pid] === "offer" || B.st[pid] === "yes")){
+    if(B.st[pid] === "offer"){ B.st[pid] = "yes"; B.sets[pid] = bonusSet(); B.ans[pid] = {}; say(`🎧 ${p.name} accepts the challenge. Headphones on!`, true); }
+    pub("p/" + pid, {bq:B.sets[pid]});
+  } else if(m.act === "no" && B.st[pid] === "offer"){
+    B.st[pid] = "no"; say(`${p.name} stays in port and keeps ${p.base} points.`);
+  } else if(m.act === "ans" && B.st[pid] === "yes" && m.a && typeof m.a === "object"){
+    const set = B.sets[pid], a = {};
+    set.qs.forEach(id => { const v = m.a[id]; if(LMAP.get(id).type === "mc"){ if([0,1,2,3].includes(v)) a[id] = v; } else if(typeof v === "string") a[id] = v.slice(0, 40); });
+    B.ans[pid] = a;
+    if(m.done){ B.st[pid] = "done"; say(`${p.name} hands in the answers.`); }
+    pub("p/" + pid, {bgot:m.done ? 2 : 1});
+  } else return;
+  publishState(); renderBonusPanel();
+  if(B.el.every(id => B.st[id] === "no" || B.st[id] === "done")) setTimeout(() => H && H.bo === B && !B.closed && bonusClose(), 1500);
+}
+function bonusClose(){
+  const B = H && H.bo; if(!B || B.closed) return;
+  B.closed = true; clearInterval(H.boTick);
+  const oldTop = ranked()[0];
+  B.el.forEach(pid => {
+    const p = H.players.get(pid);
+    if(B.st[pid] === "offer") B.st[pid] = "no";
+    if(B.st[pid] !== "yes" && B.st[pid] !== "done") return;
+    const set = B.sets[pid], a = B.ans[pid] || {};
+    const ok = set.qs.filter(id => gradeL(LMAP.get(id), a[id])).length;
+    p.bonus = Math.round(p.base * 0.3 * ok / set.qs.length); p.score = p.base + p.bonus;
+    B.r[pid] = [ok, set.qs.length, p.bonus];
+  });
+  const now = ranked(); now.forEach((p, i) => { p.prev = p.rank; p.rank = i + 1; });
+  publishState(); renderHostEnd();
+  B.el.filter(pid => B.r[pid]).forEach(pid => { const p = H.players.get(pid), r = B.r[pid];
+    say(`${p.name}: ${r[0]} of ${r[1]} correct, plus ${r[2]} bonus points.`, true); });
+  if(now[0] && oldTop && now[0] !== oldTop){ say(`⚓ With the bonus, ${now[0].name} overtakes ${oldTop.name} and wins the voyage!`, true); Am.win(); confetti(); }
+  else if(now[0]) say(`${now[0].name} holds on to first place with ${now[0].score} points.`, true);
+}
+
+function hostCsv(){
+  const bo = H.bo && H.bo.closed;
+  const rows = [["Rank", "Name", "Points", "Correct", "Questions", "Best streak"].concat(bo ? ["Voyage points", "Listening correct", "Listening bonus"] : [])]
+    .concat(ranked().map((p, i) => [i+1, p.name, p.score, p.right, H.log.length, p.best]
+      .concat(bo ? [p.base, H.bo.r[p.pid] ? `${H.bo.r[p.pid][0]}/${H.bo.r[p.pid][1]}` : "", p.bonus || 0] : [])));
+  const csv = "﻿" + rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\r\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([csv], {type:"text/csv"})); a.download = `voyage-of-the-bell-${H.code}.csv`;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+function hostClose(silent){
+  if(!H) return;
+  const busy = H.phase === "q" || H.phase === "r" || (H.bo && !H.bo.closed);
+  if(!silent && busy && !confirm("Close the room? The game will end for everyone.")) return;
+  clearInterval(H.tick); clearInterval(H.boTick); clearTimeout(H.joinT); clearTimeout(H.pubT);
+  const c = H.client, code = H.code;
+  if(c){ // báo các máy rồi xoá trạng thái lưu trên broker
+    c.publish(tp(code, "s"), JSON.stringify({v:1, ph:"closed"}), {qos:1});
+    c.publish(tp(code, "s"), "", {qos:1, retain:true});
+    setTimeout(() => c.end(), 1500);
+  }
+  H = null; Voice.cut(); $("nut-giong").classList.add("an");
+  if(!silent) show("man-dau");
+}
+$("h-trai").addEventListener("click", e => {
+  const b = e.target.closest("button"); if(!b || !H) return;
+  if(b.id === "h-di" || b.id === "h-tiep") hostNext();
+  else if(b.id === "h-mo") hostReveal();
+  else if(b.id === "h-het"){ if(confirm("End the voyage now and show the final results?")) hostEnd(); }
+  else if(b.id === "h-csv") hostCsv();
+  else if(b.id === "h-bo-mo") bonusOpen();
+  else if(b.id === "h-bo-dong"){ if(confirm("Close the bonus round now? Answers given so far will be marked.")) bonusClose(); }
+  else if(b.id === "h-dong" || b.id === "h-ve") hostClose();
+});
+document.addEventListener("keydown", e => {
+  if(!H || e.key !== "Enter" || $("man-host").classList.contains("an") || e.target.matches("input,select,textarea,button")) return;
+  e.preventDefault();
+  if(H.phase === "lobby") hostNext(); else if(H.phase === "q") hostReveal(); else if(H.phase === "r") hostNext();
+});
+window.addEventListener("beforeunload", e => { if(H && (H.phase === "q" || H.phase === "r" || (H.bo && !H.bo.closed))){ e.preventDefault(); e.returnValue = ""; } });
+
+/* ---------- phía điện thoại ---------- */
+let P = null;
+function playerOpen(code, b){
+  yenLang = true; Am.stopMusic();
+  show("man-player");
+  $("p-noi").innerHTML = `<div class="the"><h2>Join the live room</h2>
+    <span class="nhan">Room code</span>
+    <input type="text" id="p-ma" maxlength="4" value="${esc(code || "")}" autocomplete="off" style="text-transform:uppercase;letter-spacing:.2em;font-weight:700">
+    <span class="nhan">Your name (shown on the projector)</span>
+    <input type="text" id="p-ten" maxlength="24" value="${esc(store.get("vob-ten", ""))}" placeholder="e.g. Lan Anh – K23">
+    <button class="nut-chinh" id="p-vao">Come aboard ⛵</button><p class="mo" id="p-loi"></p></div>`;
+  $("p-vao").onclick = () => playerJoin(b);
+  $("p-ten").onkeydown = $("p-ma").onkeydown = e => { if(e.key === "Enter") $("p-vao").click(); };
+  (code ? $("p-ten") : $("p-ma")).focus();
+}
+async function findRoom(code, order){
+  for(const b of order){
+    let c; try{ c = await tryBroker(b); }catch(e){ continue; }
+    const s = await new Promise(res => {
+      const t = setTimeout(() => { c.removeListener("message", f); res(null); }, 4000);
+      function f(topic, buf){
+        if(topic !== tp(code, "s")) return;
+        let m; try{ m = JSON.parse(buf.toString()); }catch(e){ return; }
+        if(m && m.ph && m.ph !== "closed"){ clearTimeout(t); c.removeListener("message", f); res(m); }
+      }
+      c.on("message", f); c.subscribe(tp(code, "s"), {qos:1});
+    });
+    if(s) return {c, s, b};
+    c.end(true);
+  }
+  return null;
+}
+async function playerJoin(b){
+  const code = $("p-ma").value.trim().toUpperCase(), name = $("p-ten").value.replace(/\s+/g, " ").trim();
+  const err = m => { $("p-loi").textContent = m; };
+  if(!/^[A-Z0-9]{4}$/.test(code)) return err("The room code has 4 characters. You can see it on the projector.");
+  if(!name) return err("Type a name so the Bell knows who you are.");
+  store.set("vob-ten", name);
+  $("p-vao").disabled = true; err("Looking for the room…");
+  if(P){ clearInterval(P.tick); clearInterval(P.retry); clearInterval(P.joinRetry); P.client && P.client.end(true); }
+  const pid = store.get("vob-pid-" + code, null) || rid(8);
+  store.set("vob-pid-" + code, pid);
+  P = {code, name, pid, seq:-1, oi:null, got:false, view:"", joined:false};
+  const me = P;
+  try{ await loadScript(MQTT_SRC); }
+  catch(e){ $("p-vao").disabled = false; return err("Could not load the connection library. Check your internet."); }
+  const order = [...new Set([parseInt(b, 10), 0, 1].filter(x => x >= 0 && x < BROKERS.length))];
+  const found = await findRoom(code, order);
+  if(P !== me){ found && found.c.end(true); return; }
+  if(!found){ $("p-vao").disabled = false; return err(`No open room ${code}. Check the code on the projector.`); }
+  const c = P.client = found.c;
+  watchConn(c, $("p-ket-noi")); setConn($("p-ket-noi"), "on", `Room ${code}`);
+  c.on("message", playerMsg);
+  c.on("connect", () => { if(P === me){ setConn($("p-ket-noi"), "on", `Room ${code}`); sendJoin(); } });
+  c.subscribe(tp(code, "p/" + pid), {qos:1}, () => sendJoin());
+  P.joinRetry = setInterval(() => { if(P !== me || P.joined) clearInterval(me.joinRetry); else sendJoin(); }, 3000);
+  playerState(found.s);
+}
+function sendJoin(){ if(P && P.client) P.client.publish(tp(P.code, "j"), JSON.stringify({pid:P.pid, name:P.name}), {qos:1}); }
+function playerMsg(topic, buf){
+  if(!P) return;
+  let m; try{ m = JSON.parse(buf.toString()); }catch(e){ return; }
+  if(!m) return;
+  if(topic === tp(P.code, "s")) playerState(m);
+  else if(topic === tp(P.code, "p/" + P.pid)){
+    if(m.ok){ const first = !P.joined; P.joined = true; P.name = m.name; clearInterval(P.joinRetry); if(first && P.s) playerState(P.s, true); }
+    if(m.got != null && m.got === P.seq){ P.got = true; clearInterval(P.retry); if($("p-trang")) $("p-trang").textContent = "✓ The projector got your answer. Eyes up!"; }
+    if(m.bq && Array.isArray(m.bq.qs) && !P.bSet){
+      P.bSet = m.bq; P.bAns = store.get(bKey(), {}); clearInterval(P.bRetry);
+      if(P.s) playerState(P.s, true);
+    }
+    if(m.bgot && $("b-trang")) $("b-trang").textContent = m.bgot === 2 ? "✓ Handed in. Watch the projector for your bonus." : "✓ Saved on the projector.";
+  }
+}
+const bKey = () => `vob-bon-${P.code}-${P.pid}`;
+function playerState(s, force){
+  P.s = s;
+  if(s.ph === "closed"){
+    clearInterval(P.tick); P.view = "closed";
+    $("p-noi").innerHTML = `<div class="the p-giua"><p class="p-lon">⚓</p><h2>The room is closed</h2><p>Thanks for sailing with the Bell.</p></div>`;
+    return;
+  }
+  if(s.ph === "q"){
+    if(s.seq !== P.seq){ P.seq = s.seq; P.oi = null; P.got = false; clearInterval(P.retry); }
+    P.deadline = performance.now() + s.rem; P.dur = s.dur;
+  }
+  if($("p-n")) $("p-n").textContent = s.n;
+  let key = `${s.ph}:${s.seq}:${P.joined ? 1 : 0}`;
+  if(s.ph === "end" && s.bo){ // vòng thưởng: chỉ vẽ lại khi trạng thái của chính mình đổi, để không mất âm thanh đang phát
+    P.bDeadline = performance.now() + s.bo.rem;
+    key += `:bo${s.bo.c}:${s.bo.st[P.pid] || "-"}:${P.bSet ? 1 : 0}:${P.bWant ? 1 : 0}:${P.bDone ? 1 : 0}`;
+  }
+  if(key === P.view && !force) return;
+  P.view = key;
+  if(!P.joined){
+    $("p-noi").innerHTML = `<div class="the p-giua"><p class="p-lon">⛵</p><h2>Boarding…</h2><p class="mo">Waiting for the projector to welcome you.</p></div>`;
+    return;
+  }
+  if(s.ph === "lobby") pLobby(s); else if(s.ph === "q") pQuestion(s); else if(s.ph === "r") pResult(s); else if(s.ph === "end") pEnd(s);
+}
+function pLobby(s){
+  $("p-noi").innerHTML = `<div class="the p-giua"><p class="p-lon">⛵</p><h2>You're aboard, ${esc(P.name)}!</h2>
+    <p>Room ${P.code} · sailors aboard so far: <b id="p-n">${s.n}</b></p>
+    <p class="mo">Keep this page open and watch the projector. Questions will appear here.</p></div>`;
+}
+function pQuestion(s){
+  const q = D.questions.find(x => x.id === s.qid); if(!q) return;
+  $("p-noi").innerHTML = `<div class="cau" data-type="${q.type}">
+    <div><span class="huy-hieu">${TYPES[q.type].ten}</span><span class="chu-de">Q${s.qi+1}/${s.qn} · Port ${q.station}</span></div>
+    <div class="dong-ho" id="p-dong-ho" style="margin:10px 0 0"><div></div></div>
+    ${q.passage ? `<details><summary>Show the passage (also on the projector)</summary><div class="doan">${renderPassage(q.passage)}</div></details>` : ""}
+    <div class="hoi" style="font-size:20px">${q.type === "dien" ? esc(q.question).replace("_____", '<span class="trong">?</span>') : esc(q.question)}</div>
+    <div class="dap-an" id="p-dap-an">${s.ord.map((oi, pos) => `<button data-oi="${oi}"><b>${LETTERS[pos]}</b><span>${esc(q.options[oi])}</span></button>`).join("")}</div>
+    <div class="p-trang" id="p-trang"></div></div>`;
+  $("p-dap-an").onclick = e => { const b = e.target.closest("button"); if(b && !b.disabled) playerAnswer(+b.dataset.oi); };
+  if(P.oi != null) markMine();
+  clearInterval(P.tick); P.tick = setInterval(pTick, 200); pTick();
+}
+function pTick(){
+  const bar = $("p-dong-ho");
+  if(!bar || !P || !P.s || P.s.ph !== "q"){ P && clearInterval(P.tick); return; }
+  const left = P.deadline - performance.now();
+  bar.firstElementChild.style.width = Math.max(0, left / P.dur * 100) + "%";
+  bar.classList.toggle("gap", left < 10000);
+  if(left <= 0 && P.oi == null){
+    clearInterval(P.tick);
+    $("p-dap-an").querySelectorAll("button").forEach(b => b.disabled = true);
+    $("p-trang").textContent = "⏰ Time's up. Watch the projector for the answer.";
+  }
+}
+function playerAnswer(oi){
+  if(P.oi != null || !P.s || P.s.ph !== "q" || P.deadline - performance.now() < -1000) return;
+  P.oi = oi; Am.click(); markMine();
+  const me = P, seq = P.seq;
+  const send = () => me.client.publish(tp(me.code, "a"), JSON.stringify({pid:me.pid, seq, oi}), {qos:1});
+  send();
+  let n = 0; clearInterval(P.retry);
+  P.retry = setInterval(() => { if(me.got || me.seq !== seq || ++n > 4){ clearInterval(me.retry); return; } send(); }, 2500);
+}
+function markMine(){
+  $("p-dap-an").querySelectorAll("button").forEach(b => { const mine = +b.dataset.oi === P.oi;
+    b.disabled = true; b.classList.toggle("chon-roi", mine); b.classList.toggle("mo-nhat", !mine); });
+  $("p-trang").textContent = P.got ? "✓ The projector got your answer. Eyes up!" : "Sending your answer…";
+}
+function pResult(s){
+  clearInterval(P.tick);
+  const q = D.questions.find(x => x.id === s.qid), r = s.res && s.res[P.pid];
+  if(!q) return;
+  if(!r){
+    $("p-noi").innerHTML = `<div class="the p-giua"><h2>Answer revealed</h2><p>Correct answer: <b>${esc(q.options[0])}</b></p><p class="mo">You came aboard mid-question. The next one is yours!</p></div>`;
+    return;
+  }
+  const [gain, score, rank, ok, streak, chose] = r;
+  ok ? Am.right() : Am.wrong();
+  $("p-noi").innerHTML = `<div class="phan-hoi ${ok ? "ok" : "no"} p-giua">
+    <p class="p-lon">${ok ? "✓" : chose < 0 ? "⏰" : "✗"}</p>
+    <h3>${ok ? `Correct! +${gain}` : chose < 0 ? "No answer this time" : "Not quite"}</h3>
+    ${ok ? "" : `<p>Correct answer: <b>${esc(q.options[0])}</b></p>`}
+    <p style="font-size:20px"><b>${score}</b> points · <b>#${rank}</b> of ${s.n}${streak >= 3 ? ` · 🔥 ${streak} in a row` : ""}</p>
+    <div class="gio" style="text-align:left"><div class="mat-gio">${gioSvgSmall()}</div><div><b>Bell:</b> ${esc(ok ? q.baoRight : q.baoWrong)}</div></div>
+    <p class="mo">The next question appears when the lecturer moves on.</p></div>`;
+}
+function pEnd(s){
+  clearInterval(P.tick);
+  const bo = s.bo, st = bo && bo.st[P.pid];
+  if(bo && st && !bo.c){
+    if(st === "offer" && !P.bWant) return pBonusOffer(s);
+    if(st === "offer" || (st === "yes" && !P.bSet)){
+      $("p-noi").innerHTML = `<div class="the p-giua"><p class="p-lon">🎧</p><h2>Getting your questions…</h2></div>`; return; }
+    if(st === "yes" && !P.bDone) return pBonusTest();
+    if(st === "done" || P.bDone){
+      $("p-noi").innerHTML = `<div class="the p-giua"><p class="p-lon">📨</p><h2>Answers handed in</h2>
+        <p class="mo" id="b-trang">Your bonus appears when the lecturer closes the round.</p></div>`; return; }
+  }
+  const r = s.res && s.res[P.pid], top = s.top || [];
+  const rank = r ? r[2] : 0, score = r ? r[1] : 0, br = bo && bo.r && bo.r[P.pid];
+  $("p-noi").innerHTML = `<div class="the p-giua"><p class="p-lon">${rank === 1 ? "🏆" : rank && rank <= 3 ? "🎖" : "⚓"}</p>
+    <h2>${bo && bo.c ? "Final results" : "Voyage complete"}</h2>
+    ${br ? `<p style="font-size:20px">🎧 Listening: <b>${br[0]}/${br[1]}</b> correct · <b>+${br[2]}</b> bonus</p>` : ""}
+    ${r ? `<p style="font-size:22px"><b>#${rank}</b> of ${s.n} · <b>${score}</b> points</p>` : ""}
+    ${bo && !bo.c ? `<p class="mo">${st === "no" ? "You kept your voyage points." : "The top three are taking the Listening Challenge. Watch the projector!"}</p>` : ""}
+    <table class="bxh" style="max-width:420px;margin:12px auto">${top.map((t, i) => `<tr><td>${["🏆","🥈","🥉"][i]}</td><td>${esc(t[0])}</td><td>${t[1]}</td></tr>`).join("")}</table>
+    ${br && P.bSet ? pBonusReview() : ""}
+    <p class="mo">Thanks for sailing with the Bell.</p></div>`;
+  if(!(bo && !bo.c) && rank && rank <= 3){ Am.win(); if(rank === 1) confetti(); }
+}
+
+/* ---------- vòng thưởng trên điện thoại ---------- */
+function pBonusOffer(s){
+  const r = s.res && s.res[P.pid], base = r ? r[1] : 0, n = Object.values(L.pick).reduce((a, b) => a + b, 0);
+  $("p-noi").innerHTML = `<div class="the p-giua"><p class="p-lon">🎧</p>
+    <h2>You finished #${r ? r[2] : "?"}! Take the Listening Challenge?</h2>
+    <p>Listen to a 5-minute conversation in a university history gallery, then answer ${n} questions picked just for you.
+      Each correct answer adds 3% of your voyage score: up to <b>+${Math.round(base * .3)}</b> points.</p>
+    <p class="mo">Headphones on. You have ${L.minutes} minutes. There is no penalty: your voyage points stay safe.</p>
+    <div class="hang-nut" style="justify-content:center"><button class="nut-chinh" id="b-co">Take the challenge 🎧</button><button class="nut-phu" id="b-khong">No thanks</button></div></div>`;
+  $("b-co").onclick = () => { P.bWant = true; sendBonus({act:"yes"}); clearInterval(P.bRetry);
+    P.bRetry = setInterval(() => P.bSet ? clearInterval(P.bRetry) : sendBonus({act:"yes"}), 3000); playerState(P.s, true); };
+  $("b-khong").onclick = () => { if(confirm("Skip the bonus round? You keep your voyage points.")) sendBonus({act:"no"}); };
+}
+function sendBonus(o){ P.client.publish(tp(P.code, "b"), JSON.stringify(Object.assign({pid:P.pid}, o)), {qos:1}); }
+function pBonusTest(){
+  const set = P.bSet, A = P.bAns;
+  $("p-noi").innerHTML = `<div class="the">
+    <h2 style="margin-bottom:.2em">🎧 Listening Challenge</h2>
+    <p class="mo" style="margin:.2em 0">Read the questions first, then listen twice. Answers are saved as you go.</p>
+    <span class="b-dh" id="b-dh">${L.minutes}:00</span> <span class="mo" id="b-luot"></span>
+    <audio id="b-audio" controls preload="auto" src="${L.audio}"></audio>
+    ${set.qs.map((id, i) => { const q = LMAP.get(id);
+      return `<div class="b-cau" data-id="${id}"><p>${i+1}. ${esc(q.q)}<span class="muc">${LV_TEN[q.lv]}</span></p>${q.type === "mc"
+        ? `<div class="b-chon">${set.ord[id].map((oi, pos) => `<button data-oi="${oi}" aria-pressed="${A[id] === oi}"><b>${LETTERS[pos]}.</b> ${esc(q.options[oi])}</button>`).join("")}</div>`
+        : `<input type="text" maxlength="40" autocomplete="off" value="${esc(A[id] || "")}" placeholder="Type your answer">`}</div>`; }).join("")}
+    <button class="nut-chinh" id="b-nop">Hand in my answers</button><p class="p-trang" id="b-trang"></p></div>`;
+  const box = $("p-noi");
+  box.querySelectorAll(".b-chon").forEach(g => g.addEventListener("click", e => {
+    const b = e.target.closest("button"); if(!b) return;
+    const id = g.parentElement.dataset.id;
+    g.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+    A[id] = +b.dataset.oi; Am.click(); saveBonus();
+  }));
+  box.querySelectorAll(".b-cau input").forEach(inp => inp.addEventListener("input", () => { A[inp.parentElement.dataset.id] = inp.value; saveBonus(); }));
+  let plays = 0; const au = $("b-audio");
+  au.addEventListener("play", () => { if(au.currentTime < 1){ plays++; $("b-luot").textContent = `Listening ${plays}${plays > 2 ? " (the test suggests two)" : ""}`; } });
+  $("b-nop").onclick = () => {
+    const blank = set.qs.filter(id => A[id] == null || A[id] === "").length;
+    if(!confirm(blank ? `${plural(blank, "question")} still blank. Hand in anyway?` : "Hand in your answers? You cannot change them afterwards.")) return;
+    P.bDone = true; au.pause(); clearTimeout(P.bSave); sendBonus({act:"ans", a:A, done:1}); playerState(P.s, true);
+  };
+  clearInterval(P.bTick);
+  P.bTick = setInterval(() => {
+    const el = $("b-dh"); if(!el){ clearInterval(P.bTick); return; }
+    const left = Math.max(0, P.bDeadline - performance.now());
+    el.textContent = `${Math.floor(left / 60000)}:${String(Math.floor(left / 1000) % 60).padStart(2, "0")}`;
+    el.style.color = left < 60000 ? "var(--do)" : "";
+  }, 500);
+}
+function saveBonus(){
+  store.set(bKey(), P.bAns);
+  if($("b-trang")) $("b-trang").textContent = "Saving…";
+  clearTimeout(P.bSave); P.bSave = setTimeout(() => sendBonus({act:"ans", a:P.bAns}), 700);
+}
+function pBonusReview(){
+  return `<div class="b-xem"><h3>Your listening answers</h3>${P.bSet.qs.map((id, i) => { const q = LMAP.get(id), v = P.bAns[id], ok = gradeL(q, v);
+    const mine = v == null || v === "" ? "(blank)" : q.type === "mc" ? q.options[v] : v;
+    return `<div>${ok ? "✓" : "✗"} <b>${i+1}.</b> ${esc(q.q)}<br><span class="mo">You: ${esc(mine)}${ok ? "" : ` · Answer: ${esc(q.type === "mc" ? q.options[0] : q.accept[0])}`}</span></div>`; }).join("")}</div>`;
+}
+$("nut-vao-phong").addEventListener("click", () => playerOpen($("ma-vao").value.trim().toUpperCase(), null));
+$("ma-vao").addEventListener("keydown", e => { if(e.key === "Enter") $("nut-vao-phong").click(); });
+const thamSo = new URLSearchParams(location.search);
+if(thamSo.get("room")) playerOpen(thamSo.get("room").toUpperCase().slice(0, 4), thamSo.get("b"));
+})();
+</script>
+</body>
+</html>

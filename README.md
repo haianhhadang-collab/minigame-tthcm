@@ -40,5 +40,20 @@ từng người (3 dễ, 2 vừa, 3 khó, 2 nâng cao, từ ngân hàng 24 câu)
 
 ---
 
-Câu hỏi và trích dẫn của hai game Tư tưởng Hồ Chí Minh lấy từ **Giáo trình Tư tưởng Hồ Chí Minh 2026**; game Hải trình Gió Mùa lấy từ bài giảng *Islam in Southeast Asia*.
+## Voyage of the Bell — Kitô giáo ở Đông Nam Á
+
+60 câu về bài giảng *Christianity in Southeast Asia: Historiography, Encounters, and Vernacular Transformations* qua
+mười hai cảng (Manila, Barus, Malacca, Cebu, Đàng Trong, Rangoon, Penang, Lake Toba, Dumaguete, Dili, Highlands,
+Yogyakarta), năm dạng câu (mỗi dạng 12 câu). Người dẫn chuyện là Chiếc Chuông (*bajo de la campana*); giao diện tiếng Anh.
+Cùng khung với Hải trình Gió Mùa: chơi cá nhân, thi đội, Live stream qua máy chiếu. Vòng thưởng **Listening Challenge**
+dùng bài nghe 5 phút ở phòng trưng bày lịch sử (`kito-giao-dong-nam-a/nghe/`), ngân hàng 24 câu, mỗi người 10 câu ngẫu
+nhiên; mỗi câu đúng cộng 3% điểm hải trình, tối đa +30%.
+
+- **Vào chơi:** https://haianhhadang-collab.github.io/minigame-tthcm/kito-giao-dong-nam-a/
+
+![Mã QR vào Voyage of the Bell](kito-giao-dong-nam-a/qr-vao-game.png)
+
+---
+
+Câu hỏi và trích dẫn của hai game Tư tưởng Hồ Chí Minh lấy từ **Giáo trình Tư tưởng Hồ Chí Minh 2026**; game Hải trình Gió Mùa lấy từ bài giảng *Islam in Southeast Asia*; Voyage of the Bell lấy từ bài giảng *Christianity in Southeast Asia*.
 Kho này chỉ chứa học liệu phát cho sinh viên — không có đề thi, bản giáo trình hay danh sách lớp.
